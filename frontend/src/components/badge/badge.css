@@ -1,0 +1,29 @@
+.badge {
+	padding: 6px 11px;
+	color: var(--txt-white);
+	border-radius: 24px;
+	box-shadow: var(--box-shadow);
+	font-size: 0.8rem;
+	text-transform: capitalize;
+	white-space: nowrap;
+}
+
+.badge-danger {
+	background-color: var(--second-color-red);
+}
+
+.badge-success {
+	background-color: var(--main-color-blue);
+}
+
+.badge-primary {
+	background-color: var(--main-color-blue);
+}
+
+.badge-warning {
+	background-color: var(--second-color-orange);
+}
+
+.badge-normal {
+	background-color: var(--second-color-blue);
+}

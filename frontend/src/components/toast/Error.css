@@ -1,0 +1,11 @@
+.error-bg p {
+	color: #eb3349;
+	font-size: 0.9rem;
+}
+
+.error-bg {
+	position: absolute;
+	top: 5%;
+	left: 6.5%;
+	display: flex;
+}
