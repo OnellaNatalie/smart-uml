@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import AOS from "aos";
+import { CookiesProvider } from "react-cookie";
+
+import "boxicons/css/boxicons.min.css";
+import "aos/dist/aos.css";
+import "./App.css";
+import "./assets/css/grid.css";
+import "./assets/css/theme.css";
+import "./assets/css/index.css";
+import "./assets/css/Usercreate.css";
+
+import "./config/axios.config";
+
+import AuthContextProvider from "./contexts/AuthContext";
+
+import Layout from "./components/layout/Layout";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	useEffect(() => {
+		AOS.init({
+			offset: 200,
+			duration: 1000,
+			disable: function () {
+				let maxWidth = 900;
+				return window.innerWidth < maxWidth;
+			},
+		});
+	});
+
+	return (
+		<CookiesProvider>
+			<AuthContextProvider>
+				<Layout />
+			</AuthContextProvider>
+		</CookiesProvider>
+	);
 }
 
 export default App;

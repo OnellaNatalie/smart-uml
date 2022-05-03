@@ -1,0 +1,65 @@
+.filter-modal {
+    display: block;
+    background-color: transparent;
+    opacity: 0;
+    z-index: 20;
+}
+@media (min-width: 768px) {
+    .filter-modal {
+        display: none;
+    }
+}
+
+.filter-modal__wrapper {
+    z-index: 20;
+    padding: 30px;
+    margin-bottom: 30px;
+    background-color: var(--main-bg);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    transition:  .4s ease-out;
+}
+.filterbtn{
+    transition:  .4s ease-out;
+}
+.filter-modal__header {
+    display: flex;
+    padding: 1rem 0.5rem;
+    border-bottom-width: 1px;
+    border-bottom-color: #e4e7eb;
+    border-bottom-style: solid;
+    justify-content: flex-end;
+}
+
+.filter-modal__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-modal__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    margin-top: auto;
+}
+
+.filter-modal__actions button {
+    border-radius: 5px;
+    width: 5%;
+    height: 35px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(6, 81, 140);
+    background: linear-gradient(
+            to right,
+            var(--main-color-blue),
+            var(--second-color)
+    );
+    color: var(--txt-white);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+}
+

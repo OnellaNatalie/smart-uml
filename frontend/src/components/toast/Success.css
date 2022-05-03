@@ -1,0 +1,11 @@
+.success-bg p {
+	color: #63da63;
+	font-size: 0.9rem;
+}
+
+.success-bg {
+	position: absolute;
+	top: 5%;
+	left: 6.5%;
+	display: flex;
+}

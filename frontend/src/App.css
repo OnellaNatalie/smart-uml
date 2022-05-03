@@ -1,38 +1,489 @@
-.App {
-  text-align: center;
+#vehicle-info-card,
+.greeting-card {
+	background-image: linear-gradient(
+		to right,
+		var(--main-color-blue),
+		var(--second-color)
+	);
+	color: var(--txt-white);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.greeting-card h3 {
+	padding-bottom: 0.8rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.profile-picture {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.border {
+	display: inline-block;
+	color: var(--main-color-blue) !important;
+	background: transparent !important;
+	padding: 0.8rem;
+	font-weight: 600;
+	border-radius: 5px;
+	margin-top: 0.5rem;
+	border: 1px solid var(--main-color-blue) !important;
 }
 
-.App-link {
-  color: #61dafb;
+.lighter {
+	color: rgb(154, 154, 154);
+	font-size: 1rem;
+	padding-top: 0.5rem;
+	font-weight: 400;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.admin-greeting {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.read-more {
+	display: inline;
+	padding-top: 3rem;
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+}
+
+.read-more:hover {
+	opacity: 0.8 !important;
+}
+
+.read-more i {
+	padding-top: 0.2rem;
+	padding-left: 0.5rem;
+}
+
+.action-btn {
+	font-size: 1.5rem !important;
+}
+
+.calender {
+	width: 100% !important;
+	border: none !important;
+}
+
+.owner-info h4 {
+	padding-bottom: 1rem;
+}
+
+abbr {
+	font-family: "Inter", sans-serif;
+	font-size: 0.9rem;
+	text-decoration: none;
+}
+
+.react-calendar__tile--active {
+	background-image: linear-gradient(
+		to right,
+		var(--main-color-blue),
+		var(--second-color)
+	) !important;
+}
+
+.login-container {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	flex-direction: column;
+	padding: 4rem 2rem;
+}
+
+.login-container h1 {
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+.login-card {
+	display: flex;
+	margin-top: 2rem;
+}
+
+.login-card form {
+	padding: 4rem;
+}
+
+.width-full {
+	width: 100%;
+	font-size: 1rem !important;
+	letter-spacing: 3px;
+	white-space: normal;
+}
+
+.login-form {
+	padding: 2rem !important;
+	position: relative;
+}
+
+input::placeholder {
+	text-transform: uppercase;
+	font-size: 0.9rem !important;
+	letter-spacing: 2px;
+	font-weight: 500;
+}
+
+.login-container img {
+	width: 40rem;
+	padding: 2rem;
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+.admin-greeting {
+	padding: 2rem;
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+.login-img-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-header {
+	font-weight: 900 !important;
+	font-size: 3.5rem !important;
+	margin-bottom: 2rem !important;
+	position: relative;
+	letter-spacing: 2px;
+}
+
+.logo {
+	margin-top: -3rem;
+	width: 250px !important;
+	height: 100% !important;
+}
+
+.rest-pw-link {
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding-top: 1rem;
+	text-align: left;
+	color: #757575;
+}
+
+.rest-pw-link a {
+	color: #1f2937;
+	transition: all 0.2s ease-in;
+}
+
+.rest-pw-link a:hover {
+	color: var(--main-color-blue);
+}
+
+.accent-header::after {
+	content: "";
+	width: 5rem;
+	height: 1.2rem;
+	background: linear-gradient(
+		to right,
+		var(--main-color-blue),
+		var(--second-color)
+	);
+	position: absolute;
+	bottom: 6%;
+	right: -5%;
+	z-index: -1;
+}
+
+.camera-container {
+	display: flex;
+}
+
+.camera-container {
+	display: flex;
+	min-width: 500px;
+	height: 600px;
+}
+
+.camera,
+.camera-view {
+	height: 30vh;
+	padding: 1rem;
+	border-radius: 5px;
+	background: rgb(37, 37, 37);
+	cursor: pointer;
+	color: white;
+	margin: 0.8rem 0;
+}
+
+.camera-view {
+	height: 75vh;
+	cursor: default;
+}
+
+.view-info {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.green {
+	color: rgb(56, 195, 56);
+}
+
+.red {
+	color: var(--second-color-red);
+	position: relative;
+	margin-left: 1rem;
+}
+
+.details {
+	height: 75vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0 2rem 2rem 2rem;
+}
+
+.camera-text-content {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.vehicle-img {
+	max-width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.vehicle-img-container {
+	height: 100% !important;
+}
+
+.vehicle-topic {
+	padding-bottom: 1rem;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.record::before {
+	content: "";
+	background: var(--second-color-red);
+	width: 1rem;
+	height: 1rem;
+	position: absolute;
+	top: 50%;
+	left: -70%;
+	transform: translateY(-50%);
+	border-radius: 50%;
+}
+
+.flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+}
+
+.view-btn,
+.action-btn {
+	background: var(--main-color-blue);
+	color: white;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+}
+
+.action-btn {
+	background: none;
+	font-size: 1.5rem;
+	padding: 0;
+	font-weight: 700;
+}
+
+.x {
+	color: var(--second-color-red);
+}
+
+.W {
+	color: var(--second-color-orange);
+}
+
+.S{
+	color: var(--main-color-green);
+}
+.check {
+	color: var(--main-color-green);
+	margin-right: 2rem;
+}
+
+@media screen and (max-width: 1120px) {
+	.view-info {
+		display: block;
+	}
+}
+
+@media screen and (max-width: 1366px) {
+	.vehicle-img-container {
+		width: 100% !important;
+		margin-bottom: 2rem;
+	}
+	.vehicle-info-container {
+		width: 100% !important;
+		margin-left: 0.4rem;
+	}
+}
+
+@media screen and (max-width: 1630px) {
+	#vehicle-info-card {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	.flex-column {
+		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.width-full {
+		font-size: 0.9rem !important;
+	}
+}
+@media screen and (max-width: 900px) {
+	.admin-greeting {
+		display: none;
+		pointer-events: none;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.login-card {
+		width: 95% !important;
+		font-size: 0.5rem !important;
+	}
+
+	.login-header {
+		font-weight: 800 !important;
+		font-size: 3rem !important;
+	}
+}
+
+@media screen and (max-width: 460px) {
+	.login-form-container a {
+		letter-spacing: 1px !important;
+	}
+	.login-container .login-form-container img {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 438px) {
+	.login-header::after {
+		content: "";
+		width: 0;
+	}
+}
+@media screen and (max-width: 417px) {
+	.width-full {
+		height: 4rem !important;
+		line-height: 1.2rem;
+	}
+}
+@media screen and (max-width: 345px) {
+	.width-full {
+		font-size: 0.7rem !important;
+		padding: 0 1rem !important;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.login-card {
+		width: 100% !important;
+		font-size: 0.5rem !important;
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	abbr {
+		font-size: 0.7rem;
+	}
+}
+
+@media screen and (max-width: 1278px) {
+	.admin-greeting {
+		display: none;
+		pointer-events: none;
+	}
+}
+
+@media screen and (max-width: 1278px) {
+	.full-width {
+		width: 100% !important;
+	}
+}
+
+@media screen and (max-width: 1496px) {
+	.full-width-1496 {
+		width: 100% !important;
+	}
+}
+
+.item-accept {
+	margin-left: 10px;
+	margin-right: 10px;
+	color: green;
+}
+
+.item-reject {
+	margin-left: 10px;
+	margin-right: 10px;
+	color: red;
+}
+
+.item-assign {
+	margin-left: 30px;
+	margin-right: 10px;
+	color: gray;
+}
+
+.mat {
+	margin-left: 50px;
+}
+
+.Popupout {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Popupin {
+	position: relative;
+	padding: 120px;
+	width: fit-content;
+	height: fit-content;
+	background-color: white;
+	box-shadow: 0px 0px 8px rgb(0 0 0);
+}
+
+.closeIcone {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
 }
