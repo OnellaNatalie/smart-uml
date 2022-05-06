@@ -1,0 +1,102 @@
+.form-containerhome {
+    margin: 100px auto;
+    width: 60%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    border-radius: 10px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: linear-gradient(180.28deg, #D2D2D2 -9.37%, rgba(205, 202, 202, 0) 99.75%);
+}
+
+.close-btnhome {
+    position: absolute;
+    top: 2%;
+    right: 3%;
+    font-size: 1.5rem;
+    z-index: 1;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-content-lefthome {
+    background: linear-gradient(
+            90deg,
+            rgb(39, 176, 255) 0%,
+            rgb(0, 232, 236) 100%
+    );
+    border-radius: 10px 0 0 10px;
+    position: relative;
+}
+
+.form-imghome {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 10px 0 0 10px;
+    transform: translate(-50%, -50%);
+}
+.imgverify {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+
+
+}
+
+
+
+.form-content-right {
+    border-radius: 0 10px 10px 0;
+    position: relative;
+    background: #ffffff;
+}
+
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnhome{
+    position: absolute;
+    top: 40%;
+    left: 18%;
+}
+
+.form-input-btnhome {
+    width: 80%;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background: linear-gradient(
+            to right,
+            var(--main-color-blue),
+            var(--second-color)
+    );
+    outline: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-input-btnhome:hover {
+    cursor: pointer;
+    background: linear-gradient(
+            90deg,
+            rgb(39, 143, 255) 0%,
+            rgb(12, 99, 250) 100%
+    );
+    transition: all 0.4s ease-out;
+}
+
