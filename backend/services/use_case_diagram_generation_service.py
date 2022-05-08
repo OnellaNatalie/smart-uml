@@ -12,6 +12,7 @@ def identify_use_cases(cleaned_extracted_actions):
         extracted_action[1] = extracted_action[1].title()
     return cleaned_extracted_actions
 
+
 def get_include_extend_relationships(splitted_actions_array):
     relationship_array = []
     for splitted_action in splitted_actions_array:
@@ -25,7 +26,7 @@ def get_include_extend_relationships(splitted_actions_array):
                         splitted_extends = result.split('  ')
                         for idx, extend in enumerate(splitted_extends):
                             if 'extend' in extend:
-                                splitted_extends[idx] = extend.replace('extend','').title()
+                                splitted_extends[idx] = extend.replace('extend', '').title()
                         dictionary['extend'] = splitted_extends
                     else:
                         dictionary['extend'] = [result.replace('extend', '').title()]
@@ -42,5 +43,3 @@ def get_include_extend_relationships(splitted_actions_array):
             continue
         relationship_array.append(dictionary)
     return relationship_array
-
-
