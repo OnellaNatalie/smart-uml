@@ -2,9 +2,8 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_jwt_extended import JWTManager
 from werkzeug.utils import secure_filename
-
 from config.database import db
-from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
+from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK
 from routes.auth_routes import auth
 import services.question_preprocess_service
 
@@ -51,12 +50,12 @@ def process_uml_diagrams():
         generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
             file.filename)
         return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                       generated_usecase_diagram_path=generated_usecase_diagram_path)
+                       generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
 
 
 @app.route('/api/v1/view-diagram/<path:path>')
 def send_js(path):
-    return send_from_directory(OUTPUTS_FOLDER, path)
+    return send_from_directory(OUTPUTS_FOLDER, path), HTTP_200_OK
 
 
 @app.errorhandler(HTTP_404_NOT_FOUND)
