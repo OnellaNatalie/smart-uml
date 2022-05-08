@@ -13,10 +13,12 @@ def remove_unwanted_values(data):
     return data
 
 
+# removing duplicates
 def remove_duplicates(data):
     return list(set(data))
 
 
+# punctuation removal
 def remove_punctuation(sentence):
     text_no_punct = [token for token in sentence if not token.is_punct]
     cleaned_sentence = ' '.join(token.text for token in text_no_punct)
