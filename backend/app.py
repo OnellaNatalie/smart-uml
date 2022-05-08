@@ -1,9 +1,11 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_jwt_extended import JWTManager
+from werkzeug.exceptions import BadRequestKeyError
 from werkzeug.utils import secure_filename
 from config.database import db
-from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK
+from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK, \
+    HTTP_400_BAD_REQUEST
 from routes.auth_routes import auth
 import services.question_preprocess_service
 
@@ -44,13 +46,21 @@ def index():
 
 @app.route('/api/v1/process-uml-diagrams-inputs', methods=['POST'])
 def process_uml_diagrams():
-    if request.method == 'POST':
-        file = request.files['scenarioFile']
-        file.save(os.path.join(app.config['UML_GENERATOR_UPLOAD_FOLDER'], secure_filename(file.filename)))
-        generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-            file.filename)
-        return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                       generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+    try:
+        if request.method == 'POST':
+            if request.files['scenarioFile']:
+                file = request.files['scenarioFile']
+                file.save(os.path.join(app.config['UML_GENERATOR_UPLOAD_FOLDER'], secure_filename(file.filename)))
+                generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
+                    file.filename)
+                return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+                               generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+    except Exception or BadRequestKeyError:
+        if BadRequestKeyError:
+            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+        return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
+
 
 
 @app.route('/api/v1/view-diagram/<path:path>')
