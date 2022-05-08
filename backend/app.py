@@ -48,11 +48,10 @@ def process_uml_diagrams():
     if request.method == 'POST':
         file = request.files['scenarioFile']
         file.save(os.path.join(app.config['UML_GENERATOR_UPLOAD_FOLDER'], secure_filename(file.filename)))
-        generated_class_diagram_path, generated_usecase_diagram_path, generated_activity_diagram_path = services.question_preprocess_service.main(
+        generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
             file.filename)
         return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                       generated_usecase_diagram_path=generated_usecase_diagram_path,
-                       generated_activity_diagram_path=generated_activity_diagram_path)
+                       generated_usecase_diagram_path=generated_usecase_diagram_path)
 
 
 @app.route('/api/v1/view-diagram/<path:path>')
