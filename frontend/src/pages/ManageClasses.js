@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { RiDeleteBinLine } from "react-icons/ri";
 
@@ -16,28 +17,37 @@ const ManageClasses = () => {
 	const [material, setMaterial] = useState({ code: "", name: "" });
 	const [materials, setMaterials] = useState([]);
 
-	const fields = ["", "Material Code", "Material Name", "Actions"];
+	const fields = ["", "Class Code", "Class Name", "Created At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
-
+	const classes = [
+		{ code: "A001", name: "CTSE", createdAt: "2022-04-05" },
+		{ code: "A002", name: "CTSE", createdAt: "2022-04-05" },
+		{ code: "A003", name: "CTSE", createdAt: "2022-04-05" },
+	];
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
+			<td>{item.createdAt}</td>
 			<td>
-				<>
+				<div style={{ display: "flex", alignItems: "center" }}>
+					<Link to={``}>
+						<button className="view-btn">View Class</button>
+					</Link>
 					<button
 						className="action-btn x"
+						style={{ marginLeft: "2rem" }}
 						onClick={() => {
-							if (window.confirm("Are you sure to delete this material?")) {
+							if (window.confirm("Are you sure to delete this class?")) {
 								deleteHandler(item._id, item.username);
 							}
 						}}
 					>
 						<RiDeleteBinLine />
 					</button>
-				</>
+				</div>
 			</td>
 		</tr>
 	);
@@ -62,7 +72,7 @@ const ManageClasses = () => {
 			});
 			getAllMaterial();
 			setError("");
-			window.alert("Material registered successfully");
+			window.alert("Class added successfully");
 			setBtnState(false);
 			setIsLoading(true);
 		} catch (err) {
@@ -78,7 +88,7 @@ const ManageClasses = () => {
 			if (res.statusText === "OK") {
 				getAllMaterial();
 				setError("");
-				window.alert("Material has been successfully deleted");
+				window.alert("Class has been successfully deleted");
 				setIsLoading(true);
 			}
 		} catch (err) {
@@ -157,14 +167,14 @@ const ManageClasses = () => {
 					</div>
 					<div className="card col-12">
 						<h2>Created Classes</h2>
-						{isLoading ? (
+						{false ? (
 							<Spinner />
 						) : (
 							<Table
 								limit="5"
 								headData={fields}
 								renderHead={(item, index) => renderOrderHead(item, index)}
-								bodyData={materials}
+								bodyData={classes}
 								renderBody={(item, index) => renderOrderBody(item, index)}
 							/>
 						)}
