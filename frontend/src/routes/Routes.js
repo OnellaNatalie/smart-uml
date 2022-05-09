@@ -10,7 +10,7 @@ import ManageDeliveryReports from "../pages/ManageDeliveryReports";
 import ManageMaterials from "../pages/ManageMaterials";
 import ManageOrdersSupplier from "../pages/ManageOrdersSupplier";
 import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
-import ManagerDashboard from "../pages/ManagerDashboard";
+import TeacherDashboard from "../pages/TeacherDashboard";
 import ManageServices from "../pages/ManageServices";
 import ManageSites from "../pages/ManageSites";
 import ManageSuppliers from "../pages/ManageSuppliers";
@@ -33,61 +33,26 @@ const Routes = () => {
 		<Switch>
 			<Route exact path="/" component={Login} />
 			<Route exact path="/register" component={Register} />
-			<Route
-				exact
-				path="/auth/manager/dashboard"
-				component={ManagerDashboard}
-			/>
-			<Route exact path="/auth/manager/users" component={ManageUsers} />
-			<Route exact path="/auth/manager/sites" component={ManageSites} />
-			<Route exact path="/auth/manager/materials" component={ManageMaterials} />
-			<Route exact path="/auth/manager/suppliers" component={ManageSuppliers} />
-			<Route
-				exact
-				path="/auth/supplier/dashboard"
-				component={SupplierDashboard}
-			/>
-			<Route
-				exact
-				path="/auth/supplier/orders"
-				component={ManageOrdersSupplier}
-			/>
-			<Route exact path="/auth/supplier/services" component={ManageServices} />
-			<Route
-				exact
-				path="/auth/supplier/deliveryreports/:id"
-				component={DeliveryReportSubmit}
-			/>
-			<Route
-				exact
-				path="/auth/supplier/deliveryreports"
-				component={ManageDeliveryReports}
-			/>
-			<Route
-				exact
-				path="/auth/officer/dashboard"
-				component={OfficerDashboard}
-			/>
-			<Route
-				exact
-				path="/auth/sitemanager/dashboard"
-				component={SiteManagerDashboard}
-			/>
+			<Route exact path="/login" component={Register} />
+			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
+			<Route exact path="/auth/teacher/users" component={ManageUsers} />
+			<Route exact path="/auth/teacher/sites" component={ManageSites} />
+			<Route exact path="/auth/teacher/materials" component={ManageMaterials} />
+			<Route exact path="/auth/teacher/suppliers" component={ManageSuppliers} />
+			<Route exact path="/auth/student/dashboard" component={SupplierDashboard} />
+			<Route exact path="/auth/student/orders" component={ManageOrdersSupplier} />
+			<Route exact path="/auth/student/services" component={ManageServices} />
+			<Route exact path="/auth/student/deliveryreports/:id" component={DeliveryReportSubmit} />
+			<Route exact path="/auth/student/deliveryreports" component={ManageDeliveryReports} />
 
+			<Route exact path="/auth/officer/dashboard" component={OfficerDashboard} />
+			<Route exact path="/auth/sitemanager/dashboard" component={SiteManagerDashboard} />
 			<Route exact path="/auth/officers/orderlist" component={OfficerOrders} />
 			<Route exact path="/auth/officers/form" component={Assign} />
-			<Route
-				exact
-				path="/auth/sitemanager/requisitions"
-				component={SiteManagerForm}
-			/>
+			<Route exact path="/auth/sitemanager/requisitions" component={SiteManagerForm} />
 			<Route exact path="/auth/sitemanager/inventory" component={Inventory} />
 			<Route exact path="/auth/manager/allorders" component={ManageAllOrders} />
-			<Route
-				exact
-				path="/auth/manager/ApprovedOrders"
-				component={ManagerApprovedOrders}
-			/>
+			<Route exact path="/auth/manager/ApprovedOrders" component={ManagerApprovedOrders} />
 		</Switch>
 	);
 };
