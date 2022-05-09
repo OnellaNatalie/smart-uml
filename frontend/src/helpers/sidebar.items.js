@@ -39,18 +39,13 @@ const sidebar_teacher = [
 const sidebar_student = [
 	{
 		display_name: "Dashboard",
-		route: "/auth/sitemanager/dashboard",
+		route: "/auth/student/dashboard",
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Requisitions",
-		route: "/auth/sitemanager/requisitions",
+		display_name: "Modules",
+		route: "/auth/student/subjects",
 		icon: "bx bx-transfer",
-	},
-	{
-		display_name: "Inventory",
-		route: "/auth/sitemanager/inventory",
-		icon: "bx bx-store",
 	},
 	{
 		display_name: "Sign Out",
