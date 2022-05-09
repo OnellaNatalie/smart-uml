@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { RiDeleteBinLine } from "react-icons/ri";
 import axios from "axios";
 
 import Sidebar from "../components/sidebar/Sidebar";
@@ -57,15 +58,15 @@ const ManageStudents = () => {
 			<td>{item.class}</td>
 			<td>{item.registeredAt}</td>
 			<td className="">
-				<button className="action-btn x">
-					<i
-						className="bx bx-x"
-						onClick={() => {
-							if (window.confirm("Are you sure to remove this student?")) {
-								deleteHandler(item._id);
-							}
-						}}
-					></i>
+				<button
+					className="action-btn x"
+					onClick={() => {
+						if (window.confirm("Are you sure to remove this student?")) {
+							deleteHandler(item._id);
+						}
+					}}
+				>
+					<RiDeleteBinLine />
 				</button>
 			</td>
 		</tr>
