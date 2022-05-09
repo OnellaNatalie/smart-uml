@@ -22,7 +22,7 @@ const TeacherDashboard = () => {
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const fields = ["", "Name", "Email", "Username", "Status", "Actions"];
+	const fields = ["", "Name", "Class Code", "Status", "Actions"];
 
 	const permissionStatus = {
 		pending: "warning",
@@ -67,15 +67,18 @@ const TeacherDashboard = () => {
 	};
 
 	// useEffect(() => getAllSuppliers(), []);
-
+	const assignments = [
+		{ code: "A001", name: "CTSE Assignment", status: "pending" },
+		{ code: "A002", name: "CTSE Assignment", status: "pending" },
+		{ code: "A003", name: "CTSE Assignment", status: "pending" },
+	];
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
 			<td>{item.name}</td>
-			<td>{item.email}</td>
-			<td>{item.username}</td>
+			<td>{item.code}</td>
 			<td>
 				<Badge type={permissionStatus[item.status]} content={item.status} />
 			</td>
@@ -86,7 +89,7 @@ const TeacherDashboard = () => {
 							<i
 								className="bx bx-check"
 								onClick={() => {
-									if (window.confirm("Are you sure to approve this request?")) {
+									if (window.confirm("Are you sure to end this assignment?")) {
 										successHandler(item._id);
 									}
 								}}
@@ -96,7 +99,7 @@ const TeacherDashboard = () => {
 							<i
 								className="bx bx-x"
 								onClick={() => {
-									if (window.confirm("Are you sure to reject this request?")) {
+									if (window.confirm("Are you sure to remove this assignment?")) {
 										deleteHandler(item._id);
 									}
 								}}
@@ -153,14 +156,14 @@ const TeacherDashboard = () => {
 										<button className="view-btn">View All</button>
 									</Link>
 								</div>
-								{isLoading ? (
+								{false ? (
 									<Spinner />
 								) : (
 									<Table
 										limit="5"
 										headData={fields}
 										renderHead={(item, index) => renderOrderHead(item, index)}
-										bodyData={suppliers}
+										bodyData={assignments}
 										renderBody={(item, index) => renderOrderBody(item, index)}
 									/>
 								)}
