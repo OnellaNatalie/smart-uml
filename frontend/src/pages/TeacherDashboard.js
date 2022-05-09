@@ -148,7 +148,7 @@ const TeacherDashboard = () => {
 						<div className="col-8">
 							<div className="card">
 								<div className="flex">
-									<h2 className="request-title">Registered Suppliers</h2>
+									<h2 className="request-title">Recent Assignments</h2>
 									<Link to={`/auth/manager/suppliers`}>
 										<button className="view-btn">View All</button>
 									</Link>
