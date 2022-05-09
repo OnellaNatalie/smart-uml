@@ -12,7 +12,7 @@ import ManageOrdersSupplier from "../pages/ManageOrdersSupplier";
 import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
 import TeacherDashboard from "../pages/TeacherDashboard";
 import ManageServices from "../pages/ManageServices";
-import ManageSuppliers from "../pages/ManageSuppliers";
+import ManageStudents from "../pages/ManageStudents";
 import ManageUsers from "../pages/ManageUsers";
 import OfficerDashboard from "../pages/OfficerDashboard";
 import OfficerOrders from "../pages/OfficerOrders";
@@ -35,7 +35,7 @@ const Routes = () => {
 			<Route exact path="/login" component={Login} />
 
 			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
-			<Route exact path="/auth/teacher/students" component={ManageSuppliers} />
+			<Route exact path="/auth/teacher/students" component={ManageStudents} />
 			<Route exact path="/auth/teacher/classes" component={ManageUsers} />
 			<Route exact path="/auth/teacher/assignments" component={ManageAssignments} />
 

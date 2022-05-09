@@ -11,7 +11,7 @@ import "react-calendar/dist/Calendar.css";
 
 import { AuthContext } from "../contexts/AuthContext";
 
-const ManageSuppliers = () => {
+const ManageStudents = () => {
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +23,7 @@ const ManageSuppliers = () => {
 		rejected: "danger",
 	};
 
-	const deleteHandler = async (id) => {
+	const deleteHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/reject/${id}`);
 			if (res.statusText === "OK") {
@@ -35,7 +35,7 @@ const ManageSuppliers = () => {
 		}
 	};
 
-	const successHandler = async (id) => {
+	const successHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/approve/${id}`);
 			console.log(res);
@@ -107,7 +107,7 @@ const ManageSuppliers = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">Manage Suppliers</h1>
+					<h1 className="page-header">Manage Students</h1>
 					<div className="row"></div>
 					<div className="row">
 						<div className="col-12">
@@ -132,4 +132,4 @@ const ManageSuppliers = () => {
 	);
 };
 
-export default ManageSuppliers;
+export default ManageStudents;
