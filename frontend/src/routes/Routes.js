@@ -7,7 +7,6 @@ import Inventory from "../pages/Inventory";
 import Login from "../pages/Login";
 import ManageAllOrders from "../pages/ManageAllOrders";
 import ManageDeliveryReports from "../pages/ManageDeliveryReports";
-import ManageMaterials from "../pages/ManageMaterials";
 import SubjectsStudent from "../pages/SubjectsStudent";
 import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
 import TeacherDashboard from "../pages/TeacherDashboard";
@@ -36,18 +35,18 @@ const Routes = () => {
 			<Route exact path="/login" component={Login} />
 
 			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
-			<Route exact path="/auth/teacher/users" component={ManageUsers} />
-			<Route exact path="/auth/teacher/sites" component={ManageSites} />
-			<Route exact path="/auth/teacher/materials" component={ManageMaterials} />
-			<Route exact path="/auth/teacher/suppliers" component={ManageSuppliers} />
+			{/* <Route exact path="/auth/teacher/users" component={ManageUsers} /> */}
+			{/* <Route exact path="/auth/teacher/sites" component={ManageSites} /> */}
+			{/* <Route exact path="/auth/teacher/materials" component={ManageMaterials} /> */}
+			{/* <Route exact path="/auth/teacher/suppliers" component={ManageSuppliers} /> */}
 			<Route exact path="/auth/student/dashboard" component={StudentDashboard} />
 			<Route exact path="/auth/student/subjects" component={SubjectsStudent} />
 			<Route exact path="/auth/teacher/students" component={ManageStudents} />
 			<Route exact path="/auth/teacher/classes" component={ManageClasses} />
-			<Route exact path="/auth/teacher/assignments" component={ManageAssignments} />
+			{/* <Route exact path="/auth/teacher/assignments" component={ManageAssignments} /> */}
 
-			<Route exact path="/auth/student/dashboard" component={SupplierDashboard} />
-			<Route exact path="/auth/student/modules" component={ManageOrdersSupplier} />
+			<Route exact path="/auth/student/dashboard" component={StudentDashboard} />
+			<Route exact path="/auth/student/modules" component={SubjectsStudent} />
 			<Route exact path="/auth/student/services" component={ManageServices} />
 			<Route exact path="/auth/student/deliveryreports/:id" component={DeliveryReportSubmit} />
 			<Route exact path="/auth/student/deliveryreports" component={ManageDeliveryReports} />
