@@ -34,8 +34,8 @@ const sidebar_student = [
 	},
 	{
 		display_name: "Modules",
-		route: "/auth/student/subjects",
-		icon: "bx bx-transfer",
+		route: "/auth/student/modules",
+		icon: "bx bx-bar-chart-square",
 	},
 	{
 		display_name: "Sign Out",
