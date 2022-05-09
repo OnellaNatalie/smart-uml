@@ -78,7 +78,8 @@ def login():
         'access_token': access_token,
         'refresh_token': refresh_token,
         'username': user.username,
-        'email': user.email
+        'email': user.email,
+        'user_type': user.user_type
     }}), HTTP_200_OK
 
 
