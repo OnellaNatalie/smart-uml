@@ -1,33 +1,23 @@
 const sidebar_teacher = [
 	{
 		display_name: "Dashboard",
-		route: "/auth/manager/dashboard",
+		route: "/auth/teacher/dashboard",
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Manage Users",
-		route: "/auth/manager/users",
-		icon: "bx bx-user",
-	},
-	{
-		display_name: "Manage Sites",
-		route: "/auth/manager/sites",
-		icon: "bx bx-buildings",
-	},
-	{
-		display_name: "Manage Materials",
-		route: "/auth/manager/materials",
-		icon: "bx bx-cube",
-	},
-	{
-		display_name: "Manage Orders",
-		route: "/auth/manager/allorders",
+		display_name: "Manage Classes",
+		route: "/auth/teacher/classes",
 		icon: "bx bx-bar-chart-square",
 	},
 	{
-		display_name: "Manage Suppliers",
-		route: "/auth/manager/suppliers",
-		icon: "bx bx-group",
+		display_name: "Manage Students",
+		route: "/auth/teacher/students",
+		icon: "bx bx-user",
+	},
+	{
+		display_name: "Manage Assignments",
+		route: "/auth/teacher/assignments",
+		icon: "bx bx-book-open",
 	},
 	{
 		display_name: "Sign Out",
@@ -39,18 +29,18 @@ const sidebar_teacher = [
 const sidebar_student = [
 	{
 		display_name: "Dashboard",
-		route: "/auth/sitemanager/dashboard",
+		route: "/auth/student/dashboard",
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Requisitions",
-		route: "/auth/sitemanager/requisitions",
-		icon: "bx bx-transfer",
+		display_name: "Classes",
+		route: "/auth/student/classes",
+		icon: "bx bx-bar-chart-square",
 	},
 	{
-		display_name: "Inventory",
-		route: "/auth/sitemanager/inventory",
-		icon: "bx bx-store",
+		display_name: "Assignments",
+		route: "/auth/student/assignments",
+		icon: "bx bx-book-open",
 	},
 	{
 		display_name: "Sign Out",
