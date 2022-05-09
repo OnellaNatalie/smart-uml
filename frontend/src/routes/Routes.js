@@ -17,7 +17,7 @@ import OfficerDashboard from "../pages/OfficerDashboard";
 import OfficerOrders from "../pages/OfficerOrders";
 import Register from "../pages/Register";
 import SiteManagerDashboard from "../pages/SiteManagerDashboard";
-import SiteManagerForm from "../pages/SiteManagerForm";
+import StudentSubjectAssingment from "../pages/StudentSubjectAssingment";
 import StudentDashboard from "../pages/StudentDashboard";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -47,7 +47,7 @@ const Routes = () => {
 
 			<Route exact path="/auth/student/dashboard" component={StudentDashboard} />
 			<Route exact path="/auth/student/modules" component={SubjectsStudent} />
-			<Route exact path="/auth/student/services" component={ManageServices} />
+			<Route exact path="/auth/student/assignment" component={StudentSubjectAssingment} />
 			<Route exact path="/auth/student/deliveryreports/:id" component={DeliveryReportSubmit} />
 			<Route exact path="/auth/student/deliveryreports" component={ManageDeliveryReports} />
 
@@ -55,7 +55,7 @@ const Routes = () => {
 			{/* <Route exact path="/auth/sitemanager/dashboard" component={SiteManagerDashboard} /> */}
 			<Route exact path="/auth/officers/orderlist" component={OfficerOrders} />
 			<Route exact path="/auth/officers/form" component={Assign} />
-			<Route exact path="/auth/sitemanager/requisitions" component={SiteManagerForm} />
+			{/* <Route exact path="/auth/sitemanager/requisitions" component={SiteManagerForm} /> */}
 			<Route exact path="/auth/sitemanager/inventory" component={Inventory} />
 			<Route exact path="/auth/manager/allorders" component={ManageAllOrders} />
 			<Route exact path="/auth/manager/ApprovedOrders" component={ManagerApprovedOrders} />

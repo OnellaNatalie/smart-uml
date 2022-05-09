@@ -17,24 +17,29 @@ const ManageOrdersSupplier = () => {
 	const [orderDetails, setOrderDetails] = useState([]);
 	const fields = [
 		"",
-	    "Module Code",
+		"Module Code",
 		"Module Name",
 		"Year",
 		"",
 		"Actions",
 	];
-
+	const subjects = [
+		{ ModuleCode: "IT20300", ModuleName: "CTSE", Year: "4th Year" },
+		{ ModuleCode: "IT30300", ModuleName: "DMS", Year: "4th Year" },
+		{ ModuleCode: "IT40300", ModuleName: "SPM:", Year: "4th Year" }
+	]
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{index + 1}</td>
-			<td>{"IT2030"}</td>
-			<td>{"Software Process"}</td>
-			<td>{item.total}</td>
-			<td>{item.address}</td>
-			<td>{new Date(item.updatedAt).toDateString()}</td>
-			<td style={{ textTransform: "capitalize" }}>{item.DeliveryStatus}</td>
+			<td>{ }</td>
+			<td>{item.ModuleCode}</td>
+			<td>{item.ModuleName}</td>
+			<td>{item.Year}</td>
+			<td>{ }</td>
+			<td><Link to={`/auth/student/assignment`}>
+				<button className="view-btn">View</button>
+			</Link></td>
 			<td>
 				<div className="row-user" style={{ paddingTop: "0" }}>
 					{item.DeliveryStatus === "pending" ? (
@@ -162,19 +167,19 @@ const ManageOrdersSupplier = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">All Assignments</h1>
+					<h1 className="page-header">All Modules</h1>
 					<div className="card">
-						<h2>Assignments to Complete </h2>
+						<h2>Subjects You Enrolled </h2>
 						{/* {isLoading ? (
 							<Spinner />
 						) : orderDetails.length > 0 ? ( */}
-							<Table
-								limit="5"
-								headData={fields}
-								renderHead={(item, index) => renderOrderHead(item, index)}
-								bodyData={orderDetails}
-								renderBody={(item, index) => renderOrderBody(item, index)}
-							/>
+						<Table
+							limit="5"
+							headData={fields}
+							renderHead={(item, index) => renderOrderHead(item, index)}
+							bodyData={subjects}
+							renderBody={(item, index) => renderOrderBody(item, index)}
+						/>
 						{/* ) : (
 							<>
 								{setError("No Assignments found")}
