@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import BadRequestKeyError
 from werkzeug.utils import secure_filename
@@ -20,6 +21,7 @@ OUTPUTS_FOLDER = os.path.join(APP_ROOT, 'outputs')
 UML_GENERATOR_UPLOAD_FOLDER = os.path.join(APP_ROOT, 'uploads')
 
 app = Flask(__name__)
+CORS(app)
 
 app.config.from_mapping(SECRET_KEY=os.environ.get('SECRET_KEY'),
                         SQLALCHEMY_DATABASE_URI=os.environ.get('SQLALCHEMY_DATABASE_URI'),
