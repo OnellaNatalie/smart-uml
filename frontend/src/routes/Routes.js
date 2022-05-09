@@ -7,13 +7,8 @@ import Inventory from "../pages/Inventory";
 import Login from "../pages/Login";
 import ManageAllOrders from "../pages/ManageAllOrders";
 import ManageDeliveryReports from "../pages/ManageDeliveryReports";
-<<<<<<< HEAD
 import ManageMaterials from "../pages/ManageMaterials";
 import SubjectsStudent from "../pages/SubjectsStudent";
-=======
-import ManageAssignments from "../pages/ManageAssignments";
-import ManageOrdersSupplier from "../pages/ManageOrdersSupplier";
->>>>>>> 5a709a29340622bd2a4533780b128b2d860d2da0
 import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
 import TeacherDashboard from "../pages/TeacherDashboard";
 import ManageServices from "../pages/ManageServices";
