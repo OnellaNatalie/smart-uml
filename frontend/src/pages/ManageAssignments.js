@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 import Sidebar from "../components/sidebar/Sidebar";
@@ -114,18 +115,20 @@ const ManageAssignments = () => {
 								)}
 								<div className="row">
 									<div className="col-12">
-										<textarea
-											type="text"
-											placeholder="Paste question scenario here..."
-											value={material.code}
-											onChange={e =>
-												setMaterial({
-													...material,
-													code: e.target.value,
-												})
-											}
-											required
-										/>
+										<GrammarlyEditorPlugin clientId="5c891c34-55b1-4504-b1a2-5215d35757ba">
+											<textarea
+												type="text"
+												placeholder="Paste question scenario here..."
+												value={material.code}
+												onChange={e =>
+													setMaterial({
+														...material,
+														code: e.target.value,
+													})
+												}
+												required
+											/>
+										</GrammarlyEditorPlugin>
 									</div>
 								</div>
 								<div className="row">
