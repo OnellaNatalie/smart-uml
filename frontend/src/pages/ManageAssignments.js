@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Spinner from "../components/loading/Spinner";
 import Table from "../components/table/Table";
 import TopNav from "../components/topnav/TopNav";
+import Badge from "../components/badge/Badge";
 
 import "../assets/css/Usercreate.css";
 
@@ -17,7 +19,17 @@ const ManageAssignments = () => {
 	const [material, setMaterial] = useState({ scenario: "" });
 	const [materials, setMaterials] = useState([]);
 
-	const fields = ["Scenario", "Material Name", "Actions"];
+	const fields = ["", "Module Code", "Name", "Status", "Created At", "Actions"];
+	const permissionStatus = {
+		pending: "warning",
+		approved: "success",
+		rejected: "danger",
+	};
+	const assignments = [
+		{ code: "A001", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
+		{ code: "A002", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
+		{ code: "A003", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
+	];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -27,7 +39,17 @@ const ManageAssignments = () => {
 			<td>{item.code}</td>
 			<td>{item.name}</td>
 			<td>
-				<>
+				<Badge type={permissionStatus[item.status]} content={item.status} />
+			</td>
+			<td>{item.createdAt}</td>
+			<td>
+				<div style={{ display: "flex", alignItems: "center" }}>
+					<Link to={`/auth/teacher/assignments/1`}>
+						<button className="view-btn">View All</button>
+					</Link>
+					<button className="action-btn check" style={{ marginLeft: "2rem" }}>
+						<i className="bx bx-edit-alt"></i>
+					</button>
 					<button
 						className="action-btn x"
 						onClick={() => {
@@ -38,7 +60,7 @@ const ManageAssignments = () => {
 					>
 						<RiDeleteBinLine />
 					</button>
-				</>
+				</div>
 			</td>
 		</tr>
 	);
@@ -118,7 +140,7 @@ const ManageAssignments = () => {
 										<GrammarlyEditorPlugin clientId="5c891c34-55b1-4504-b1a2-5215d35757ba">
 											<textarea
 												type="text"
-												placeholder="Paste question scenario here..."
+												placeholder="PASTE QUESTION SCENARIO HERE..."
 												value={material.code}
 												onChange={e =>
 													setMaterial({
@@ -136,11 +158,28 @@ const ManageAssignments = () => {
 										<div className="row-user">
 											<select name="position" id="position" required>
 												<option value="position" defaultValue>
-													Please select class
+													PLEASE SELECT MODULE
 												</option>
-												<option value="class">Class A</option>
-												<option value="class">Class B</option>
+												<option value="class">Module A</option>
+												<option value="class">Module B</option>
 											</select>
+										</div>
+									</div>
+
+									<div className="col-4">
+										<div className="row-user">
+											<input
+												type="text"
+												placeholder="Accepted Plagiarism Percentage"
+												value={material.name}
+												onChange={e =>
+													setMaterial({
+														...material,
+														name: e.target.value,
+													})
+												}
+												required
+											/>
 										</div>
 									</div>
 								</div>
@@ -154,14 +193,14 @@ const ManageAssignments = () => {
 					</div>
 					<div className="card col-12">
 						<h2>Created Assignments</h2>
-						{isLoading ? (
+						{false ? (
 							<Spinner />
 						) : (
 							<Table
 								limit="5"
 								headData={fields}
 								renderHead={(item, index) => renderOrderHead(item, index)}
-								bodyData={materials}
+								bodyData={assignments}
 								renderBody={(item, index) => renderOrderBody(item, index)}
 							/>
 						)}
