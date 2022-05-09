@@ -1,0 +1,215 @@
+.row-user {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding-top: 1rem;
+	justify-content: center;
+}
+.rowusermeasure {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding-top: 1rem;
+	justify-content: center;
+}
+.rowuserradio {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 1rem;
+	justify-content: center;
+}
+
+.rowpinfo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 1rem;
+	justify-content: center;
+}
+
+.rowuserradio label {
+	padding-left: 3rem;
+	padding-bottom: 0.5rem;
+	color: rgba(136, 136, 136, 0.9);
+}
+
+.row-user input {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid var(--main-color-blue);
+	font-size: 1rem;
+	padding: 1rem;
+	border-radius: 5px;
+}
+
+.rowpinfo input {
+	width: 80%;
+	box-sizing: border-box;
+	border: none;
+	font-size: 1.3rem;
+	padding-left: 0.5rem;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+	transition: box-shadow 0.2s ease-in;
+}
+
+.rowuserproductivity {
+	width: 80%;
+	box-sizing: border-box;
+	border: none;
+	font-size: 1.3rem;
+	padding-left: 1.5rem;
+	padding-bottom: 1rem;
+	box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+	transition: box-shadow 0.2s ease-in;
+}
+.row-user select {
+	width: 100%;
+	box-sizing: border-box;
+	border: 2px solid var(--main-color-blue);
+	font-size: 1rem;
+	padding: 1rem;
+	border-radius: 5px;
+}
+
+.rowpinfo select {
+	width: 100%;
+	box-sizing: border-box;
+	border: none;
+	font-size: 1.3rem;
+	padding-left: 1.5rem;
+	padding-bottom: 1rem;
+	box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+	transition: box-shadow 0.2s ease-in;
+}
+
+.option {
+	border-radius: 15px;
+}
+
+.row-user input::-webkit-input-placeholder {
+	opacity: 1;
+	transition: opacity 0.25s ease-out;
+}
+
+.row-user label {
+	align-self: start;
+	padding-left: 4.5rem;
+	padding-bottom: 0.5rem;
+	color: rgba(187, 187, 187, 0.9);
+}
+
+.row-user button {
+	border-radius: 5px;
+	height: 50px;
+	padding: 0 3rem;
+	font-size: 1.2rem;
+	color: white;
+	font-weight: 600;
+	background: linear-gradient(to right, var(--main-color-blue), var(--second-color));
+	color: var(--txt-white);
+	border: 0px;
+	cursor: pointer;
+	transition: opacity 0.25s ease-out;
+}
+
+.row-user button:hover {
+	opacity: 0.8;
+}
+
+#button {
+	padding-bottom: 1.5rem;
+	padding-top: 2rem;
+	margin-top: 1.5rem;
+}
+.form-imguser {
+	display: block;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	border-radius: 10px 10px 10px 10px;
+}
+.usertblbutton {
+	border-radius: 5px;
+	width: 60%;
+	height: 30px;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: 700;
+	background: rgb(6, 81, 140);
+	background: linear-gradient(to right, var(--main-color-red), var(--second-color-red));
+	color: var(--txt-white);
+	border: 0px;
+	cursor: pointer;
+	transition: opacity 0.25s ease-out;
+}
+
+.usertblbutton:hover {
+	opacity: 0.8;
+}
+
+a:hover {
+	color: var(--main-color);
+}
+
+.usertblactivebutton {
+	border-radius: 5px;
+	width: 60%;
+	height: 30px;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: 700;
+	background: rgb(243, 243, 243);
+	background: linear-gradient(to right, var(--main-color-green), var(--second-color-green));
+	color: var(--txt-white);
+	border: 0px;
+	cursor: pointer;
+	transition: opacity 0.25s ease-out;
+}
+.usertblactivebutton:hover {
+	opacity: 0.8;
+}
+@media screen and (max-width: 900px) {
+	.row-user input {
+		box-sizing: border-box;
+		padding: 1rem;
+	}
+	.row-user label {
+		align-self: start;
+		padding-left: 5rem;
+		padding-bottom: 0.5rem;
+		color: rgba(187, 187, 187, 0.9);
+	}
+	.usertblbutton {
+		border-radius: 5px;
+		width: 90%;
+		height: 30px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		border: 0px;
+	}
+	.usertblactivebutton {
+		border-radius: 5px;
+		width: 90%;
+		height: 30px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		border: 0px;
+	}
+}
+@media screen and (max-width: 600px) {
+	.row-user input {
+		box-sizing: border-box;
+		padding: 1rem;
+		font-size: 1rem;
+	}
+	.row-user label {
+		align-self: start;
+		padding-left: 4.5rem;
+		padding-bottom: 0.5rem;
+		color: rgba(187, 187, 187, 0.9);
+	}
+}

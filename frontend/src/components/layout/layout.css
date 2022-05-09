@@ -1,0 +1,20 @@
+.layout {
+    color: var(--txt-color);
+}
+
+.layout__content {
+    transition: padding-left .5s;
+    padding-left: var(--sidebar-width);
+    background-color: var(--second-bg);
+    min-height: 100vh;
+}
+
+.layout__content-main {
+    padding: 30px;
+}
+
+@media screen and (max-width: 800px) {
+    .layout__content{
+        padding-left: 80px;
+    }
+}

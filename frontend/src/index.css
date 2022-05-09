@@ -1,0 +1,33 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+	color: #1f2937;
+}
+
+a {
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+input,
+button {
+	font-family: "Inter", sans-serif;
+}
+
+button {
+	font-size: 0.8rem !important;
+	white-space: nowrap;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+::placeholder {
+	font-family: "Inter", sans-serif;
+}

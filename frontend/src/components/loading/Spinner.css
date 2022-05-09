@@ -1,0 +1,15 @@
+.spinner-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+}
+.spinner {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	border: 8px solid rgb(241, 241, 241);
+	border-top-color: var(--main-color-blue);
+	animation: spin 1s linear infinite;
+}
