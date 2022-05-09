@@ -121,7 +121,7 @@ const TeacherDashboard = () => {
 									<div className="col-8 flex-column">
 										<h1 className="page-header">{`Good ${status}!`}</h1>
 										<h3>Today you have 9 new notifications</h3>
-										<h3>Also new booking appointments for approval</h3>
+										<h3>Also new assignment submissions</h3>
 										<Link className="read-more" to={`/auth/manager/suppliers`}>
 											Read more <i className="bx bx-right-arrow-alt"></i>
 										</Link>
@@ -173,8 +173,8 @@ const TeacherDashboard = () => {
 										<img src={profilePicture} alt="" className="profile-picture" />
 									</div>
 									<div className="col-8">
-										<h2>{localStorage.getItem("name")}</h2>
-										<h3 className="lighter">MANAGER</h3>
+										<h2>{localStorage.getItem("username")}</h2>
+										<h3 className="lighter">TEACHER</h3>
 									</div>
 								</div>
 							</div>

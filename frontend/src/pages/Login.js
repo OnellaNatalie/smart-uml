@@ -30,20 +30,16 @@ const Login = () => {
 
 		try {
 			const res = await axios.post("auth/login", user);
-			console.log(res);
 			setUser({ username: "", password: "" });
 			setBtnState(false);
-			localStorage.setItem("name", res.data?.user);
-
-			if (res.data.type === "sitemanager") {
-				localStorage.setItem("site", res.data.site);
-			}
+			localStorage.setItem("token", res.data?.user.access_token);
+			localStorage.setItem("username", res.data?.user.username);
 
 			await getLoggedIn();
-			history.push(`/auth/${res.data.type}/dashboard`);
+			history.push(`/auth/${res.data.user.user_type}/dashboard`);
 		} catch (err) {
 			console.log(err.response);
-			setError(err.response.data.message);
+			setError(err.response.data.err);
 			setBtnState(false);
 		}
 	};

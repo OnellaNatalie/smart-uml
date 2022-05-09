@@ -104,9 +104,15 @@ def logged():
             'logged': False,
         }}), HTTP_200_OK
 
+    user_id = is_valid['sub']
+    user = User.query.filter_by(id=user_id).first()
+
     return jsonify({'msg': 'User logged in', 'user': {
         'logged': True,
-    }}), HTTP_400_BAD_REQUEST
+        'username': user.username,
+        'user_type': user.user_type,
+        'user_email': user.email
+    }}), HTTP_200_OK
 
 
 @auth.get('/me')
