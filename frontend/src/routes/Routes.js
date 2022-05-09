@@ -18,7 +18,7 @@ import OfficerDashboard from "../pages/OfficerDashboard";
 import OfficerOrders from "../pages/OfficerOrders";
 import Register from "../pages/Register";
 import SiteManagerDashboard from "../pages/SiteManagerDashboard";
-import SiteManagerForm from "../pages/SiteManagerForm";
+import StudentSubjectAssingment from "../pages/StudentSubjectAssingment";
 import StudentDashboard from "../pages/StudentDashboard";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -43,7 +43,7 @@ const Routes = () => {
 			<Route exact path="/auth/student/modules" component={SubjectsStudent} />
 			<Route exact path="/auth/student/services" component={ManageServices} />
 
-			<Route exact path="/auth/sitemanager/requisitions" component={SiteManagerForm} />
+			<Route exact path="/auth/student/assignment" component={StudentSubjectAssingment} />
 		</Switch>
 	);
 };
