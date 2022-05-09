@@ -33,12 +33,13 @@ const Routes = () => {
 		<Switch>
 			<Route exact path="/" component={Login} />
 			<Route exact path="/register" component={Register} />
-			<Route exact path="/login" component={Register} />
+			<Route exact path="/login" component={Login} />
 			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
 			<Route exact path="/auth/teacher/users" component={ManageUsers} />
 			<Route exact path="/auth/teacher/sites" component={ManageSites} />
 			<Route exact path="/auth/teacher/materials" component={ManageMaterials} />
 			<Route exact path="/auth/teacher/suppliers" component={ManageSuppliers} />
+
 			<Route exact path="/auth/student/dashboard" component={SupplierDashboard} />
 			<Route exact path="/auth/student/orders" component={ManageOrdersSupplier} />
 			<Route exact path="/auth/student/services" component={ManageServices} />
