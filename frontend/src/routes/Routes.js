@@ -7,12 +7,11 @@ import Inventory from "../pages/Inventory";
 import Login from "../pages/Login";
 import ManageAllOrders from "../pages/ManageAllOrders";
 import ManageDeliveryReports from "../pages/ManageDeliveryReports";
-import ManageMaterials from "../pages/ManageMaterials";
+import ManageAssignments from "../pages/ManageAssignments";
 import ManageOrdersSupplier from "../pages/ManageOrdersSupplier";
 import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
 import TeacherDashboard from "../pages/TeacherDashboard";
 import ManageServices from "../pages/ManageServices";
-import ManageSites from "../pages/ManageSites";
 import ManageSuppliers from "../pages/ManageSuppliers";
 import ManageUsers from "../pages/ManageUsers";
 import OfficerDashboard from "../pages/OfficerDashboard";
@@ -34,11 +33,11 @@ const Routes = () => {
 			<Route exact path="/" component={Login} />
 			<Route exact path="/register" component={Register} />
 			<Route exact path="/login" component={Login} />
+
 			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
-			<Route exact path="/auth/teacher/users" component={ManageUsers} />
-			<Route exact path="/auth/teacher/sites" component={ManageSites} />
-			<Route exact path="/auth/teacher/materials" component={ManageMaterials} />
-			<Route exact path="/auth/teacher/suppliers" component={ManageSuppliers} />
+			<Route exact path="/auth/teacher/students" component={ManageSuppliers} />
+			<Route exact path="/auth/teacher/classes" component={ManageUsers} />
+			<Route exact path="/auth/teacher/assignments" component={ManageAssignments} />
 
 			<Route exact path="/auth/student/dashboard" component={SupplierDashboard} />
 			<Route exact path="/auth/student/orders" component={ManageOrdersSupplier} />
