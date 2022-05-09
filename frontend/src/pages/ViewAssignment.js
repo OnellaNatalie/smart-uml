@@ -7,20 +7,43 @@ import Badge from "../components/badge/Badge";
 import Spinner from "../components/loading/Spinner";
 import { MdDelete } from "react-icons/md";
 import { VscReport } from "react-icons/vsc";
+import { RiDeleteBinLine } from "react-icons/ri";
 import Popup from "./Popup";
 
 const ViewAssignment = () => {
 	const siteId = localStorage.getItem("site");
 	const [Materials, setMaterials] = useState([]);
+	const students = [
+		{
+			email: "email@gmail.com",
+			submittedAt: "2022-04-05",
+			submission: "IT1912192.png",
+			plagiarismPercentage: "10%",
+			CorrectnessPercentage: "70%",
+		},
+		{
+			email: "email@gmail.com",
+			submittedAt: "2022-04-05",
+			submission: "IT1912192.png",
+			plagiarismPercentage: "10%",
+			CorrectnessPercentage: "70%",
+		},
+		{
+			email: "email@gmail.com",
+			submittedAt: "2022-04-05",
+			submission: "IT1912192.png",
+			plagiarismPercentage: "10%",
+			CorrectnessPercentage: "70%",
+		},
+	];
 	const fields = [
 		"",
-		"Required Date",
-		"Item",
-		"Quantity",
-		"Order Status",
-		"Delivery Status",
+		"Student Email",
+		"Submission",
+		"Plagiarism Percentage",
+		"Correctness Percentage",
+		"Submitted At",
 		"Action",
-		"Goods Receipt",
 	];
 	const [OrderDetail, setOrderDetail] = useState([]);
 	const [Loading, setLoading] = useState(false);
@@ -84,81 +107,34 @@ const ViewAssignment = () => {
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
-			<td>{item.requiredDate}</td>
-			<td>{item.itemName}</td>
-			<td>{item.quantity}</td>
+			<td>{item.email}</td>
+			<td>{item.submission}</td>
+			<td>{item.plagiarismPercentage}</td>
+			<td>{item.CorrectnessPercentage}</td>
+			<td>{item.submittedAt}</td>
 			<td>
-				<div className="row-user" style={{ paddingTop: "0" }}>
-					{item.isApprovedByOfficer === "rejected" ? (
-						<Badge type="danger" content={item.isApprovedByOfficer} />
-					) : item.isApprovedByManager === "rejected" ? (
-						<Badge type="danger" content={item.isApprovedByManager} />
-					) : item.isApprovedByManager === "pending" ? (
-						<Badge type="warning" content={item.isApprovedByManager} />
-					) : item.isApprovedByManager === "approved" ? (
-						<Badge type="success" content={item.isApprovedByManager} />
-					) : (
-						""
-					)}
-				</div>
-			</td>
-			<td>
-				<div className="row-user" style={{ paddingTop: "0" }}>
-					{item.isApprovedByManager === "approved" ? (
-						item.DeliveryStatus === "pending" ? (
-							<Badge type="warning" content={item.DeliveryStatus} />
-						) : item.DeliveryStatus === "preparing" ? (
-							<Badge type="primary" content={item.DeliveryStatus} />
-						) : item.DeliveryStatus === "delivering" ? (
-							<Badge type="success" content={item.DeliveryStatus} />
-						) : item.DeliveryStatus === "delivered" ? (
-							<Badge type="success" content={item.DeliveryStatus} />
-						) : item.DeliveryStatus === "submitted" ? (
-							<Badge type="normal" content={item.DeliveryStatus} />
-						) : (
-							""
-						)
-					) : (
-						""
-					)}
-				</div>
-			</td>
-			<td className="">
-				{item.isApprovedByManager === "pending" && !(item.isApprovedByOfficer === "rejected") ? (
-					<>
-						<button className="action-btn x">
-							<MdDelete
-								onClick={() => {
-									if (window.confirm("Are you sure to delete this request?")) {
-										deleteHandler(item._id);
-									}
-								}}
-							/>
-						</button>
-					</>
-				) : item.isApprovedByManager === "rejected" || item.isApprovedByOfficer === "rejected" ? (
-					<>
-						<button className="action-btn W">
-							<VscReport
-								onClick={() => {
-									setName("Rejection");
-									setDescription(item.rejectMassage);
-									setTrigger(true);
-								}}
-							/>
-						</button>
-						<Popup
-							trigger={Trigger}
-							name={Name}
-							description={Description}
-							setTrigger={setTrigger}
-							id={Id}
-							item={ItemName}
-						/>
-					</>
-				) : (
-					""
-				)}
+				<>
+					<button className="action-btn check">
+						<i
+							className="bx bx-check"
+							onClick={() => {
+								if (window.confirm("Are you sure to end this assignment?")) {
+									// successHandler(item._id);
+								}
+							}}
+						></i>
+					</button>
+					<button
+						className="action-btn x"
+						onClick={() => {
+							if (window.confirm("Are you sure to remove this assignment?")) {
+								deleteHandler(item._id);
+							}
+						}}
+					>
+						<RiDeleteBinLine />
+					</button>
+				</>
 			</td>
 			<td>
 				{item.DeliveryStatus === "submitted" ? (
@@ -212,17 +188,7 @@ const ViewAssignment = () => {
 									which will give a 5% discount for the order he/she makes. If the user does not use
 									the code within the month, automatically the system must “discard promotion code”.
 									If it’s been already used, the system must display a message saying “it’s already
-									been used”. After adding the items into a shopping cart, user can select the
-									checkout button which gives two payment options, Cash on Delivery or Pay by Card.
-									Once the user goes to the payment option, the system will display details about
-									the order the customer has made. It will display the order number, each item
-									details with an image of clothing item, total amount to be paid. If any item needs
-									to be removed from the current order system will facilitate it as well. Finally,
-									the system will ask user to enter delivery details including any comments which is
-									optional. Based on the location to be delivered it will indicate the delivery cost
-									and final amount to be paid for the order. The according to user preferences, Cash
-									on Delivery or Pay by Card can be selected. If the user provides credit or debit
-									card details, card information will be verified using a payment gateway.
+									been used”.
 								</p>
 							</div>
 						</div>
@@ -230,22 +196,18 @@ const ViewAssignment = () => {
 					<div className="row ">
 						<div className="col-12">
 							<div className="card">
-								<div className="row ">
-									<div className="col-6">
-										<div className="row-user">
-											<input
-												style={{ float: "right" }}
-												accept=".png, .jpg, .jpeg"
-												type="file"
-												onChange={e => setOrder({ ...Order, quantity: e.target.value })}
-												required
-											/>
-										</div>
-									</div>
-									<div className="row-user">
-										<button type="submit">Submit</button>
-									</div>
-								</div>
+								<h2>Student Submissions</h2>
+								{false ? (
+									<Spinner />
+								) : (
+									<Table
+										limit="8"
+										headData={fields}
+										renderHead={(item, index) => renderOrderHead(item, index)}
+										bodyData={students}
+										renderBody={(item, index) => renderOrderBody(item, index)}
+									/>
+								)}
 							</div>
 						</div>
 					</div>
