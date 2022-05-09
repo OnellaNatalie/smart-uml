@@ -33,14 +33,9 @@ const sidebar_student = [
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Classes",
-		route: "/auth/student/classes",
-		icon: "bx bx-bar-chart-square",
-	},
-	{
-		display_name: "Assignments",
-		route: "/auth/student/assignments",
-		icon: "bx bx-book-open",
+		display_name: "Modules",
+		route: "/auth/student/subjects",
+		icon: "bx bx-transfer",
 	},
 	{
 		display_name: "Sign Out",

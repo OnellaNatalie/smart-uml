@@ -26,12 +26,10 @@ const SupplierDashboard = () => {
 
 	const fields = [
 		"",
-		"Item",
-		"Quantity",
-		"Total Price",
-		"Delivery Address",
-		"Received At",
-		"Status",
+		"Assignment",
+		"Subject",
+		"Subject Code",
+		
 	];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
@@ -103,9 +101,8 @@ const SupplierDashboard = () => {
 														orderDetail.DeliveryStatus === "pending"
 												).length
 											)}{" "}
-											new orders
+											Assignments to Complete
 										</h3>
-										<h3>Also older order statuses to review</h3>
 										<Link className="read-more" to="/auth/supplier/orders">
 											Read more <i className="bx bx-right-arrow-alt"></i>
 										</Link>
@@ -140,14 +137,14 @@ const SupplierDashboard = () => {
 						<div className="col-8">
 							<div className="card">
 								<div className="flex">
-									<h2 className="request-title">New Orders</h2>
-									<Link to={`/auth/supplier/orders`}>
+									<h2 className="request-title">Assignments to complete</h2>
+									<Link to={`/auth/student/assignments`}>
 										<button className="view-btn">View All</button>
 									</Link>
 								</div>
-								{isLoading ? (
+								{/* {isLoading ? (
 									<Spinner />
-								) : orderDetails.length > 0 ? (
+								) : orderDetails.length > 0 ? ( */}
 									<Table
 										limit="5"
 										headData={fields}
@@ -155,12 +152,12 @@ const SupplierDashboard = () => {
 										bodyData={orderDetails}
 										renderBody={(item, index) => renderOrderBody(item, index)}
 									/>
-								) : (
+								{/* ) : (
 									<>
-										{setError("No orders found")}
+										{setError("No Assignments found")}
 										<Error message={error} />
 									</>
-								)}
+								)} */}
 							</div>
 						</div>
 						<div className="col-4">
@@ -175,7 +172,7 @@ const SupplierDashboard = () => {
 									</div>
 									<div className="col-8">
 										<h2>{localStorage.getItem("name")}</h2>
-										<h3 className="lighter">SUPPLIER</h3>
+										<h3 className="lighter">Student</h3>
 									</div>
 								</div>
 							</div>

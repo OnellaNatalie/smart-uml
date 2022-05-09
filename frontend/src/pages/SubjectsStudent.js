@@ -17,12 +17,10 @@ const ManageOrdersSupplier = () => {
 	const [orderDetails, setOrderDetails] = useState([]);
 	const fields = [
 		"",
-		"Item",
-		"Quantity",
-		"Total Price",
-		"Delivery Address",
-		"Received At",
-		"Status",
+	    "Module Code",
+		"Module Name",
+		"Year",
+		"",
 		"Actions",
 	];
 
@@ -31,8 +29,8 @@ const ManageOrdersSupplier = () => {
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
-			<td>{item.itemName}</td>
-			<td>{item.quantity}</td>
+			<td>{"IT2030"}</td>
+			<td>{"Software Process"}</td>
 			<td>{item.total}</td>
 			<td>{item.address}</td>
 			<td>{new Date(item.updatedAt).toDateString()}</td>
@@ -164,12 +162,12 @@ const ManageOrdersSupplier = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">Manage Orders</h1>
+					<h1 className="page-header">All Assignments</h1>
 					<div className="card">
-						<h2>Received Orders</h2>
-						{isLoading ? (
+						<h2>Assignments to Complete </h2>
+						{/* {isLoading ? (
 							<Spinner />
-						) : orderDetails.length > 0 ? (
+						) : orderDetails.length > 0 ? ( */}
 							<Table
 								limit="5"
 								headData={fields}
@@ -177,12 +175,12 @@ const ManageOrdersSupplier = () => {
 								bodyData={orderDetails}
 								renderBody={(item, index) => renderOrderBody(item, index)}
 							/>
-						) : (
+						{/* ) : (
 							<>
-								{setError("No orders found")}
+								{setError("No Assignments found")}
 								<Error message={error} />
 							</>
-						)}
+						)} */}
 					</div>
 				</div>
 			</div>
