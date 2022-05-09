@@ -140,7 +140,7 @@ const ManageAssignments = () => {
 										<GrammarlyEditorPlugin clientId="5c891c34-55b1-4504-b1a2-5215d35757ba">
 											<textarea
 												type="text"
-												placeholder="Paste question scenario here..."
+												placeholder="PASTE QUESTION SCENARIO HERE..."
 												value={material.code}
 												onChange={e =>
 													setMaterial({
@@ -158,11 +158,28 @@ const ManageAssignments = () => {
 										<div className="row-user">
 											<select name="position" id="position" required>
 												<option value="position" defaultValue>
-													Please select module
+													PLEASE SELECT MODULE
 												</option>
 												<option value="class">Module A</option>
 												<option value="class">Module B</option>
 											</select>
+										</div>
+									</div>
+
+									<div className="col-4">
+										<div className="row-user">
+											<input
+												type="text"
+												placeholder="Accepted Plagiarism Percentage"
+												value={material.name}
+												onChange={e =>
+													setMaterial({
+														...material,
+														name: e.target.value,
+													})
+												}
+												required
+											/>
 										</div>
 									</div>
 								</div>
