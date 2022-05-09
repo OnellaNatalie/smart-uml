@@ -14,6 +14,7 @@ auth = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 def register():
     username = request.json.get('username', '')
     email = request.json.get('email', '')
+    user_type = request.json.get('user_type', '')
     password = request.json.get('password', '')
 
     if not username or not email or not password:
@@ -39,14 +40,15 @@ def register():
 
     password_hash = generate_password_hash(password)
 
-    user = User(username=username, email=email, password=password_hash)
+    user = User(username=username, email=email, password=password_hash, user_type=user_type)
     db.session.add(user)
     db.session.commit()
 
     return jsonify({'msg': 'User created', 'user': {
         'id': user.id,
         'username': user.username,
-        'email': user.email
+        'email': user.email,
+        'user_type': user.user_type
     }}), HTTP_201_CREATED
 
 
@@ -76,7 +78,8 @@ def login():
         'access_token': access_token,
         'refresh_token': refresh_token,
         'username': user.username,
-        'email': user.email
+        'email': user.email,
+        'user_type': user.user_type
     }}), HTTP_200_OK
 
 
