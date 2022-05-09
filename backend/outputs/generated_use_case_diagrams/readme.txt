@@ -1,0 +1,1 @@
+Generated usecase diagrams will be stored here.
