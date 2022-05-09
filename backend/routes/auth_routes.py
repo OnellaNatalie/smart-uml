@@ -1,7 +1,7 @@
 import validators
 from flask import Blueprint, jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, decode_token
 from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, \
     HTTP_409_CONFLICT, HTTP_201_CREATED
 from config.database import db
@@ -71,8 +71,8 @@ def login():
     if not check_password_hash(user.password, password):
         return jsonify({'err': "Email or Password is incorrect"}), HTTP_401_UNAUTHORIZED
 
-    access_token = create_access_token(identity=user.id)
-    refresh_token = create_refresh_token(identity=user.id)
+    access_token = create_access_token(identity=user.id, expires_delta=False)
+    refresh_token = create_refresh_token(identity=user.id, expires_delta=False)
 
     return jsonify({'msg': 'User logged in', 'user': {
         'access_token': access_token,
@@ -81,6 +81,32 @@ def login():
         'email': user.email,
         'user_type': user.user_type
     }}), HTTP_200_OK
+
+
+@auth.post('/user/logged')
+def logged():
+    token = request.headers.get('token')
+
+    if not token:
+        return jsonify({'msg': 'User not logged in', 'user': {
+            'logged': False,
+        }}), HTTP_400_BAD_REQUEST
+
+    try:
+        is_valid = decode_token(token, allow_expired=False)
+    except(Exception):
+        return jsonify({'msg': 'User not logged in', 'user': {
+            'logged': False,
+        }}), HTTP_400_BAD_REQUEST
+
+    if not is_valid:
+        return jsonify({'msg': 'User not logged in', 'user': {
+            'logged': False,
+        }}), HTTP_200_OK
+
+    return jsonify({'msg': 'User logged in', 'user': {
+        'logged': True,
+    }}), HTTP_400_BAD_REQUEST
 
 
 @auth.get('/me')
