@@ -8,34 +8,23 @@ import logo from "../../assets/images/logo.png";
 import { AuthContext } from "../../contexts/AuthContext";
 
 import SidebarItem from "./SidebarItem";
-import Spinner from "../loading/Spinner";
 
-import {
-	sidebar_manager,
-	sidebar_site_manager,
-	sidebar_officer,
-	sidebar_supplier,
-} from "../../helpers/sidebar.items";
+import { sidebar_teacher, sidebar_student } from "../../helpers/sidebar.items";
 
-const Sidebar = (props) => {
+const Sidebar = props => {
 	const { loggedIn } = useContext(AuthContext);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 
 	let currentSidebar;
 
-	if (loggedIn.role === "manager") {
-		currentSidebar = sidebar_manager;
-	} else if (loggedIn.role === "officer") {
-		currentSidebar = sidebar_officer;
-	} else if (loggedIn.role === "sitemanager") {
-		currentSidebar = sidebar_site_manager;
-	} else if (loggedIn.role === "supplier") {
-		currentSidebar = sidebar_supplier;
+	if (loggedIn.role === "teacher") {
+		currentSidebar = sidebar_teacher;
+	} else if (loggedIn.role === "student") {
+		currentSidebar = sidebar_student;
 	}
 
 	const activeItem =
-		loggedIn.role &&
-		currentSidebar.findIndex((item) => item.route === window.location.pathname);
+		loggedIn.role && currentSidebar.findIndex(item => item.route === window.location.pathname);
 
 	function closeNav() {
 		setIsCollapsed(true);
@@ -113,7 +102,7 @@ const Sidebar = (props) => {
 					)}
 				</div>
 			) : (
-				<Spinner />
+				""
 			)}
 		</>
 	);
