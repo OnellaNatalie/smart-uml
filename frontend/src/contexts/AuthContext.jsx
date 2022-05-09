@@ -9,7 +9,8 @@ const AuthContextProvider = ({ children }) => {
 
 	const getLoggedIn = async () => {
 		try {
-			const res = await axios.get("/users/logged");
+			const res = await axios.get("auth/user/logged");
+			console.log(res);
 			setLoggedIn({ state: res.data.state, role: res.data.role });
 		} catch (err) {
 			console.error(err.message);

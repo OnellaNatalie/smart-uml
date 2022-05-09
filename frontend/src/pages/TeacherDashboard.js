@@ -66,7 +66,7 @@ const TeacherDashboard = () => {
 		}
 	};
 
-	useEffect(() => getAllSuppliers(), []);
+	// useEffect(() => getAllSuppliers(), []);
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
