@@ -17,7 +17,7 @@ import status from "../helpers/greeting";
 
 import { AuthContext } from "../contexts/AuthContext";
 
-const AdminDashboard = () => {
+const TeacherDashboard = () => {
 	const [value, onChange] = useState(new Date());
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 		rejected: "danger",
 	};
 
-	const deleteHandler = async (id) => {
+	const deleteHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/reject/${id}`);
 			if (res.statusText === "OK") {
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
 		}
 	};
 
-	const successHandler = async (id) => {
+	const successHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/approve/${id}`);
 			console.log(res);
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
 		}
 	};
 
-	useEffect(() => getAllSuppliers(), []);
+	// useEffect(() => getAllSuppliers(), []);
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -127,11 +127,7 @@ const AdminDashboard = () => {
 										</Link>
 									</div>
 									<div className="col-4">
-										<img
-											className="admin-greeting"
-											src={AdminGreeting}
-											alt=""
-										/>
+										<img className="admin-greeting" src={AdminGreeting} alt="" />
 									</div>
 								</div>
 							</div>
@@ -144,11 +140,7 @@ const AdminDashboard = () => {
 								>
 									Calender
 								</h2>
-								<Calendar
-									className="calender"
-									onChange={onChange}
-									value={value}
-								/>
+								<Calendar className="calender" onChange={onChange} value={value} />
 							</div>
 						</div>
 					</div>
@@ -178,11 +170,7 @@ const AdminDashboard = () => {
 							<div className="card">
 								<div className="row">
 									<div className="col-4 full-width-1496">
-										<img
-											src={profilePicture}
-											alt=""
-											className="profile-picture"
-										/>
+										<img src={profilePicture} alt="" className="profile-picture" />
 									</div>
 									<div className="col-8">
 										<h2>{localStorage.getItem("name")}</h2>
@@ -198,4 +186,4 @@ const AdminDashboard = () => {
 	);
 };
 
-export default AdminDashboard;
+export default TeacherDashboard;
