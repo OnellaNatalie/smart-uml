@@ -128,6 +128,19 @@ const ManageAssignments = () => {
 										/>
 									</div>
 								</div>
+								<div className="row">
+									<div className="col-4">
+										<div className="row-user">
+											<select name="position" id="position" required>
+												<option value="position" defaultValue>
+													Please select class
+												</option>
+												<option value="class">Class A</option>
+												<option value="class">Class B</option>
+											</select>
+										</div>
+									</div>
+								</div>
 								<div className="row-user">
 									<button type="submit" onClick={saveMaterial}>
 										{btnState ? "Creating" : "Create"}

@@ -68,7 +68,7 @@
 .row-user select {
 	width: 100%;
 	box-sizing: border-box;
-	border: 1px solid var(--main-color-blue);
+	border: 2px solid var(--main-color-blue);
 	font-size: 1rem;
 	padding: 1rem;
 	border-radius: 5px;
@@ -108,11 +108,7 @@
 	font-size: 1.2rem;
 	color: white;
 	font-weight: 600;
-	background: linear-gradient(
-		to right,
-		var(--main-color-blue),
-		var(--second-color)
-	);
+	background: linear-gradient(to right, var(--main-color-blue), var(--second-color));
 	color: var(--txt-white);
 	border: 0px;
 	cursor: pointer;
@@ -144,11 +140,7 @@
 	color: white;
 	font-weight: 700;
 	background: rgb(6, 81, 140);
-	background: linear-gradient(
-		to right,
-		var(--main-color-red),
-		var(--second-color-red)
-	);
+	background: linear-gradient(to right, var(--main-color-red), var(--second-color-red));
 	color: var(--txt-white);
 	border: 0px;
 	cursor: pointer;
@@ -171,11 +163,7 @@ a:hover {
 	color: white;
 	font-weight: 700;
 	background: rgb(243, 243, 243);
-	background: linear-gradient(
-		to right,
-		var(--main-color-green),
-		var(--second-color-green)
-	);
+	background: linear-gradient(to right, var(--main-color-green), var(--second-color-green));
 	color: var(--txt-white);
 	border: 0px;
 	cursor: pointer;
