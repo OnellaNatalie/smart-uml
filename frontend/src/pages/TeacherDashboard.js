@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Spinner from "../components/loading/Spinner";
@@ -95,15 +96,15 @@ const TeacherDashboard = () => {
 								}}
 							></i>
 						</button>
-						<button className="action-btn x">
-							<i
-								className="bx bx-x"
-								onClick={() => {
-									if (window.confirm("Are you sure to remove this assignment?")) {
-										deleteHandler(item._id);
-									}
-								}}
-							></i>
+						<button
+							className="action-btn x"
+							onClick={() => {
+								if (window.confirm("Are you sure to remove this assignment?")) {
+									deleteHandler(item._id);
+								}
+							}}
+						>
+							<RiDeleteBinLine />
 						</button>
 					</>
 				)}
