@@ -9,14 +9,14 @@ import TopNav from "../components/topnav/TopNav";
 
 import "../assets/css/Usercreate.css";
 
-const ManageUsers = () => {
+const ManageAssignments = () => {
 	const [btnState, setBtnState] = useState(false);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [material, setMaterial] = useState({ code: "", name: "" });
+	const [material, setMaterial] = useState({ scenario: "" });
 	const [materials, setMaterials] = useState([]);
 
-	const fields = ["", "Material Code", "Material Name", "Actions"];
+	const fields = ["Scenario", "Material Name", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -42,7 +42,7 @@ const ManageUsers = () => {
 		</tr>
 	);
 
-	const saveMaterial = async (e) => {
+	const saveMaterial = async e => {
 		e.preventDefault();
 		setBtnState(true);
 
@@ -57,12 +57,11 @@ const ManageUsers = () => {
 			const res = await axios.post("materials", material);
 			console.log(res);
 			setMaterial({
-				code: "",
-				name: "",
+				scenario: "",
 			});
 			getAllMaterial();
 			setError("");
-			window.alert("Material registered successfully");
+			window.alert("Assignment added successfully");
 			setBtnState(false);
 			setIsLoading(true);
 		} catch (err) {
@@ -78,7 +77,7 @@ const ManageUsers = () => {
 			if (res.statusText === "OK") {
 				getAllMaterial();
 				setError("");
-				window.alert("Material has been successfully deleted");
+				window.alert("Assignment has been successfully deleted");
 				setIsLoading(true);
 			}
 		} catch (err) {
@@ -104,7 +103,7 @@ const ManageUsers = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">Manage Materials</h1>
+					<h1 className="page-header">Manage Assignments</h1>
 					<div className="row">
 						<div className="col-12">
 							<form className="card" style={{ position: "relative" }}>
@@ -114,49 +113,44 @@ const ManageUsers = () => {
 									</div>
 								)}
 								<div className="row">
-									<div className="col-6">
-										<div className="row-user">
-											<input
-												type="text"
-												placeholder="Material Code"
-												value={material.code}
-												onChange={(e) =>
-													setMaterial({
-														...material,
-														code: e.target.value,
-													})
-												}
-												required
-											/>
-										</div>
+									<div className="col-12">
+										<textarea
+											type="text"
+											placeholder="Paste question scenario here..."
+											value={material.code}
+											onChange={e =>
+												setMaterial({
+													...material,
+													code: e.target.value,
+												})
+											}
+											required
+										/>
 									</div>
-									<div className="col-6">
+								</div>
+								<div className="row">
+									<div className="col-4">
 										<div className="row-user">
-											<input
-												type="text"
-												placeholder="Material Name"
-												value={material.name}
-												onChange={(e) =>
-													setMaterial({
-														...material,
-														name: e.target.value,
-													})
-												}
-												required
-											/>
+											<select name="position" id="position" required>
+												<option value="position" defaultValue>
+													Please select class
+												</option>
+												<option value="class">Class A</option>
+												<option value="class">Class B</option>
+											</select>
 										</div>
 									</div>
 								</div>
 								<div className="row-user">
 									<button type="submit" onClick={saveMaterial}>
-										{btnState ? "Saving" : "Save"}
+										{btnState ? "Creating" : "Create"}
 									</button>
 								</div>
 							</form>
 						</div>
 					</div>
 					<div className="card col-12">
-						<h2>Material Details</h2>
+						<h2>Created Assignments</h2>
 						{isLoading ? (
 							<Spinner />
 						) : (
@@ -175,4 +169,4 @@ const ManageUsers = () => {
 	);
 };
 
-export default ManageUsers;
+export default ManageAssignments;
