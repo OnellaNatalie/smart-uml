@@ -23,7 +23,7 @@ const TeacherDashboard = () => {
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const fields = ["", "Name", "Class Code", "Status", "Actions"];
+	const fields = ["", "Name", "Module Code", "Status", "Actions"];
 
 	const permissionStatus = {
 		pending: "warning",
@@ -153,7 +153,7 @@ const TeacherDashboard = () => {
 							<div className="card">
 								<div className="flex">
 									<h2 className="request-title">Recent Assignments</h2>
-									<Link to={`/auth/manager/suppliers`}>
+									<Link to={`/auth/teacher/assignments`}>
 										<button className="view-btn">View All</button>
 									</Link>
 								</div>
