@@ -15,33 +15,27 @@ const Login = () => {
 	const [user, setUser] = useState({
 		username: "",
 		password: "",
-		name: "",
 		email: "",
-		phone: "",
 	});
 
-	const registerUser = async (e) => {
+	const registerUser = async e => {
 		e.preventDefault();
 		setBtnState(true);
 		setError(false);
 		setSuccess(false);
 
 		try {
-			const res = await axios.post("suppliers", user);
+			const res = await axios.post("register", user);
 
 			if (res.statusText === "Created") {
 				setUser({
 					username: "",
 					password: "",
-					name: "",
 					email: "",
-					phone: "",
 				});
 
 				setBtnState(false);
-				return setSuccess(
-					"You are registered. We will let you about the approval. Thank you"
-				);
+				return setSuccess("You are registered. Thank you");
 			}
 		} catch (err) {
 			console.log(err.response);
@@ -53,35 +47,18 @@ const Login = () => {
 	return (
 		<>
 			<div className="login-container">
-				<img
-					src={LogoImage}
-					alt="logo-img"
-					className="logo"
-					data-aos="fade"
-					data-aos-delay="100"
-				/>
-				<h1
-					className="page-header login-header accent-header"
-					data-aos="zoom-out"
-				>
-					Supplier Registration
+				{/* <img src={LogoImage} alt="logo-img" className="logo" data-aos="fade" data-aos-delay="100" /> */}
+				<h1 className="page-header login-header accent-header" data-aos="zoom-out">
+					Registration
 				</h1>
 				<div
-					className={
-						window.innerWidth <= 1400
-							? "card login-card col-10"
-							: "card login-card col-7"
-					}
+					className={window.innerWidth <= 1400 ? "card login-card col-10" : "card login-card col-7"}
 					data-aos="fade-up"
 				>
 					<div>
 						<div className="row login-form-container">
 							<div className="col-6 login-img-container">
-								<img
-									src={RegisterImage}
-									alt="login-img"
-									data-aos="fade-right"
-								/>
+								<img src={RegisterImage} alt="login-img" data-aos="fade-right" />
 							</div>
 							<form className="col-6 login-form">
 								{success && (
@@ -98,93 +75,44 @@ const Login = () => {
 								{error && <Error message={error} />}
 								<div className="row">
 									<div className="col-12">
-										<div
-											className="row-user"
-											data-aos="fade-left"
-											data-aos-delay="100"
-										>
-											<input
-												type="text"
-												placeholder="Full Name"
-												required
-												autoComplete="off"
-												value={user.name}
-												onChange={(e) => {
-													setUser({ ...user, name: e.target.value });
-												}}
-											/>
-										</div>
-									</div>
-									<div className="col-12">
-										<div
-											className="row-user"
-											data-aos="fade-left"
-											data-aos-delay="100"
-										>
+										<div className="row-user" data-aos="fade-left" data-aos-delay="100">
 											<input
 												type="text"
 												placeholder="Username"
 												required
 												autoComplete="off"
 												value={user.username}
-												onChange={(e) => {
+												onChange={e => {
 													setUser({ ...user, username: e.target.value });
 												}}
 											/>
 										</div>
 									</div>
 									<div className="col-12">
-										<div
-											className="row-user"
-											data-aos="fade-left"
-											data-aos-delay="100"
-										>
+										<div className="row-user" data-aos="fade-left" data-aos-delay="100">
 											<input
 												type="password"
 												placeholder="Password"
 												required
 												autoComplete="off"
 												value={user.password}
-												onChange={(e) => {
+												onChange={e => {
 													setUser({ ...user, password: e.target.value });
 												}}
 											/>
 										</div>
 									</div>
 									<div className="col-12">
-										<div
-											className="row-user"
-											data-aos="fade-left"
-											data-aos-delay="100"
-										>
+										<div className="row-user" data-aos="fade-left" data-aos-delay="100">
 											<input
 												type="email"
 												placeholder="Email Address"
 												required
 												autoComplete="off"
 												value={user.email}
-												onChange={(e) => {
+												onChange={e => {
 													setUser({ ...user, email: e.target.value });
 												}}
-											/>
-										</div>
-									</div>
-									<div
-										className="col-12"
-										data-aos="fade-left"
-										data-aos-delay="200"
-									>
-										<div className="row-user">
-											<input
-												type="text"
-												placeholder="Phone Number"
-												autoComplete="off"
-												maxLength="10"
-												required
-												value={user.phone}
-												onChange={(e) =>
-													setUser({ ...user, phone: e.target.value })
-												}
 											/>
 										</div>
 									</div>

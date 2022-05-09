@@ -18,7 +18,7 @@ const Login = () => {
 	const [error, setError] = useState("");
 	const [user, setUser] = useState({ username: "", password: "" });
 
-	const loginUser = async (e) => {
+	const loginUser = async e => {
 		e.preventDefault();
 		setBtnState(true);
 		setError(false);
@@ -29,20 +29,17 @@ const Login = () => {
 		}
 
 		try {
-			const res = await axios.post("users/login", user);
+			const res = await axios.post("auth/login", user);
 			setUser({ username: "", password: "" });
 			setBtnState(false);
-			localStorage.setItem("name", res.data.user);
-
-			if (res.data.type === "sitemanager") {
-				localStorage.setItem("site", res.data.site);
-			}
+			localStorage.setItem("token", res.data?.user.access_token);
+			localStorage.setItem("username", res.data?.user.username);
 
 			await getLoggedIn();
-			history.push(`/auth/${res.data.type}/dashboard`);
+			history.push(`/auth/${res.data.user.user_type}/dashboard`);
 		} catch (err) {
 			console.log(err.response);
-			setError(err.response.data.message);
+			setError(err.response.data.err);
 			setBtnState(false);
 		}
 	};
@@ -50,25 +47,18 @@ const Login = () => {
 	return (
 		<>
 			<div className="login-container">
-				<img
+				{/* <img
 					src={LogoImage}
 					alt="logo-img"
 					className="logo"
 					data-aos="fade"
 					data-aos-delay="100"
-				/>
-				<h1
-					className="page-header login-header accent-header"
-					data-aos="zoom-out"
-				>
+				/> */}
+				<h1 className="page-header login-header accent-header" data-aos="zoom-out">
 					Welcome Back
 				</h1>
 				<div
-					className={
-						window.innerWidth <= 1400
-							? "card login-card col-10"
-							: "card login-card col-7"
-					}
+					className={window.innerWidth <= 1400 ? "card login-card col-10" : "card login-card col-7"}
 					data-aos="fade-up"
 				>
 					<div>
@@ -80,28 +70,20 @@ const Login = () => {
 								{error && <Error message={error} />}
 								<div className="row">
 									<div className="col-12">
-										<div
-											className="row-user"
-											data-aos="fade-left"
-											data-aos-delay="100"
-										>
+										<div className="row-user" data-aos="fade-left" data-aos-delay="100">
 											<input
 												type="text"
 												placeholder="Username"
 												required
 												autoComplete="off"
 												value={user.username}
-												onChange={(e) => {
+												onChange={e => {
 													setUser({ ...user, username: e.target.value });
 												}}
 											/>
 										</div>
 									</div>
-									<div
-										className="col-12"
-										data-aos="fade-left"
-										data-aos-delay="200"
-									>
+									<div className="col-12" data-aos="fade-left" data-aos-delay="200">
 										<div className="row-user">
 											<input
 												type="password"
@@ -109,18 +91,12 @@ const Login = () => {
 												autoComplete="off"
 												required
 												value={user.password}
-												onChange={(e) =>
-													setUser({ ...user, password: e.target.value })
-												}
+												onChange={e => setUser({ ...user, password: e.target.value })}
 											/>
 										</div>
 									</div>
 								</div>
-								<div
-									className="row-user"
-									data-aos="fade-left"
-									data-aos-delay="300"
-								>
+								<div className="row-user" data-aos="fade-left" data-aos-delay="300">
 									<button
 										type="submit"
 										className="width-full"
@@ -132,14 +108,14 @@ const Login = () => {
 								</div>
 								<div>
 									<p className="rest-pw-link">
-										Want to join in?
+										Want to explore more?
 										<Link
 											to={{
 												pathname: "/register",
 												state: { from: "admin" },
 											}}
 										>
-											&nbsp; Register as supplier
+											&nbsp; Register
 										</Link>
 									</p>
 								</div>

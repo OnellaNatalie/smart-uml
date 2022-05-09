@@ -12,7 +12,7 @@ const renderNotificationItem = (item, index) => (
 	</div>
 );
 
-const renderUserToggle = (user) => (
+const renderUserToggle = user => (
 	<div className="topnav__right-user">
 		<div className="topnav__right-user__image">
 			<img src={user.image} alt="" />
@@ -34,14 +34,12 @@ const TopNav = () => {
 	const notifications = [
 		{
 			icon: "bx bx-bar-chart-square",
-			content: `You have ${localStorage.getItem(
-				"notifications"
-			)} new pending orders`,
+			content: `You have ${localStorage.getItem("notifications")} new pending submissions`,
 		},
 	];
 
 	const curr_user = {
-		display_name: localStorage.getItem("name"),
+		display_name: localStorage.getItem("username"),
 	};
 
 	return (

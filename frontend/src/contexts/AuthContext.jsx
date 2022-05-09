@@ -9,8 +9,11 @@ const AuthContextProvider = ({ children }) => {
 
 	const getLoggedIn = async () => {
 		try {
-			const res = await axios.get("/users/logged");
-			setLoggedIn({ state: res.data.state, role: res.data.role });
+			const res = await axios.get("auth/user/logged", {
+				headers: { token: localStorage.getItem("token") },
+			});
+			console.log(res);
+			setLoggedIn({ state: res.data.user.logged, role: res.data.user.user_type });
 		} catch (err) {
 			console.error(err.message);
 		}

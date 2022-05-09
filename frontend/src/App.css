@@ -1,10 +1,6 @@
 #vehicle-info-card,
 .greeting-card {
-	background-image: linear-gradient(
-		to right,
-		var(--main-color-blue),
-		var(--second-color)
-	);
+	background-image: linear-gradient(to right, var(--main-color-blue), var(--second-color));
 	color: var(--txt-white);
 }
 
@@ -188,11 +184,7 @@ input::placeholder {
 	content: "";
 	width: 5rem;
 	height: 1.2rem;
-	background: linear-gradient(
-		to right,
-		var(--main-color-blue),
-		var(--second-color)
-	);
+	background: linear-gradient(to right, var(--main-color-blue), var(--second-color));
 	position: absolute;
 	bottom: 6%;
 	right: -5%;
@@ -315,7 +307,7 @@ input::placeholder {
 	color: var(--second-color-orange);
 }
 
-.S{
+.S {
 	color: var(--main-color-green);
 }
 .check {

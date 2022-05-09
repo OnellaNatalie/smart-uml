@@ -17,12 +17,12 @@ import status from "../helpers/greeting";
 
 import { AuthContext } from "../contexts/AuthContext";
 
-const AdminDashboard = () => {
+const TeacherDashboard = () => {
 	const [value, onChange] = useState(new Date());
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const fields = ["", "Name", "Email", "Username", "Status", "Actions"];
+	const fields = ["", "Name", "Class Code", "Status", "Actions"];
 
 	const permissionStatus = {
 		pending: "warning",
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 		rejected: "danger",
 	};
 
-	const deleteHandler = async (id) => {
+	const deleteHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/reject/${id}`);
 			if (res.statusText === "OK") {
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
 		}
 	};
 
-	const successHandler = async (id) => {
+	const successHandler = async id => {
 		try {
 			const res = await axios.patch(`/suppliers/approve/${id}`);
 			console.log(res);
@@ -66,16 +66,19 @@ const AdminDashboard = () => {
 		}
 	};
 
-	useEffect(() => getAllSuppliers(), []);
-
+	// useEffect(() => getAllSuppliers(), []);
+	const assignments = [
+		{ code: "A001", name: "CTSE Assignment", status: "pending" },
+		{ code: "A002", name: "CTSE Assignment", status: "pending" },
+		{ code: "A003", name: "CTSE Assignment", status: "pending" },
+	];
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
 			<td>{item.name}</td>
-			<td>{item.email}</td>
-			<td>{item.username}</td>
+			<td>{item.code}</td>
 			<td>
 				<Badge type={permissionStatus[item.status]} content={item.status} />
 			</td>
@@ -86,7 +89,7 @@ const AdminDashboard = () => {
 							<i
 								className="bx bx-check"
 								onClick={() => {
-									if (window.confirm("Are you sure to approve this request?")) {
+									if (window.confirm("Are you sure to end this assignment?")) {
 										successHandler(item._id);
 									}
 								}}
@@ -96,7 +99,7 @@ const AdminDashboard = () => {
 							<i
 								className="bx bx-x"
 								onClick={() => {
-									if (window.confirm("Are you sure to reject this request?")) {
+									if (window.confirm("Are you sure to remove this assignment?")) {
 										deleteHandler(item._id);
 									}
 								}}
@@ -120,18 +123,14 @@ const AdminDashboard = () => {
 								<div className="row">
 									<div className="col-8 flex-column">
 										<h1 className="page-header">{`Good ${status}!`}</h1>
-										<h3>Today you have 9 new notifications</h3>
-										<h3>Also new booking appointments for approval</h3>
+										<h3>Today you have 0 new notifications</h3>
+										<h3>Also new assignment submissions</h3>
 										<Link className="read-more" to={`/auth/manager/suppliers`}>
 											Read more <i className="bx bx-right-arrow-alt"></i>
 										</Link>
 									</div>
 									<div className="col-4">
-										<img
-											className="admin-greeting"
-											src={AdminGreeting}
-											alt=""
-										/>
+										<img className="admin-greeting" src={AdminGreeting} alt="" />
 									</div>
 								</div>
 							</div>
@@ -144,11 +143,7 @@ const AdminDashboard = () => {
 								>
 									Calender
 								</h2>
-								<Calendar
-									className="calender"
-									onChange={onChange}
-									value={value}
-								/>
+								<Calendar className="calender" onChange={onChange} value={value} />
 							</div>
 						</div>
 					</div>
@@ -156,19 +151,19 @@ const AdminDashboard = () => {
 						<div className="col-8">
 							<div className="card">
 								<div className="flex">
-									<h2 className="request-title">Registered Suppliers</h2>
+									<h2 className="request-title">Recent Assignments</h2>
 									<Link to={`/auth/manager/suppliers`}>
 										<button className="view-btn">View All</button>
 									</Link>
 								</div>
-								{isLoading ? (
+								{false ? (
 									<Spinner />
 								) : (
 									<Table
 										limit="5"
 										headData={fields}
 										renderHead={(item, index) => renderOrderHead(item, index)}
-										bodyData={suppliers}
+										bodyData={assignments}
 										renderBody={(item, index) => renderOrderBody(item, index)}
 									/>
 								)}
@@ -178,15 +173,11 @@ const AdminDashboard = () => {
 							<div className="card">
 								<div className="row">
 									<div className="col-4 full-width-1496">
-										<img
-											src={profilePicture}
-											alt=""
-											className="profile-picture"
-										/>
+										<img src={profilePicture} alt="" className="profile-picture" />
 									</div>
 									<div className="col-8">
-										<h2>{localStorage.getItem("name")}</h2>
-										<h3 className="lighter">MANAGER</h3>
+										<h2>{localStorage.getItem("username")}</h2>
+										<h3 className="lighter">TEACHER</h3>
 									</div>
 								</div>
 							</div>
@@ -198,4 +189,4 @@ const AdminDashboard = () => {
 	);
 };
 
-export default AdminDashboard;
+export default TeacherDashboard;
