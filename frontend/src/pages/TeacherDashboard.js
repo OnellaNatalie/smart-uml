@@ -120,7 +120,7 @@ const TeacherDashboard = () => {
 								<div className="row">
 									<div className="col-8 flex-column">
 										<h1 className="page-header">{`Good ${status}!`}</h1>
-										<h3>Today you have 9 new notifications</h3>
+										<h3>Today you have 0 new notifications</h3>
 										<h3>Also new assignment submissions</h3>
 										<Link className="read-more" to={`/auth/manager/suppliers`}>
 											Read more <i className="bx bx-right-arrow-alt"></i>
