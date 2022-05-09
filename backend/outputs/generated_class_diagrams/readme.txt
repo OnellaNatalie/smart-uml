@@ -1,0 +1,1 @@
+Generated class diagrams will be stored here.
