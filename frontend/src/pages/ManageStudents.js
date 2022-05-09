@@ -21,6 +21,15 @@ const ManageStudents = () => {
 		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
 		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
 		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
+		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
 	];
 
 	const deleteHandler = async id => {
@@ -87,7 +96,7 @@ const ManageStudents = () => {
 									<Spinner />
 								) : (
 									<Table
-										limit="5"
+										limit="8"
 										headData={fields}
 										renderHead={(item, index) => renderOrderHead(item, index)}
 										bodyData={students}
