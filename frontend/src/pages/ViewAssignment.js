@@ -1,12 +1,11 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import Table from "../components/table/Table";
 import Badge from "../components/badge/Badge";
 import Spinner from "../components/loading/Spinner";
-import { MdDelete } from "react-icons/md";
-import { VscReport } from "react-icons/vsc";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Popup from "./Popup";
 
@@ -18,22 +17,22 @@ const ViewAssignment = () => {
 			email: "email@gmail.com",
 			submittedAt: "2022-04-05",
 			submission: "IT1912192.png",
-			plagiarismPercentage: "10%",
-			CorrectnessPercentage: "70%",
+			plagiarismPercentage: 40,
+			CorrectnessPercentage: 70,
 		},
 		{
 			email: "email@gmail.com",
 			submittedAt: "2022-04-05",
 			submission: "IT1912192.png",
-			plagiarismPercentage: "10%",
-			CorrectnessPercentage: "70%",
+			plagiarismPercentage: 10,
+			CorrectnessPercentage: 70,
 		},
 		{
 			email: "email@gmail.com",
 			submittedAt: "2022-04-05",
 			submission: "IT1912192.png",
-			plagiarismPercentage: "10%",
-			CorrectnessPercentage: "70%",
+			plagiarismPercentage: 30,
+			CorrectnessPercentage: 70,
 		},
 	];
 	const fields = [
@@ -45,6 +44,11 @@ const ViewAssignment = () => {
 		"Submitted At",
 		"Action",
 	];
+	const permissionStatus = {
+		pending: "warning",
+		approved: "success",
+		rejected: "danger",
+	};
 	const [OrderDetail, setOrderDetail] = useState([]);
 	const [Loading, setLoading] = useState(false);
 	const [Trigger, setTrigger] = useState(false);
@@ -109,16 +113,22 @@ const ViewAssignment = () => {
 			<td>{index + 1}</td>
 			<td>{item.email}</td>
 			<td>{item.submission}</td>
-			<td>{item.plagiarismPercentage}</td>
-			<td>{item.CorrectnessPercentage}</td>
+			<td>
+				{item.plagiarismPercentage >= 20 ? (
+					<Badge type={permissionStatus.rejected} content={item.plagiarismPercentage + "%"} />
+				) : (
+					<Badge type={permissionStatus.approved} content={item.plagiarismPercentage + "%"} />
+				)}
+			</td>
+			<td>{item.CorrectnessPercentage + "%"}</td>
 			<td>{item.submittedAt}</td>
 			<td>
-				<>
+				<div style={{ display: "flex", alignItems: "center" }}>
 					<button className="action-btn check">
 						<i
 							className="bx bx-check"
 							onClick={() => {
-								if (window.confirm("Are you sure to end this assignment?")) {
+								if (window.confirm("Are you sure to accept this submission?")) {
 									// successHandler(item._id);
 								}
 							}}
@@ -126,31 +136,19 @@ const ViewAssignment = () => {
 					</button>
 					<button
 						className="action-btn x"
+						style={{ marginRight: "2rem" }}
 						onClick={() => {
-							if (window.confirm("Are you sure to remove this assignment?")) {
+							if (window.confirm("Are you sure to remove this submission?")) {
 								deleteHandler(item._id);
 							}
 						}}
 					>
 						<RiDeleteBinLine />
 					</button>
-				</>
-			</td>
-			<td>
-				{item.DeliveryStatus === "submitted" ? (
-					<div
-						onClick={() => {
-							setName("GoodsReceipt");
-							setId(item._id);
-							setItemName(item.itemName);
-							setTrigger(true);
-						}}
-					>
-						<Badge type="normal" content="view" />
-					</div>
-				) : (
-					""
-				)}
+					<Link to={``}>
+						<button className="view-btn">View</button>
+					</Link>
+				</div>
 			</td>
 		</tr>
 	);
@@ -161,14 +159,10 @@ const ViewAssignment = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">CTSE Module Assignments</h1>
+					<h1 className="page-header">CTSE Assignment 01</h1>
 					<div className="row">
 						<div className="col-12">
 							<div className="card">
-								<div className="flex">
-									<h2 className="request-title">Asignment 01</h2>
-								</div>
-								<br />
 								<h3>Analyze the case study given below and draw a usecase diagram.</h3>
 								<br />
 								<p>
