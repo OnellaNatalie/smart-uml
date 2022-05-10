@@ -163,7 +163,18 @@ const ViewAssignment = () => {
 					<div className="row">
 						<div className="col-12">
 							<div className="card">
-								<h3>Analyze the case study given below and draw a usecase diagram.</h3>
+								<div className="row">
+									<div className="col-10">
+										<h3>
+											Analyze the case study given below and draw a usecase and class diagram.
+										</h3>
+									</div>
+									<div className="col-1">
+										<Link to={`/auth/teacher/assignments/1/diagrams`}>
+											<button className="view-btn">View Generated Diagrams</button>
+										</Link>
+									</div>
+								</div>
 								<br />
 								<p>
 									“GlamourFashions (GF)” is a clothing store situated in Colombo and it’s planning
