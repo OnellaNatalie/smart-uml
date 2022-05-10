@@ -1,0 +1,12 @@
+User should be able to login to the system.
+User should be able to check the home page.
+User should be able to play the site demo video.
+User should be able to add items to the cart.
+User should be able to payment the item.
+User should be able to give a feedback for the system.
+User should be able to check the seller details in about us.
+User should be able to contact the seller to request more items.
+Admin should be able to login to the system.
+Admin should be able to view and manage cart items.
+Admin should be able to check the payments and sold items.
+Admin should be able to reply to user feedbacks.
