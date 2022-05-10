@@ -16,7 +16,7 @@ const ManageStudents = () => {
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const fields = ["", "Username", "Email", "Class", "Registered At", "Actions"];
+	const fields = ["", "Username", "Email", "Class", "Enrolled At", "Actions"];
 	const students = [
 		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
 		{ username: "IT19074343", email: "email@gmail.com", registeredAt: "2022-04-05", class: "A001" },
@@ -87,7 +87,22 @@ const ManageStudents = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">Manage Students</h1>
+					<div className="row">
+						<div className="col-8">
+							<h1 className="page-header">Manage Students</h1>
+						</div>
+						<div className="col-4">
+							<div className="row-user">
+								<select name="position" id="position" required>
+									<option value="position" defaultValue>
+										FILTER STUDENTS BY MODULE
+									</option>
+									<option value="class">Module A</option>
+									<option value="class">Module B</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div className="row"></div>
 					<div className="row">
 						<div className="col-12">
