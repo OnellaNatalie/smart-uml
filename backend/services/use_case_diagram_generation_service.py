@@ -43,6 +43,7 @@ def get_include_extend_relationships(splitted_actions_array):
             continue
         relationship_array.append(dictionary)
     return relationship_array
+
 def clean_use_case_strings(use_case):
     if 'Extend' in use_case:
         return use_case.replace('Extend','').lstrip(' ')
