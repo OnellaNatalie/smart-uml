@@ -45,7 +45,7 @@ const ManageAssignments = () => {
 			<td>
 				<div style={{ display: "flex", alignItems: "center" }}>
 					<Link to={`/auth/teacher/assignments/1`}>
-						<button className="view-btn">View All</button>
+						<button className="view-btn">View</button>
 					</Link>
 					<button className="action-btn check" style={{ marginLeft: "2rem" }}>
 						<i className="bx bx-edit-alt"></i>
