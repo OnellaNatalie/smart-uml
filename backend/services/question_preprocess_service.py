@@ -35,6 +35,8 @@ def main(filepath):
 
     # sentence splitting
     sentences = list(doc.sents)
+    sentences.pop(0)
+    del sentences[-1]
     nc = []
     cleaned_extracted_actions = []
     cleaned_sentences = []
