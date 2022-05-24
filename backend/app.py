@@ -46,7 +46,7 @@ def index():
     return 'UML Diagram Plagiarism Detection Tool API'
 
 
-@app.route('/api/v1/process-uml-diagrams-inputs', methods=['POST'])
+@app.route('/api/v1/diagrams/generate', methods=['POST'])
 def process_uml_diagrams():
     try:
         if request.method == 'POST':
