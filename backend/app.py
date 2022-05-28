@@ -50,18 +50,18 @@ def index():
 def process_uml_diagrams():
     try:
         if request.method == 'POST':
-            if request.files['scenarioFile']:
-                file = request.files['scenarioFile']
-                file.save(os.path.join(app.config['UML_GENERATOR_UPLOAD_FOLDER'], secure_filename(file.filename)))
-                # generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-                #     file.filename)
-                # return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                #                generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+            data = request.get_json(silent=True)
 
-                generated_usecase_diagram_path = services.question_preprocess_service.main(
-                    file.filename)
-                return jsonify(generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
-            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+            if data is None:
+                return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+
+            # generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
+            #     file.filename)
+            # return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+            #                generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+            generated_usecase_diagram_path = services.question_preprocess_service.main(data['scenario'])
+            return jsonify(generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:
             return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
