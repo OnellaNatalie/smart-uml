@@ -26,9 +26,8 @@ def remove_punctuation(sentence):
 
 
 # load the text file
-def main(filepath):
-    with open(UPLOADS_FOLDER_PATH + "/" + filepath, "r", errors='ignore') as f:
-        requirement_text = f.read().replace("\n\n", " ").replace("\n", " ")
+def main(scenario):
+    requirement_text = scenario.replace("\n\n", " ").replace("\n", " ")
     nlp = spacy.load("en_core_web_lg")
 
     doc = nlp(requirement_text)
