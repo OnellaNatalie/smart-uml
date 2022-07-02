@@ -12,7 +12,6 @@ import services.question_preprocess_service
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-UPLOADS_FOLDER_PATH = os.path.join(APP_ROOT, 'uploads')
 OUTPUTS_GENERATED_DOT_FILES_PATH = os.path.join('outputs', 'generated_dot_files')
 OUTPUTS_GENERATED_USE_CASE_DIAGRAMS_PATH = os.path.join('outputs', 'generated_use_case_diagrams')
 OUTPUTS_GENERATED_CLASS_DIAGRAMS_PATH = os.path.join('outputs', 'generated_class_diagrams')
@@ -55,12 +54,10 @@ def process_uml_diagrams():
             if data is None:
                 return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
 
-            # generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-            #     file.filename)
-            # return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-            #                generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
-            generated_usecase_diagram_path = services.question_preprocess_service.main(data['scenario'])
-            return jsonify(generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+            generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
+                data['scenario'])
+            return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+                           generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
 
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:
