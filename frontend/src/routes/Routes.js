@@ -18,8 +18,10 @@ import OfficerDashboard from "../pages/OfficerDashboard";
 import OfficerOrders from "../pages/OfficerOrders";
 import Register from "../pages/Register";
 import SiteManagerDashboard from "../pages/SiteManagerDashboard";
-import SiteManagerForm from "../pages/SiteManagerForm";
+import StudentSubjectAssingment from "../pages/StudentSubjectAssingment";
+import ViewAssignment from "../pages/ViewAssignment";
 import StudentDashboard from "../pages/StudentDashboard";
+import GeneratedDiagrams from "../pages/GeneratedDiagrams";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -38,12 +40,14 @@ const Routes = () => {
 			<Route exact path="/auth/teacher/students" component={ManageStudents} />
 			<Route exact path="/auth/teacher/modules" component={ManageClasses} />
 			<Route exact path="/auth/teacher/assignments" component={ManageAssignments} />
+			<Route exact path="/auth/teacher/assignments/:id" component={ViewAssignment} />
+			<Route exact path="/auth/teacher/assignments/:id/diagrams" component={GeneratedDiagrams} />
 
 			<Route exact path="/auth/student/dashboard" component={StudentDashboard} />
 			<Route exact path="/auth/student/modules" component={SubjectsStudent} />
 			<Route exact path="/auth/student/services" component={ManageServices} />
 
-			<Route exact path="/auth/sitemanager/requisitions" component={SiteManagerForm} />
+			<Route exact path="/auth/student/assignment" component={StudentSubjectAssingment} />
 		</Switch>
 	);
 };

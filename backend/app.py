@@ -12,7 +12,6 @@ import services.question_preprocess_service
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-UPLOADS_FOLDER_PATH = os.path.join(APP_ROOT, 'uploads')
 OUTPUTS_GENERATED_DOT_FILES_PATH = os.path.join('outputs', 'generated_dot_files')
 OUTPUTS_GENERATED_USE_CASE_DIAGRAMS_PATH = os.path.join('outputs', 'generated_use_case_diagrams')
 OUTPUTS_GENERATED_CLASS_DIAGRAMS_PATH = os.path.join('outputs', 'generated_class_diagrams')
@@ -46,22 +45,20 @@ def index():
     return 'UML Diagram Plagiarism Detection Tool API'
 
 
-@app.route('/api/v1/process-uml-diagrams-inputs', methods=['POST'])
+@app.route('/api/v1/diagrams/generate', methods=['POST'])
 def process_uml_diagrams():
     try:
         if request.method == 'POST':
-            if request.files['scenarioFile']:
-                file = request.files['scenarioFile']
-                file.save(os.path.join(app.config['UML_GENERATOR_UPLOAD_FOLDER'], secure_filename(file.filename)))
-                # generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-                #     file.filename)
-                # return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                #                generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+            data = request.get_json(silent=True)
 
-                generated_usecase_diagram_path = services.question_preprocess_service.main(
-                    file.filename)
-                return jsonify(generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
-            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+            if data is None:
+                return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+
+            generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
+                data['scenario'])
+            return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+                           generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:
             return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
