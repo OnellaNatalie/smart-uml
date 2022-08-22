@@ -3,11 +3,11 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import BadRequestKeyError
-from werkzeug.utils import secure_filename
 from config.database import db
 from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK, \
     HTTP_400_BAD_REQUEST
 from routes.auth_routes import auth
+from routes.module_routes import module
 import services.question_preprocess_service
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -33,6 +33,7 @@ db.init_app(app)
 JWTManager(app)
 
 app.register_blueprint(auth)
+app.register_blueprint(module)
 
 
 @app.before_first_request
