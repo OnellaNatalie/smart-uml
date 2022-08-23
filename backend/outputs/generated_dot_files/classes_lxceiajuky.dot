@@ -1,0 +1,6 @@
+digraph "classes_lxceiajuky" {
+rankdir=BT
+charset="utf-8"
+"lxceiajuky.Admin" [color="black", fontcolor="black", label="{Admin|\l|modify_the_minimum_fix_mileage_configuration_for_a_job()\lmodify_the_unloading_charge()\l}", shape="record", style="solid"];
+"lxceiajuky.WarehouseOperator" [color="black", fontcolor="black", label="{WarehouseOperator|\l|allocate_a_vehicle_for_a_job()\lchange_the_system_suggested_optimized_route_if_required()\lconfirm_a_job()\lcreate_orders_by_uploading_a_csv_file()\lmake_adjustments_to_the_order()\l}", shape="record", style="solid"];
+}
