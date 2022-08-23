@@ -8,6 +8,7 @@ from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_IN
     HTTP_400_BAD_REQUEST
 from routes.auth_routes import auth
 from routes.module_routes import module
+from routes.assignment_routes import assignment
 import services.question_preprocess_service
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +35,7 @@ JWTManager(app)
 
 app.register_blueprint(auth)
 app.register_blueprint(module)
+app.register_blueprint(assignment)
 
 
 @app.before_first_request
