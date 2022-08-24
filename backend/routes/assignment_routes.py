@@ -1,8 +1,6 @@
-import json
-
 import requests
 from flask import Blueprint, jsonify, request
-from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED
+from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
 from config.database import db
 from datetime import datetime
 from models.assignment_model import Assignment
@@ -21,16 +19,17 @@ def create_assignment():
     if not content or not module_id or not plagiarism_percentage or not start_at or not end_at:
         return jsonify({'err': 'Missing assignment details'}), HTTP_400_BAD_REQUEST
 
-    response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate", json={"scenario": content})
+    assignment_obj = Assignment(content=content,
+                                module_id=module_id,
+                                plagiarism_percentage=plagiarism_percentage,
+                                start_at=start_at,
+                                end_at=end_at)
+    db.session.add(assignment_obj)
+    db.session.commit()
+
+    response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate", json={"scenario": content, "assignment_id": assignment_obj.id})
 
     if response.ok:
-        assignment_obj = Assignment(content=content, module_id=module_id,
-                                    plagiarism_percentage=plagiarism_percentage,
-                                    start_at=start_at,
-                                    end_at=end_at)
-        db.session.add(assignment_obj)
-        db.session.commit()
-
         return jsonify({'msg': 'Assignment created', 'assignment': {
             'id': assignment_obj.id,
             'content': assignment_obj.content,
@@ -41,7 +40,10 @@ def create_assignment():
             'diagrams': response.json()
         }}), HTTP_201_CREATED
     else:
-        return jsonify({'err': 'Something went wrong'}), HTTP_400_BAD_REQUEST
+        assignment_obj = Assignment.query.filter_by(id=assignment_obj.id).first()
+        db.session.delete(assignment_obj)
+        db.commit()
+        return jsonify({'err': 'Something went wrong while generating model answers'}), HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @assignment.get('/<assignment_id>')
