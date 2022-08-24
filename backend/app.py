@@ -1,15 +1,15 @@
 import os
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from werkzeug.exceptions import BadRequestKeyError
+
 from config.database import db
-from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK, \
-    HTTP_400_BAD_REQUEST
+from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
+import services.question_preprocess_service
 from routes.auth_routes import auth
 from routes.module_routes import module
 from routes.assignment_routes import assignment
-import services.question_preprocess_service
+from routes.diagram_routes import diagram
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,7 +20,7 @@ OUTPUTS_GENERATED_CLASS_FILES_PATH = os.path.join('outputs', 'generated_class_fi
 OUTPUTS_FOLDER = os.path.join(APP_ROOT, 'outputs')
 UML_GENERATOR_UPLOAD_FOLDER = os.path.join(APP_ROOT, 'uploads')
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='outputs')
 CORS(app)
 
 app.config.from_mapping(SECRET_KEY=os.environ.get('SECRET_KEY'),
@@ -36,6 +36,7 @@ JWTManager(app)
 app.register_blueprint(auth)
 app.register_blueprint(module)
 app.register_blueprint(assignment)
+app.register_blueprint(diagram)
 
 
 @app.before_first_request
@@ -46,32 +47,6 @@ def create_tables():
 @app.get('/api/v1/')
 def index():
     return 'UML Diagram Plagiarism Detection Tool API'
-
-
-@app.route('/api/v1/diagrams/generate', methods=['POST'])
-def process_uml_diagrams():
-    try:
-        if request.method == 'POST':
-            print(request.data)
-            data = request.get_json(silent=True)
-
-            if data is None:
-                return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
-
-            generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-                data['scenario'])
-            return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                           generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
-
-    except Exception or BadRequestKeyError:
-        if BadRequestKeyError:
-            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
-        return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
-
-
-@app.route('/api/v1/view-diagram/<path:path>')
-def send_js(path):
-    return send_from_directory(OUTPUTS_FOLDER, path), HTTP_200_OK
 
 
 @app.errorhandler(HTTP_404_NOT_FOUND)
