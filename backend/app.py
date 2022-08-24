@@ -52,6 +52,7 @@ def index():
 def process_uml_diagrams():
     try:
         if request.method == 'POST':
+            print(request.data)
             data = request.get_json(silent=True)
 
             if data is None:

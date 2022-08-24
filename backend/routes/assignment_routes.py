@@ -1,3 +1,6 @@
+import json
+
+import requests
 from flask import Blueprint, jsonify, request
 from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 from config.database import db
@@ -18,21 +21,27 @@ def create_assignment():
     if not content or not module_id or not plagiarism_percentage or not start_at or not end_at:
         return jsonify({'err': 'Missing assignment details'}), HTTP_400_BAD_REQUEST
 
-    assignment_obj = Assignment(content=content, module_id=module_id,
-                                plagiarism_percentage=plagiarism_percentage,
-                                start_at=start_at,
-                                end_at=end_at)
-    db.session.add(assignment_obj)
-    db.session.commit()
+    response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate", json={"scenario": content})
 
-    return jsonify({'msg': 'Assignment created', 'assignment': {
-        'id': assignment_obj.id,
-        'content': assignment_obj.content,
-        'module_id': assignment_obj.module_id,
-        'plagiarism_percentage': assignment_obj.plagiarism_percentage,
-        'start_at': assignment_obj.start_at,
-        'end_at': assignment_obj.end_at,
-    }}), HTTP_201_CREATED
+    if response.ok:
+        assignment_obj = Assignment(content=content, module_id=module_id,
+                                    plagiarism_percentage=plagiarism_percentage,
+                                    start_at=start_at,
+                                    end_at=end_at)
+        db.session.add(assignment_obj)
+        db.session.commit()
+
+        return jsonify({'msg': 'Assignment created', 'assignment': {
+            'id': assignment_obj.id,
+            'content': assignment_obj.content,
+            'module_id': assignment_obj.module_id,
+            'plagiarism_percentage': assignment_obj.plagiarism_percentage,
+            'start_at': assignment_obj.start_at,
+            'end_at': assignment_obj.end_at,
+            'diagrams': response.json()
+        }}), HTTP_201_CREATED
+    else:
+        return jsonify({'err': 'Something went wrong'}), HTTP_400_BAD_REQUEST
 
 
 @assignment.get('/<assignment_id>')
