@@ -1,7 +1,5 @@
 from flask import request, jsonify, send_from_directory, Blueprint
 from werkzeug.exceptions import BadRequestKeyError
-
-import app
 from app import *
 from config.database import db
 from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_200_OK, \
