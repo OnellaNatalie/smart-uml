@@ -10,6 +10,7 @@ from routes.auth_routes import auth
 from routes.module_routes import module
 from routes.assignment_routes import assignment
 from routes.diagram_routes import diagram
+from routes.submission_routes import submissions
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,6 +38,7 @@ app.register_blueprint(auth)
 app.register_blueprint(module)
 app.register_blueprint(assignment)
 app.register_blueprint(diagram)
+app.register_blueprint(submissions)
 
 
 @app.before_first_request

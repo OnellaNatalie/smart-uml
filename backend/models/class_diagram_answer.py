@@ -4,7 +4,7 @@ from models.assignment import Assignment
 from models.user_model import User
 
 
-class UseCaseAnswer(db.Model):
+class ClassAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(User, nullable=False)
     assignment = db.Column(Assignment, nullable=False)
