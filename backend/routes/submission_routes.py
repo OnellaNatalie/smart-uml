@@ -1,14 +1,15 @@
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from requests import post
 
 from constants.http_status_codes_constant import HTTP_400_BAD_REQUEST
 from models.user_model import User
 from services.submission_service import save_submission
 
-submissions = Blueprint('diagrams', __name__, url_prefix='/api/v1/submission')
+# submissions = Blueprint('diagrams', __name__, url_prefix='/api/v1/submission')
 
 
-@submissions.post('/submission')
+@post('api/v1/submission')
 @jwt_required()
 def submission():
     user_id = get_jwt_identity()
