@@ -1,30 +1,30 @@
+import json
+
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from requests import post
-
-from constants.http_status_codes_constant import HTTP_400_BAD_REQUEST
-from models.user_model import User
+from constants.http_status_codes_constant import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from services.submission_service import save_submission
+submission = Blueprint('submissions', __name__, url_prefix='/api/v1/submissions')
 
-# submissions = Blueprint('diagrams', __name__, url_prefix='/api/v1/submission')
 
-
-@post('api/v1/submission')
+@submission.post('/upload')
 @jwt_required()
-def submission():
+def upload_submission():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first()
 
-    submission_type = request.json.get('type', '')
-    assignment_id = request.json.get('id', '')
-    comment = request.json.get('comment', '')
     image = request.files['file']
+    json_data = json.loads(request.form['data'])
+    submission_type = json_data['type']
+    assignment_id = json_data['id']
+    comment = json_data['comment']
 
     if submission_type is None or image is None or assignment_id is None:
         return jsonify({'err': 'invalid request '}), HTTP_400_BAD_REQUEST
     elif submission_type == 'use case':
-        save_submission(assignment_id, image, submission_type, comment, user)
+        save_submission(assignment_id, image, submission_type, comment, user_id)
+        return HTTP_200_OK
     elif submission_type == 'class':
-        save_submission(assignment_id, image, submission_type, comment, user)
+        save_submission(assignment_id, image, submission_type, comment, user_id)
+        return HTTP_200_OK
     else:
         return jsonify({'err': 'invalid request '}), HTTP_400_BAD_REQUEST
