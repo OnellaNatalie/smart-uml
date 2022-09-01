@@ -2,7 +2,7 @@ from datetime import datetime
 from config.database import db
 
 
-class UseCaseAnswer(db.Model):
+class ClassAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.Integer, nullable=False)
     assignment = db.Column(db.Integer, nullable=False)
@@ -13,4 +13,4 @@ class UseCaseAnswer(db.Model):
     file_name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self) -> str:
-        return 'UseCaseAnswer>>> {self.code}'
+        return 'ClassAnswer>>> {self.content}'
