@@ -1,0 +1,14 @@
+item {
+    id: 1
+    name: 'class_attributes'
+}
+
+item {
+    id: 2
+    name: 'class_methods'
+}
+
+item {
+    id: 3
+    name: 'class_name'
+}
