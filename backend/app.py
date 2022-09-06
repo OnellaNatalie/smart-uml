@@ -23,6 +23,8 @@ UML_GENERATOR_UPLOAD_FOLDER = os.path.join(APP_ROOT, 'uploads')
 SUBMISSION_PATH = os.path.join(APP_ROOT, 'submissions/use_case')
 USE_CASE_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/model')
 USE_CASE_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/label')
+CLASS_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/model')
+CLASS_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/label')
 app = Flask(__name__, static_folder='outputs')
 CORS(app)
 
