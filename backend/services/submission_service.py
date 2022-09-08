@@ -16,7 +16,7 @@ def save_submission(assignment_id, image, submission_type, comment, user_id):
         db.session.commit()
         return use_case_obj
     else:
-        image.save(os.path.join(app.SUBMISSION_PATH, image.filename))
+        image.save(os.path.join(app.SUBMISSION_PATH_CLASS, image.filename))
         class_obj = ClassAnswer(user=user_id, assignment=assignment_id, file_name=image.filename,
                                 comments=comment)
         db.session.add(class_obj)
