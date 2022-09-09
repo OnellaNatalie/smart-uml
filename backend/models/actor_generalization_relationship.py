@@ -6,8 +6,8 @@ class ActorGeneralizationRelationship(db.Model):
     use_case_answer = db.Column(db.Integer, nullable=False)
     connected_component_01 = db.Column(db.Integer, nullable=False)
     connected_component_02 = db.Column(db.Integer, nullable=False)
-    plagiarism_count = db.Column(db.String(50), nullable=False)
-    correctness_count = db.Column(db.String(50), nullable=False)
+    plagiarism_count = db.Column(db.String(50))
+    correctness_count = db.Column(db.String(50))
 
     def __repr__(self) -> str:
         return 'ActorGeneralizationRelationship>>> {self.content}'
