@@ -12,10 +12,10 @@ import app
 import tensorflow as tf
 
 from config.database import db
-from models.actor import Actor
-from models.use_case import UseCase
+from models.actor_and_use_case import ActorANDUseCase
 
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
+from services.generalization_relationship_detection_service import detect_relationships
 
 
 def model_object_detection(filename, use_case_id):
@@ -42,6 +42,7 @@ def model_object_detection(filename, use_case_id):
     class_id = operator.itemgetter(*accurate_indexes)(detections['detection_classes'])
     boxes = detections['detection_boxes']
     text_extraction(filename, class_id, boxes, accurate_indexes, category_index, use_case_id)
+    detect_relationships(filename, boxes, accurate_indexes, use_case_id)
 
 
 def text_extraction(filename, class_id, boxes, accurate_indexes, category_index, use_case_id):
@@ -69,12 +70,14 @@ def text_extraction(filename, class_id, boxes, accurate_indexes, category_index,
             text = re.sub("=|,", "", result)
 
             if category_index[class_id[i]]['name'] == 'actor':
-                actor_obj = Actor(use_case_answer=use_case_id, text=text, x_min=xmin, y_min=ymin, x_max=xmax,
-                                  y_max=ymax)
+                actor_obj = ActorANDUseCase(use_case_answer=use_case_id, type='actor', text=text, x_min=xmin,
+                                            y_min=ymin, x_max=xmax,
+                                            y_max=ymax)
                 db.session.add(actor_obj)
                 db.session.commit()
             else:
-                use_case_obj = UseCase(use_case_answer=use_case_id, text=text, x_min=xmin, y_min=ymin, x_max=xmax,
-                                       y_max=ymax)
+                use_case_obj = ActorANDUseCase(use_case_answer=use_case_id, type='use case', text=text, x_min=xmin,
+                                               y_min=ymin, x_max=xmax,
+                                               y_max=ymax)
                 db.session.add(use_case_obj)
                 db.session.commit()
