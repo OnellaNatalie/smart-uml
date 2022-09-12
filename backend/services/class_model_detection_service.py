@@ -5,13 +5,17 @@ import cv2
 import numpy as np
 import pytesseract as ts
 from PIL import Image
-
+from models.attribute import Attribute
 from object_detection.utils import label_map_util
 
 import app
 import tensorflow as tf
+import spacy
 
 from config.database import db
+from models.method import Method
+
+nlp = spacy.load('en_core_web_sm')
 
 
 def class_object_detection(model_path, label_path, image_path):
@@ -52,7 +56,7 @@ def component_separation(filename, class_comp_id):
         for index in range(0, len(accurate_indexes)):
 
             if category_index[class_id[index]]['name'] == 'class' or category_index[class_id]['name'] == 'interface':
-                class_details_detection(filename, boxes, index)
+                class_details_detection(filename, boxes, index, class_comp_id)
 
 
 def crop_and_image_resolution(path, boxes, index):
@@ -65,28 +69,8 @@ def crop_and_image_resolution(path, boxes, index):
     xmax = boxes[index][3] * width
 
     cropped_image = image[int(ymin):int(ymax), int(xmin):int(xmax)]
-    image = cv2.imwrite('image.jpg' + index, cropped_image)
-    # convert values to int
-    black = (0, 0, 0)
-    white = (255, 255, 255)
-    threshold = (160, 160, 160)
-
-    # Open input image in grayscale mode and get its pixels.
-    img = Image.open("image.jpg").convert("LA")
-    pixels = img.getdata()
-
-    new_pixels = []
-
-    # Compare each pixel
-    for pixel in pixels:
-        if pixel < threshold:
-            new_pixels.append(black)
-        else:
-            new_pixels.append(white)
-
-    # Create and save new image.
-    new_img = Image.new("RGB", img.size)
-    new_img.putdata(new_pixels)
+    image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (800, 500))
 
     return image
 
@@ -94,10 +78,13 @@ def crop_and_image_resolution(path, boxes, index):
 def text_extraction(image):
     config = ('-l eng --oem 1 --psm 4')
     text = ts.image_to_string(image, config=config)
+    text = text.splitlines()
+    text = [x.strip(' ') for x in text]
+    text = list(filter(None, text))
     return text
 
 
-def class_details_detection(filename, boxes, index):
+def class_details_detection(filename, boxes, index, class_comp_id):
     _image = crop_and_image_resolution(filename, boxes, index)
     cv2.imwrite(app.SUBMISSION_PATH_CLASS + '/' + "class" + str(index), _image)
     mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
@@ -106,11 +93,51 @@ def class_details_detection(filename, boxes, index):
     boxes_class, num_entities, accurate_indexes, num_entities, category_index, class_id = class_object_detection(
         mdl2_path, lbl2_path, img2_path)
 
-    for j in range(0, len(accurate_indexes)):
-        if category_index[class_id[j]]['name'] == 'class_attributes':
-            class_attributes = crop_and_image_resolution(img2_path, boxes_class, j)
-            text_extraction(class_attributes)
-        elif category_index[class_id[j]]['name'] == 'class_methods':
-            class_methods = crop_and_image_resolution(img2_path, boxes_class, j)
-            text_extraction(class_methods)
-        
+    if num_entities > 1:
+        for j in range(0, len(accurate_indexes)):
+            if category_index[class_id[j]]['name'] == 'class_attributes':
+                class_attributes = crop_and_image_resolution(img2_path, boxes_class, j)
+                text = text_extraction(class_attributes)
+                save_attribute_method(text, 'attribute')
+            elif category_index[class_id[j]]['name'] == 'class_methods':
+                class_methods = crop_and_image_resolution(img2_path, boxes_class, j)
+                text = text_extraction(class_methods)
+                save_attribute_method(text, 'method')
+
+
+def save_attribute_method(text, typ):
+    for element in text:
+        access = covert_to_access_specifier(element)
+        removable = str.maketrans('', '', '()')
+        nlp_output = list(filter(None, nlp(element.translate(removable))))
+        for token in nlp_output:
+            if token.text == ':':
+                previous_index = nlp_output.index(token) - 1
+                next_index = nlp_output.index(token) + 1
+                if typ == 'attribute':
+                    attribute = Attribute(data_type=nlp_output[next_index], name=nlp_output[previous_index],
+                                          access_spec=access)
+                    db.session.add(attribute)
+                    db.session.commit()
+                else:
+                    method = Method(return_type=nlp_output[next_index], name=nlp_output[previous_index],
+                                    access_spec=access)
+                    db.session.add(method)
+                    db.session.commit()
+
+
+def covert_to_access_specifier(access):
+    if access.startswith('-'):
+        return "Private"
+
+    elif access.startswith('#'):
+        return "Protected"
+
+    if access.startswith('+'):
+        return "Public"
+
+    elif access.startswith('~'):
+        return "Package"
+
+    else:
+        return ''
