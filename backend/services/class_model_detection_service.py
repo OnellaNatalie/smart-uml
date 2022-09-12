@@ -15,8 +15,6 @@ import spacy
 from config.database import db
 from models.method import Method
 
-nlp = spacy.load('en_core_web_sm')
-
 
 def component_separation(filename, class_comp_id):
     mdl1_path = app.CLASS_SAVED_MODEL_PATH
@@ -108,6 +106,7 @@ def text_extraction(image):
 
 
 def save_attribute_method(text, typ):
+    nlp = spacy.load('en_core_web_sm')
     for element in text:
         access = covert_to_access_specifier(element)
         removable = str.maketrans('', '', '()')

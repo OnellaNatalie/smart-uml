@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 
 from config.database import db
 from constants.http_status_codes_constant import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
-# import services.question_preprocess_service
+import services.question_preprocess_service
 from routes.auth_routes import auth
 from routes.module_routes import module
 from routes.assignment_routes import assignment
