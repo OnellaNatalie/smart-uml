@@ -1,0 +1,34 @@
+item {
+    id: 1
+    name: 'association'
+}
+
+item {
+    id: 2
+    name: 'class'
+}
+
+item {
+    id: 3
+    name: 'composition'
+}
+
+item {
+    id: 4
+    name: 'indirect association'
+}
+
+item {
+    id: 5
+    name: 'inheritance'
+}
+
+item {
+    id: 6
+    name: 'interface'
+}
+
+item {
+    id: 7
+    name: 'realization'
+}

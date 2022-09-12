@@ -79,6 +79,8 @@ def class_details_detection(filename, boxes, index, class_comp_id):
                 text = text_extraction(class_methods)
                 save_attribute_method(text, 'method')
 
+        # class name detection and save the class object
+
 
 def crop_and_image_resolution(path, boxes, index):
     image = cv2.imread(path)
