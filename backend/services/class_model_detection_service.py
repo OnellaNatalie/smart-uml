@@ -18,6 +18,22 @@ from models.method import Method
 nlp = spacy.load('en_core_web_sm')
 
 
+def component_separation(filename, class_comp_id):
+    mdl1_path = app.CLASS_SAVED_MODEL_PATH
+    lbl1_path = app.CLASS_SAVED_LABEL_PATH
+    img1_path = app.SUBMISSION_PATH_CLASS + '/' + filename
+    boxes, num_entities, accurate_indexes, num_entities, category_index, class_id = class_object_detection(mdl1_path,
+                                                                                                           lbl1_path,
+                                                                                                           img1_path)
+
+    # Convert the class id in their name
+    if num_entities > 0:
+        for index in range(0, len(accurate_indexes)):
+
+            if category_index[class_id[index]]['name'] == 'class' or category_index[class_id]['name'] == 'interface':
+                class_details_detection(filename, boxes, index, class_comp_id)
+
+
 def class_object_detection(model_path, label_path, image_path):
     detect_fn = tf.saved_model.load(model_path)
     category_index = label_map_util.create_category_index_from_labelmap(label_path, use_display_name=True)
@@ -43,20 +59,25 @@ def class_object_detection(model_path, label_path, image_path):
     return boxes, num_entities, accurate_indexes, num_entities, category_index, class_id
 
 
-def component_separation(filename, class_comp_id):
-    mdl1_path = app.CLASS_SAVED_MODEL_PATH
-    lbl1_path = app.CLASS_SAVED_LABEL_PATH
-    img1_path = app.SUBMISSION_PATH_CLASS + '/' + filename
-    boxes, num_entities, accurate_indexes, num_entities, category_index, class_id = class_object_detection(mdl1_path,
-                                                                                                           lbl1_path,
-                                                                                                           img1_path)
+def class_details_detection(filename, boxes, index, class_comp_id):
+    _image = crop_and_image_resolution(filename, boxes, index)
+    cv2.imwrite(app.SUBMISSION_PATH_CLASS + '/' + "class" + str(index), _image)
+    mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
+    lbl2_path = app.CLASS_COMP_SAVED_LABEL_PATH
+    img2_path = app.SUBMISSION_PATH_CLASS + '/' + "class" + str(index)
+    boxes_class, num_entities, accurate_indexes, num_entities, category_index, class_id = class_object_detection(
+        mdl2_path, lbl2_path, img2_path)
 
-    # Convert the class id in their name
-    if num_entities > 0:
-        for index in range(0, len(accurate_indexes)):
-
-            if category_index[class_id[index]]['name'] == 'class' or category_index[class_id]['name'] == 'interface':
-                class_details_detection(filename, boxes, index, class_comp_id)
+    if num_entities > 1:
+        for j in range(0, len(accurate_indexes)):
+            if category_index[class_id[j]]['name'] == 'class_attributes':
+                class_attributes = crop_and_image_resolution(img2_path, boxes_class, j)
+                text = text_extraction(class_attributes)
+                save_attribute_method(text, 'attribute')
+            elif category_index[class_id[j]]['name'] == 'class_methods':
+                class_methods = crop_and_image_resolution(img2_path, boxes_class, j)
+                text = text_extraction(class_methods)
+                save_attribute_method(text, 'method')
 
 
 def crop_and_image_resolution(path, boxes, index):
@@ -82,27 +103,6 @@ def text_extraction(image):
     text = [x.strip(' ') for x in text]
     text = list(filter(None, text))
     return text
-
-
-def class_details_detection(filename, boxes, index, class_comp_id):
-    _image = crop_and_image_resolution(filename, boxes, index)
-    cv2.imwrite(app.SUBMISSION_PATH_CLASS + '/' + "class" + str(index), _image)
-    mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
-    lbl2_path = app.CLASS_COMP_SAVED_LABEL_PATH
-    img2_path = app.SUBMISSION_PATH_CLASS + '/' + "class" + str(index)
-    boxes_class, num_entities, accurate_indexes, num_entities, category_index, class_id = class_object_detection(
-        mdl2_path, lbl2_path, img2_path)
-
-    if num_entities > 1:
-        for j in range(0, len(accurate_indexes)):
-            if category_index[class_id[j]]['name'] == 'class_attributes':
-                class_attributes = crop_and_image_resolution(img2_path, boxes_class, j)
-                text = text_extraction(class_attributes)
-                save_attribute_method(text, 'attribute')
-            elif category_index[class_id[j]]['name'] == 'class_methods':
-                class_methods = crop_and_image_resolution(img2_path, boxes_class, j)
-                text = text_extraction(class_methods)
-                save_attribute_method(text, 'method')
 
 
 def save_attribute_method(text, typ):
