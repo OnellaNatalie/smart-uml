@@ -4,7 +4,6 @@ from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from constants.http_status_codes_constant import HTTP_400_BAD_REQUEST, HTTP_200_OK
-from models.actor_and_use_case import ActorANDUseCase
 from services.submission_service import save_submission
 from services.use_case_model_detection_service import model_object_detection
 
@@ -27,7 +26,7 @@ def upload_submission():
     elif submission_type == 'use case':
         use_case_obj = save_submission(assignment_id, image, submission_type, comment, user_id)
         model_object_detection(image.filename, use_case_obj.id)
-        return jsonify({'filename': image.filename}), HTTP_200_OK
+        return jsonify({'message': 'upload successful '}), HTTP_200_OK
     elif submission_type == 'class':
         class_obj = save_submission(assignment_id, image, submission_type, comment, user_id)
         # model_object_detection(image.filename, class_obj.id)

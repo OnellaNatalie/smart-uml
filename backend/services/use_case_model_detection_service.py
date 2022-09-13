@@ -15,7 +15,8 @@ from config.database import db
 from models.actor_and_use_case import ActorANDUseCase
 
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
-from services.generalization_relationship_detection_service import detect_relationships
+from services.extend_include_relationship_detection_service import detect_extend_include_relationship
+from services.generalization_relationship_detection_service import detect_generalization_relationship
 
 
 def model_object_detection(filename, use_case_id):
@@ -42,7 +43,8 @@ def model_object_detection(filename, use_case_id):
     class_id = operator.itemgetter(*accurate_indexes)(detections['detection_classes'])
     boxes = detections['detection_boxes']
     text_extraction(filename, class_id, boxes, accurate_indexes, category_index, use_case_id)
-    detect_relationships(filename, boxes, accurate_indexes, use_case_id)
+    detect_generalization_relationship(filename, boxes, accurate_indexes, use_case_id)
+    detect_extend_include_relationship(filename, boxes, accurate_indexes, use_case_id, category_index, class_id)
 
 
 def text_extraction(filename, class_id, boxes, accurate_indexes, category_index, use_case_id):
