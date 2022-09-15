@@ -10,6 +10,7 @@ from routes.auth_routes import auth
 from routes.module_routes import module
 from routes.assignment_routes import assignment
 from routes.diagram_routes import diagram
+from routes.submission_routes import submission
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,13 +20,21 @@ OUTPUTS_GENERATED_CLASS_DIAGRAMS_PATH = os.path.join('outputs', 'generated_class
 OUTPUTS_GENERATED_CLASS_FILES_PATH = os.path.join('outputs', 'generated_class_files')
 OUTPUTS_FOLDER = os.path.join(APP_ROOT, 'outputs')
 UML_GENERATOR_UPLOAD_FOLDER = os.path.join(APP_ROOT, 'uploads')
+SUBMISSION_PATH = os.path.join(APP_ROOT, 'submissions/use_case')
+SUBMISSION_PATH_CLASS = os.path.join(APP_ROOT, 'submissions/class')
 
+USE_CASE_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/model')
+USE_CASE_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/label')
+CLASS_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/model')
+CLASS_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/label/label_map.pbtxt')
+CLASS_COMP_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class_component/model')
+CLASS_COMP_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class_component/label/label_map.pbtxt')
 app = Flask(__name__, static_folder='outputs')
 CORS(app)
 
 app.config.from_mapping(SECRET_KEY=os.environ.get('SECRET_KEY'),
-                        SQLALCHEMY_DATABASE_URI=os.environ.get('SQLALCHEMY_DATABASE_URI'),
-                        SQLALCHEMY_TRACK_MODIFICATIONS=False, JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY'))
+                        SQLALCHEMY_DATABASE_URI='sqlite:///database.db',
+                        SQLALCHEMY_TRACK_MODIFICATIONS=False, JWT_SECRET_KEY='JWT_SECRET_KEY')
 app.config['UML_GENERATOR_UPLOAD_FOLDER'] = UML_GENERATOR_UPLOAD_FOLDER
 
 db.app = app
@@ -37,6 +46,7 @@ app.register_blueprint(auth)
 app.register_blueprint(module)
 app.register_blueprint(assignment)
 app.register_blueprint(diagram)
+app.register_blueprint(submission)
 
 
 @app.before_first_request
