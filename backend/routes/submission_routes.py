@@ -14,7 +14,7 @@ submission = Blueprint('submissions', __name__, url_prefix='/api/v1/submissions'
 
 @submission.post('/upload')
 @jwt_required()
-def upload_submission():
+async def upload_submission():
     user_id = get_jwt_identity()
 
     image = request.files['file']
@@ -29,9 +29,10 @@ def upload_submission():
         use_case_obj = save_submission(assignment_id, image, submission_type, comment, user_id)
         model_object_detection(image.filename, use_case_obj.id)
         return jsonify({'filename': image.filename}), HTTP_200_OK
+
     elif submission_type == 'class':
         class_obj = save_submission(assignment_id, image, submission_type, comment, user_id)
-        component_separation(image.filename, class_obj.id)
+        await component_separation(image.filename, class_obj.id)
         return jsonify({'id': str(class_obj.id)}), HTTP_200_OK
     else:
         return jsonify({'err': 'invalid request '}), HTTP_400_BAD_REQUEST
