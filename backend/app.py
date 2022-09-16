@@ -55,7 +55,7 @@ def create_tables():
 
 
 @app.get('/api/v1/')
-async def index():
+def index():
     return 'UML Diagram Plagiarism Detection Tool API'
 
 
