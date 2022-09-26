@@ -1,28 +1,33 @@
 import re
 import spacy
-# import docx
+
 
 def get_ner(sentence):
     print(sentence)
     ents = list(sentence.ents)
     return ents
 
+
 def get_pos(sentence):
     for token in sentence:
         print(token.text, token.pos_)
 
+
 def get_noun_chunks(sentence):
     return list(sentence.noun_chunks)
+
 
 def get_nouns_pnouns(sentence):
     for token in sentence:
         if token.pos_ == "PROPN" and token.pos_ != None:
             return token
 
+
 def remove_punctuation(sentence):
     text_no_punct = [token for token in sentence if not token.is_punct]
     cleaned_sentence = ' '.join(token.text for token in text_no_punct)
     return cleaned_sentence
+
 
 def split_actions(sentence):
     split_string = "should be able to "
@@ -30,24 +35,19 @@ def split_actions(sentence):
         extracted_string = sentence.split(split_string)
         return extracted_string
 
+
 def get_actions(splitted_action):
     # print('splitted_action',splitted_action)
     temp_array = []
     if splitted_action is not None and '|' in splitted_action[1]:
-       res = splitted_action[1].split(' | ')
-       # print('res',res)
-       temp_array.append(splitted_action[0])
-       temp_array.append(res[0])
-       return temp_array
+        res = splitted_action[1].split(' | ')
+        # print('res',res)
+        temp_array.append(splitted_action[0])
+        temp_array.append(res[0])
+        return temp_array
     else:
         return splitted_action
 
-# def get_text_from_docx(filename):
-#     doc = docx.Document(filename)
-#     fullText = []
-#     for para in doc.paragraphs:
-#         fullText.append(para.text)
-#     return '\n'.join(fullText)
 
 def get_sentences(text):
     nlp = spacy.load("en_core_web_lg")
@@ -58,9 +58,12 @@ def get_sentences(text):
         flag = False
         token_count = 0
         for token in sentence:
-            token_count = token_count+1
+            token_count = token_count + 1
             if token.pos_ == 'INTJ' or token.text == '?' or (token.text == 'I' and token.pos_ == 'PRON') or (
-                    token.text == '’m' and token.pos_ == 'VERB') or ((token.text == 'what' or token.text == 'What') and token.pos_ == 'PRON') or ((token.text == 'We' or token.text == 'we') and token.pos_ == 'PRON') or ((token.text == 'You' or token.text == 'you') and token.pos_ == 'PRON'):
+                    token.text == '’m' and token.pos_ == 'VERB') or (
+                    (token.text == 'what' or token.text == 'What') and token.pos_ == 'PRON') or (
+                    (token.text == 'We' or token.text == 'we') and token.pos_ == 'PRON') or (
+                    (token.text == 'You' or token.text == 'you') and token.pos_ == 'PRON'):
                 flag = True
         if token_count < 6:
             flag = True
