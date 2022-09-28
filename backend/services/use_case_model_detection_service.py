@@ -51,7 +51,6 @@ def text_extraction(filename, class_id, boxes, accurate_indexes, category_index,
     image = cv2.imread(app.SUBMISSION_PATH + '/' + filename)
     for i in range(0, len(accurate_indexes)):
         if category_index[class_id[i]]['name'] != "relationship":
-
             height, width, c = image.shape
 
             ymin = boxes[i][0] * height
@@ -60,13 +59,9 @@ def text_extraction(filename, class_id, boxes, accurate_indexes, category_index,
             xmax = boxes[i][3] * width
 
             crop_img = image[int(ymin):int(ymax), int(xmin):int(xmax)]
-
             gray_img = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-
             thresh, bw_img = cv2.threshold(gray_img, 160, 255, cv2.THRESH_TOZERO)
-
             resize_img = cv2.resize(bw_img, None, fx=1, fy=1)
-
             ocr_result = pytesseract.image_to_string(resize_img, config='1 eng --oem 1 --psm 13')
             result = ocr_result.strip().replace("\\", "")
             text = re.sub("=|,", "", result)
@@ -83,3 +78,5 @@ def text_extraction(filename, class_id, boxes, accurate_indexes, category_index,
                                                y_max=ymax)
                 db.session.add(use_case_obj)
                 db.session.commit()
+
+
