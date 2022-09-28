@@ -21,8 +21,14 @@ OUTPUTS_GENERATED_CLASS_FILES_PATH = os.path.join('outputs', 'generated_class_fi
 OUTPUTS_FOLDER = os.path.join(APP_ROOT, 'outputs')
 UML_GENERATOR_UPLOAD_FOLDER = os.path.join(APP_ROOT, 'uploads')
 SUBMISSION_PATH = os.path.join(APP_ROOT, 'submissions/use_case')
+SUBMISSION_PATH_CLASS = os.path.join(APP_ROOT, 'submissions/class')
+
 USE_CASE_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/model')
 USE_CASE_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/use_case/label')
+CLASS_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/model')
+CLASS_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class/label/label_map.pbtxt')
+CLASS_COMP_SAVED_MODEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class_component/model')
+CLASS_COMP_SAVED_LABEL_PATH = os.path.join(APP_ROOT, 'tensorflow_models/class_component/label/label_map.pbtxt')
 app = Flask(__name__, static_folder='outputs')
 CORS(app)
 
