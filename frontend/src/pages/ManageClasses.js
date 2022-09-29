@@ -17,7 +17,7 @@ const ManageClasses = () => {
 	const [material, setMaterial] = useState({ code: "", name: "" });
 	const [materials, setMaterials] = useState([]);
 
-	const fields = ["", "Class Code", "Class Name", "Created At", "Actions"];
+	const fields = ["", "Module Code", "Module Name", "Created At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 	const classes = [
@@ -34,7 +34,7 @@ const ManageClasses = () => {
 			<td>
 				<div style={{ display: "flex", alignItems: "center" }}>
 					<Link to={``}>
-						<button className="view-btn">View Class</button>
+						<button className="view-btn">View Module</button>
 					</Link>
 					<button
 						className="action-btn x"
@@ -114,7 +114,7 @@ const ManageClasses = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">Manage Classes</h1>
+					<h1 className="page-header">Manage Modules</h1>
 					<div className="row">
 						<div className="col-12">
 							<form className="card" style={{ position: "relative" }}>
@@ -128,7 +128,7 @@ const ManageClasses = () => {
 										<div className="row-user">
 											<input
 												type="text"
-												placeholder="Class Code"
+												placeholder="Module Code"
 												value={material.code}
 												onChange={e =>
 													setMaterial({
@@ -144,7 +144,7 @@ const ManageClasses = () => {
 										<div className="row-user">
 											<input
 												type="text"
-												placeholder="Class Name"
+												placeholder="Module Name"
 												value={material.name}
 												onChange={e =>
 													setMaterial({
@@ -166,7 +166,7 @@ const ManageClasses = () => {
 						</div>
 					</div>
 					<div className="card col-12">
-						<h2>Created Classes</h2>
+						<h2>Created Modules</h2>
 						{false ? (
 							<Spinner />
 						) : (

@@ -54,11 +54,7 @@
 }
 
 .sidebar__item-inner.active {
-	background-image: linear-gradient(
-		to right,
-		var(--main-color-blue),
-		var(--second-color)
-	);
+	background-image: linear-gradient(to right, var(--main-color-blue), var(--second-color));
 	color: var(--txt-white);
 }
 

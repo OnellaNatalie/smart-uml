@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Spinner from "../components/loading/Spinner";
@@ -22,7 +23,7 @@ const TeacherDashboard = () => {
 	const { loggedIn } = useContext(AuthContext);
 	const [suppliers, setSuppliers] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const fields = ["", "Name", "Class Code", "Status", "Actions"];
+	const fields = ["", "Name", "Module Code", "Status", "Actions"];
 
 	const permissionStatus = {
 		pending: "warning",
@@ -95,15 +96,15 @@ const TeacherDashboard = () => {
 								}}
 							></i>
 						</button>
-						<button className="action-btn x">
-							<i
-								className="bx bx-x"
-								onClick={() => {
-									if (window.confirm("Are you sure to remove this assignment?")) {
-										deleteHandler(item._id);
-									}
-								}}
-							></i>
+						<button
+							className="action-btn x"
+							onClick={() => {
+								if (window.confirm("Are you sure to remove this assignment?")) {
+									deleteHandler(item._id);
+								}
+							}}
+						>
+							<RiDeleteBinLine />
 						</button>
 					</>
 				)}
@@ -152,7 +153,7 @@ const TeacherDashboard = () => {
 							<div className="card">
 								<div className="flex">
 									<h2 className="request-title">Recent Assignments</h2>
-									<Link to={`/auth/manager/suppliers`}>
+									<Link to={`/auth/teacher/assignments`}>
 										<button className="view-btn">View All</button>
 									</Link>
 								</div>

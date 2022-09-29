@@ -31,17 +31,19 @@ const SupplierDashboard = () => {
 		"Subject Code",
 		
 	];
-
+	const subjects = [
+		{ ModuleCode: "IT20300", ModuleName: "CTSE", assign: "Assignment 01" },
+		{ ModuleCode: "IT30300", ModuleName: "DMS", assign: "Assignment 02" },
+		{ ModuleCode: "IT40300", ModuleName: "SPM", assign: "Assignment 03" }
+	]
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{index + 1}</td>
-			<td>{item.itemName}</td>
-			<td>{item.quantity}</td>
-			<td>{item.total}</td>
-			<td>{item.address}</td>
-			<td>{new Date(item.updatedAt).toDateString()}</td>
+			<td>{ }</td>
+			<td>{item.assign}</td>
+			<td>{item.ModuleName}</td>
+			<td>{item.ModuleCode}</td>
 			<td>
 				<div className="row-user" style={{ paddingTop: "0" }}>
 					{item.DeliveryStatus === "pending" ? (
@@ -138,9 +140,7 @@ const SupplierDashboard = () => {
 							<div className="card">
 								<div className="flex">
 									<h2 className="request-title">Assignments to complete</h2>
-									<Link to={`/auth/student/assignments`}>
-										<button className="view-btn">View All</button>
-									</Link>
+									
 								</div>
 								{/* {isLoading ? (
 									<Spinner />
@@ -149,7 +149,7 @@ const SupplierDashboard = () => {
 										limit="5"
 										headData={fields}
 										renderHead={(item, index) => renderOrderHead(item, index)}
-										bodyData={orderDetails}
+										bodyData={subjects}
 										renderBody={(item, index) => renderOrderBody(item, index)}
 									/>
 								{/* ) : (

@@ -1,11 +1,9 @@
-import spacy
-import os
 from services.tokenization_service import *
-# from services.class_diagram_generation_service import *
+from services.class_diagram_generation_service import *
 from services.use_case_diagram_generation_service import *
-from app import UPLOADS_FOLDER_PATH
 
 
+# removing unwanted spaces
 def remove_unwanted_values(data):
     remove_element = 'None'
     if remove_element in data:
@@ -25,22 +23,23 @@ def remove_punctuation(sentence):
     return cleaned_sentence
 
 
-# load the text file
-def main(filepath):
-    with open(UPLOADS_FOLDER_PATH + "/" + filepath, "r", errors='ignore') as f:
-        requirement_text = f.read().replace("\n\n", " ").replace("\n", " ")
+# load the text
+def main(scenario):
+    requirement_text = scenario.replace("\n\n", " ").replace("\n", " ")
     nlp = spacy.load("en_core_web_lg")
-
     doc = nlp(requirement_text)
 
     # sentence splitting
     sentences = list(doc.sents)
+    sentences.pop(0)
+    del sentences[-1]
+
     nc = []
     cleaned_extracted_actions = []
     cleaned_sentences = []
     splitted_actions_array = []
 
-    # looping through sentences
+    # looping through each sentence
     for sentence in sentences:
         res = get_nouns_pnouns(sentence)
         nc.append(str(res))
@@ -58,13 +57,10 @@ def main(filepath):
     # remove duplicates of the actors
     nc = list(dict.fromkeys(nc))
     data = remove_unwanted_values(nc)
-
-    # generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
-
+    generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
     extracted_relationships = get_include_extend_relationships(splitted_actions_array)
     actors_and_use_cases_array = identify_use_cases(cleaned_extracted_actions)
     generated_usecase_diagram_path = generate_use_case_diagram(data, extracted_relationships,
                                                                actors_and_use_cases_array)
 
-    # return generated_class_diagram_path, generated_usecase_diagram_path
-    return generated_usecase_diagram_path
+    return generated_class_diagram_path, generated_usecase_diagram_path

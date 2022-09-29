@@ -5,8 +5,8 @@ const sidebar_teacher = [
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Manage Classes",
-		route: "/auth/teacher/classes",
+		display_name: "Manage Modules",
+		route: "/auth/teacher/modules",
 		icon: "bx bx-bar-chart-square",
 	},
 	{
@@ -34,8 +34,8 @@ const sidebar_student = [
 	},
 	{
 		display_name: "Modules",
-		route: "/auth/student/subjects",
-		icon: "bx bx-transfer",
+		route: "/auth/student/modules",
+		icon: "bx bx-bar-chart-square",
 	},
 	{
 		display_name: "Sign Out",
