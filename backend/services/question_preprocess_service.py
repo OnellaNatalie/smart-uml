@@ -3,6 +3,7 @@ from services.class_diagram_generation_service import *
 from services.use_case_diagram_generation_service import *
 
 
+# removing unwanted spaces
 def remove_unwanted_values(data):
     remove_element = 'None'
     if remove_element in data:
@@ -22,7 +23,7 @@ def remove_punctuation(sentence):
     return cleaned_sentence
 
 
-# load the text file
+# load the text
 def main(scenario):
     requirement_text = scenario.replace("\n\n", " ").replace("\n", " ")
     nlp = spacy.load("en_core_web_lg")
@@ -32,12 +33,13 @@ def main(scenario):
     sentences = list(doc.sents)
     sentences.pop(0)
     del sentences[-1]
+
     nc = []
     cleaned_extracted_actions = []
     cleaned_sentences = []
     splitted_actions_array = []
 
-    # looping through sentences
+    # looping through each sentence
     for sentence in sentences:
         res = get_nouns_pnouns(sentence)
         nc.append(str(res))
@@ -48,7 +50,6 @@ def main(scenario):
         splitted_actions_array.append(splitted_actions)
 
         extracted_actions = get_actions(splitted_actions)
-
 
         if extracted_actions is not None:
             cleaned_extracted_actions.append(extracted_actions)

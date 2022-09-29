@@ -12,12 +12,8 @@ from models.use_case_association_relationship import UseCaseAssociationRelations
 from models.use_case_generalization_relationship import UseCaseGeneralizationRelationship
 
 
-def detect_relationships(filename, boxes, accurate_indexes, use_case_id):
+def detect_generalization_relationship(filename, boxes, accurate_indexes, use_case_id):
     image = cv2.imread(app.SUBMISSION_PATH + '/' + filename)
-    detect_generalization_relationship(image, boxes, accurate_indexes, use_case_id)
-
-
-def detect_generalization_relationship(image, boxes, accurate_indexes, use_case_id):
     img1 = hide_detected_components(image, boxes, accurate_indexes)
     img2 = remove_rectangle(img1)
     img3 = recover_broke_line(img2)
