@@ -37,7 +37,6 @@ def split_actions(sentence):
 
 
 def get_actions(splitted_action):
-    # print('splitted_action',splitted_action)
     temp_array = []
     if splitted_action is not None and '|' in splitted_action[1]:
         res = splitted_action[1].split(' | ')
