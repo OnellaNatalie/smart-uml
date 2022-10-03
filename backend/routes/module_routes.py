@@ -34,8 +34,6 @@ def get_modules():
     for module in module_obj:
         modules.append({"id": module.id, "name": module.name, "code": module.code, "created_at": module.created_at, "updated_at": module.updated_at})
 
-    print(modules)
-
     if module_obj is None:
         return jsonify({'err': "Module does not exist"}), HTTP_400_BAD_REQUEST
 
