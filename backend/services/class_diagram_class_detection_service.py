@@ -15,7 +15,8 @@ import tensorflow as tf
 import spacy
 
 from config.database import db
-from models.component_model import Component
+from models.class_component_model import Component
+from models.class_relationship_model import Relationship
 from models.method_model import Method
 
 ts.pytesseract.tesseract_cmd = r'C:\Users\DELL\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
@@ -43,14 +44,13 @@ def component_separation(filename, class_comp_id):
 
         if category == 'class':
             print(filename)
-            _image = crop_image_(image_nparray, boxes, index)
-            _image = cv2.resize(_image, None, fx=2, fy=2)
-            class_details_detection(_image, class_comp_id)
+            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
         elif category == 'interface':
-            _image = crop_image_(image_nparray, boxes, index)
-            _image = cv2.resize(_image, None, fx=3, fy=3)
-            class_details_detection(_image, class_comp_id)
+            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
+
+        else:
+            relationship_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
 
 def class_object_detection(model_path, label_path, image_nparray):
@@ -77,8 +77,12 @@ def class_object_detection(model_path, label_path, image_nparray):
     return boxes, accurate_indexes, category_index, class_id
 
 
-def class_details_detection(_image, class_comp_id):
+def class_details_detection(image_nparray, boxes, index, class_comp_id, class_type):
     methods_attributes = []
+
+    _image, cl_ymin, cl_xmin, cl_ymax, cl_xmax = crop_image_(image_nparray, boxes, index)
+    _image = cv2.resize(_image, None, fx=2, fy=2)
+
     mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
     lbl2_path = app.CLASS_COMP_SAVED_LABEL_PATH
     boxes_class, accurate_indexes, category_index, class_id = class_object_detection(
@@ -97,30 +101,28 @@ def class_details_detection(_image, class_comp_id):
         if category == 'class_attributes':
             print(category, 'line 96 - inside attributes')
             print(j, 'line 97 - inside attributes')
-            class_attributes = crop_image_(_image, boxes_class, j)
-            cv2.imwrite('image.jpg', class_attributes)
+            class_attributes, y_min, x_min, y_max, x_max = crop_image_(_image, boxes_class, j)
             text = text_extraction(class_attributes)
             attr = save_attributes_methods(text, 'attribute')
             methods_attributes.append(attr)
 
-            # alter_attributes_methods(attributes, comp.id)
-
         elif category == 'class_methods':
             print(category, 'line 103 - inside methods')
-            class_methods = crop_image_(_image, boxes_class, j)
+            class_methods, y_min, x_min, y_max, x_max = crop_image_(_image, boxes_class, j)
             text = text_extraction(class_methods)
-            print(text, '108 line')
             methods = save_attributes_methods(text, 'method')
             methods_attributes.append(methods)
-            # alter_attributes_methods(methods, comp.id)
             print(text, '111 line')
 
-    comp = class_name_detection(class_comp_id, _image, boxes_class, category_index, accurate_indexes, class_id)
+    comp_name = class_name_detection(_image, boxes_class, category_index, accurate_indexes, class_id)
+    print(comp_name, 'comp_name line 118')
+    comp = save_class_interface(class_type, comp_name, cl_ymin, cl_xmin, cl_ymax, cl_xmax, class_comp_id)
+    print(comp, 'component_id line 120')
+
     alter_attributes_methods(methods_attributes, comp.id)
 
 
 def crop_image_(image, boxes, index):
-    # image = cv2.imread(path)
     height, width, c = image.shape
     # crop box format: xmin, ymin, xmax, ymax
     ymin = boxes[index][0] * height
@@ -132,7 +134,7 @@ def crop_image_(image, boxes, index):
     # image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
     # image = cv2.resize(image, (800, 500))
 
-    return cropped_image
+    return cropped_image, ymin, xmin, ymax, xmax
 
 
 def text_extraction(image):
@@ -192,12 +194,12 @@ def save_attributes_methods(text, typ):
     return saved_data
 
 
-def alter_attributes_methods(element_list, class_id):
+def alter_attributes_methods(element_list, component_id):
     for j in element_list:
-        for element in j :
-            print(class_id)
+        for element in j:
+            print(component_id)
             print(element_list)
-            element.class_id = class_id
+            element.class_id = component_id
             db.session.commit()
 
 
@@ -218,7 +220,7 @@ def covert_to_access_specifier(access):
         return ''
 
 
-def crop_and_hide(image, boxes, category_index, accurate_indexes, class_id):
+def class_name_detection(image, boxes, category_index, accurate_indexes, class_id):
     print(category_index, 'category_index')
 
     print(class_id, 'class_id')
@@ -240,21 +242,32 @@ def crop_and_hide(image, boxes, category_index, accurate_indexes, class_id):
             xmax = boxes[i][3] * width
 
             cv2.rectangle(image, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (255, 255, 255), -1)
-    return image
-
-
-def class_name_detection(class_comp_id, image, boxes, category_index, accurate_indexes, class_id):
-    image = crop_and_hide(image, boxes, category_index, accurate_indexes, class_id)
-
     class_name = text_extraction(image)
     if ''.join(class_name) != '':
         if "interface" in ''.join(class_name):
             name = ''.join(class_name).replace("<<interface>>", "")
-            comp = Component(class_answer=class_comp_id, name=name, type="interface")
         else:
             name = ''.join(class_name)
-            comp = Component(class_answer=class_comp_id, name=name, type="class")
 
-        db.session.add(comp)
-        db.session.commit()
-        return comp
+        return name
+
+
+def save_class_interface(class_type, comp_name, cl_ymin, cl_xmin, cl_ymax, cl_xmax, class_comp_id):
+    comp = Component(class_answer=class_comp_id, name=comp_name, type=class_type, x_min=cl_xmin, y_min=cl_ymin,
+                     x_max=cl_xmax,
+                     y_max=cl_ymax)
+    db.session.add(comp)
+    db.session.commit()
+    print(comp, 'line 261 comp')
+    return comp
+
+
+def relationship_details_detection(image_nparray, boxes, index, class_comp_id, category):
+    _image, y_min, x_min, y_max, x_max = crop_image_(image_nparray, boxes, index)
+    _image = cv2.resize(_image, None, fx=1, fy=1)
+    relationship = Relationship(class_answer=class_comp_id, name='', type=category, x_min=x_min, y_min=y_min,
+                                x_max=x_max,
+                                y_max=y_max)
+    db.session.add(relationship)
+    db.session.commit()
+    print(relationship, 'relationship')
