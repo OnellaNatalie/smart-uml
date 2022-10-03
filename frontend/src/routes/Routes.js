@@ -13,7 +13,7 @@ import ManagerApprovedOrders from "../pages/ManagerApprovedOrders";
 import TeacherDashboard from "../pages/TeacherDashboard";
 import ManageServices from "../pages/ManageServices";
 import ManageStudents from "../pages/ManageStudents";
-import ManageClasses from "../pages/ManageClasses";
+import ManageModules from "../pages/ManageModules";
 import OfficerDashboard from "../pages/OfficerDashboard";
 import OfficerOrders from "../pages/OfficerOrders";
 import Register from "../pages/Register";
@@ -38,7 +38,7 @@ const Routes = () => {
 
 			<Route exact path="/auth/teacher/dashboard" component={TeacherDashboard} />
 			<Route exact path="/auth/teacher/students" component={ManageStudents} />
-			<Route exact path="/auth/teacher/modules" component={ManageClasses} />
+			<Route exact path="/auth/teacher/modules" component={ManageModules} />
 			<Route exact path="/auth/teacher/assignments" component={ManageAssignments} />
 			<Route exact path="/auth/teacher/assignments/:id" component={ViewAssignment} />
 			<Route exact path="/auth/teacher/assignments/:id/diagrams" component={GeneratedDiagrams} />
