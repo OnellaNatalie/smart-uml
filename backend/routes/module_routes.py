@@ -25,6 +25,23 @@ def create_module():
     }}), HTTP_201_CREATED
 
 
+@module.get('/')
+def get_modules():
+    module_obj = Module.query.all()
+    modules = []
+    print(module_obj)
+
+    for module in module_obj:
+        modules.append({"id": module.id, "name": module.name, "code": module.code, "created_at": module.created_at, "updated_at": module.updated_at})
+
+    print(modules)
+
+    if module_obj is None:
+        return jsonify({'err': "Module does not exist"}), HTTP_400_BAD_REQUEST
+
+    return jsonify({'msg': 'Module found', 'modules': modules}), HTTP_200_OK
+
+
 @module.get('/<module_id>')
 def get_module(module_id):
     if not module_id:
@@ -33,9 +50,9 @@ def get_module(module_id):
     module_obj = Module.query.filter_by(id=module_id).first()
 
     if module_obj is None:
-        return jsonify({'err': "Module does not exist"}), HTTP_400_BAD_REQUEST
+        return jsonify({'err': "Modules does not exist"}), HTTP_400_BAD_REQUEST
 
-    return jsonify({'msg': 'Module found', 'module': {
+    return jsonify({'msg': 'Modules found', 'module': {
         'name': module_obj.name,
         'code': module_obj.code,
         'created_at': module_obj.created_at,

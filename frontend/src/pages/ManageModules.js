@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { RiDeleteBinLine } from "react-icons/ri";
+import axios from "axios";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Spinner from "../components/loading/Spinner";
@@ -10,21 +10,16 @@ import TopNav from "../components/topnav/TopNav";
 
 import "../assets/css/Usercreate.css";
 
-const ManageClasses = () => {
+const ManageModules = () => {
 	const [btnState, setBtnState] = useState(false);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [material, setMaterial] = useState({ code: "", name: "" });
-	const [materials, setMaterials] = useState([]);
+	const [module, setModule] = useState({ code: "", name: "" });
+	const [modules, setModules] = useState([]);
 
 	const fields = ["", "Module Code", "Module Name", "Created At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
-	const classes = [
-		{ code: "A001", name: "CTSE", createdAt: "2022-04-05" },
-		{ code: "A002", name: "CTSE", createdAt: "2022-04-05" },
-		{ code: "A003", name: "CTSE", createdAt: "2022-04-05" },
-	];
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
@@ -40,7 +35,7 @@ const ManageClasses = () => {
 						className="action-btn x"
 						style={{ marginLeft: "2rem" }}
 						onClick={() => {
-							if (window.confirm("Are you sure to delete this class?")) {
+							if (window.confirm("Are you sure to delete this module?")) {
 								deleteHandler(item._id, item.username);
 							}
 						}}
@@ -56,37 +51,35 @@ const ManageClasses = () => {
 		e.preventDefault();
 		setBtnState(true);
 
-		for (let key of Object.keys(material)) {
-			if (!material[key]) {
+		for (let key of Object.keys(module)) {
+			if (!module[key]) {
 				setBtnState(false);
 				return setError("Please fill all the fields");
 			}
 		}
 
 		try {
-			const res = await axios.post("materials", material);
+			const res = await axios.post("/modules/create", module);
 			console.log(res);
-			setMaterial({
-				code: "",
-				name: "",
-			});
-			getAllMaterial();
+			setModule({ code: "", name: "" });
+			getAllModules();
 			setError("");
-			window.alert("Class added successfully");
+			window.alert("Module added successfully");
 			setBtnState(false);
 			setIsLoading(true);
 		} catch (err) {
 			setBtnState(false);
+			setError(err.response.data.message);
 			console.log(err.response);
 		}
 	};
 
 	const deleteHandler = async (id, username) => {
 		try {
-			const res = await axios.delete(`materials/${id}`);
+			const res = await axios.delete(`modules/${id}`);
 
 			if (res.statusText === "OK") {
-				getAllMaterial();
+				getAllModules();
 				setError("");
 				window.alert("Class has been successfully deleted");
 				setIsLoading(true);
@@ -96,17 +89,19 @@ const ManageClasses = () => {
 		}
 	};
 
-	const getAllMaterial = async () => {
+	const getAllModules = async () => {
+		setIsLoading(true);
 		try {
-			const res = await axios.get(`materials`);
-			setMaterials(res.data.materials);
+			const res = await axios.get("modules");
+			console.log(res);
+			setModules(res.data.modules);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
 
-	useEffect(() => getAllMaterial(), []);
+	useEffect(() => getAllModules(), []);
 
 	return (
 		<div>
@@ -129,10 +124,10 @@ const ManageClasses = () => {
 											<input
 												type="text"
 												placeholder="Module Code"
-												value={material.code}
+												value={module.code}
 												onChange={e =>
-													setMaterial({
-														...material,
+													setModule({
+														...module,
 														code: e.target.value,
 													})
 												}
@@ -145,10 +140,10 @@ const ManageClasses = () => {
 											<input
 												type="text"
 												placeholder="Module Name"
-												value={material.name}
+												value={module.name}
 												onChange={e =>
-													setMaterial({
-														...material,
+													setModule({
+														...module,
 														name: e.target.value,
 													})
 												}
@@ -167,14 +162,14 @@ const ManageClasses = () => {
 					</div>
 					<div className="card col-12">
 						<h2>Created Modules</h2>
-						{false ? (
+						{isLoading ? (
 							<Spinner />
 						) : (
 							<Table
 								limit="5"
 								headData={fields}
 								renderHead={(item, index) => renderOrderHead(item, index)}
-								bodyData={classes}
+								bodyData={modules}
 								renderBody={(item, index) => renderOrderBody(item, index)}
 							/>
 						)}
@@ -185,4 +180,4 @@ const ManageClasses = () => {
 	);
 };
 
-export default ManageClasses;
+export default ManageModules;
