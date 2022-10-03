@@ -13,19 +13,20 @@ import "../assets/css/Usercreate.css";
 const ManageModules = () => {
 	const [btnState, setBtnState] = useState(false);
 	const [error, setError] = useState("");
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [module, setModule] = useState({ code: "", name: "" });
 	const [modules, setModules] = useState([]);
 
-	const fields = ["", "Module Code", "Module Name", "Created At", "Actions"];
+	const fields = ["", "ID", "Module Code", "Module Name", "Created At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
+			<td>{item.id}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
-			<td>{item.createdAt}</td>
+			<td>{new Date(item.created_at).toLocaleString()}</td>
 			<td>
 				<div style={{ display: "flex", alignItems: "center" }}>
 					<Link to={``}>
@@ -36,7 +37,7 @@ const ManageModules = () => {
 						style={{ marginLeft: "2rem" }}
 						onClick={() => {
 							if (window.confirm("Are you sure to delete this module?")) {
-								deleteHandler(item._id, item.username);
+								deleteHandler(item.id);
 							}
 						}}
 					>
@@ -59,14 +60,12 @@ const ManageModules = () => {
 		}
 
 		try {
-			const res = await axios.post("/modules/create", module);
-			console.log(res);
+			await axios.post("modules/create", module);
 			setModule({ code: "", name: "" });
-			getAllModules();
 			setError("");
 			window.alert("Module added successfully");
+			getAllModules();
 			setBtnState(false);
-			setIsLoading(true);
 		} catch (err) {
 			setBtnState(false);
 			setError(err.response.data.message);
@@ -74,14 +73,14 @@ const ManageModules = () => {
 		}
 	};
 
-	const deleteHandler = async (id, username) => {
+	const deleteHandler = async id => {
 		try {
 			const res = await axios.delete(`modules/${id}`);
 
 			if (res.statusText === "OK") {
 				getAllModules();
 				setError("");
-				window.alert("Class has been successfully deleted");
+				window.alert("Module has been successfully deleted");
 				setIsLoading(true);
 			}
 		} catch (err) {
