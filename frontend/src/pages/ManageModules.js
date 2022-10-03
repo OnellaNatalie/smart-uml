@@ -20,11 +20,6 @@ const ManageModules = () => {
 	const fields = ["", "Module Code", "Module Name", "Created At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
-	const classes = [
-		{ code: "A001", name: "CTSE", createdAt: "2022-04-05" },
-		{ code: "A002", name: "CTSE", createdAt: "2022-04-05" },
-		{ code: "A003", name: "CTSE", createdAt: "2022-04-05" },
-	];
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
@@ -40,7 +35,7 @@ const ManageModules = () => {
 						className="action-btn x"
 						style={{ marginLeft: "2rem" }}
 						onClick={() => {
-							if (window.confirm("Are you sure to delete this class?")) {
+							if (window.confirm("Are you sure to delete this module?")) {
 								deleteHandler(item._id, item.username);
 							}
 						}}
@@ -95,8 +90,10 @@ const ManageModules = () => {
 	};
 
 	const getAllModules = async () => {
+		setIsLoading(true);
 		try {
-			const res = await axios.get(`modules`);
+			const res = await axios.get("modules");
+			console.log(res);
 			setModules(res.data.modules);
 			setIsLoading(false);
 		} catch (err) {
@@ -165,14 +162,14 @@ const ManageModules = () => {
 					</div>
 					<div className="card col-12">
 						<h2>Created Modules</h2>
-						{false ? (
+						{isLoading ? (
 							<Spinner />
 						) : (
 							<Table
 								limit="5"
 								headData={fields}
 								renderHead={(item, index) => renderOrderHead(item, index)}
-								bodyData={classes}
+								bodyData={modules}
 								renderBody={(item, index) => renderOrderBody(item, index)}
 							/>
 						)}
