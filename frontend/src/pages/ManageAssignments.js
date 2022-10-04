@@ -47,7 +47,7 @@ const ManageAssignments = () => {
 						className="action-btn x"
 						onClick={() => {
 							if (window.confirm("Are you sure to delete this assignment?")) {
-								deleteHandler(item._id, item.username);
+								deleteHandler(item.id);
 							}
 						}}
 					>
@@ -86,7 +86,7 @@ const ManageAssignments = () => {
 		}
 	};
 
-	const deleteHandler = async (id, username) => {
+	const deleteHandler = async id => {
 		try {
 			const res = await axios.delete(`assignments/${id}`);
 
