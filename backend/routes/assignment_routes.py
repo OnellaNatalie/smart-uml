@@ -42,7 +42,7 @@ def create_assignment():
     else:
         assignment_obj = Assignment.query.filter_by(id=assignment_obj.id).first()
         db.session.delete(assignment_obj)
-        db.commit()
+        db.session.commit()
         return jsonify({'err': 'Something went wrong while generating model answers'}), HTTP_500_INTERNAL_SERVER_ERROR
 
 
