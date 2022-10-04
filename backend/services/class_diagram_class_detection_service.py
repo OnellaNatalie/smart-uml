@@ -1,15 +1,12 @@
 import operator
-import os
-import re
-
 import cv2
 import numpy as np
 import pytesseract as ts
 from PIL import Image
 from models.attribute_model import Attribute
-
+from paddleocr import PaddleOCR, draw_ocr  # main OCR dependencies
 from object_detection.utils import label_map_util
-
+import matplotlib.pyplot as plt
 import app
 import tensorflow as tf
 import spacy
@@ -17,6 +14,7 @@ import spacy
 from config.database import db
 from models.class_component_model import Component
 from models.class_relationship_model import Relationship
+from models.class_relationship_muplicity import Multiplicity
 from models.method_model import Method
 
 ts.pytesseract.tesseract_cmd = r'C:\Users\DELL\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
@@ -44,10 +42,11 @@ def component_separation(filename, class_comp_id):
 
         if category == 'class':
             print(filename)
-            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
+            # class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
         elif category == 'interface':
-            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
+            print(filename, 'interface')
+            # class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
         else:
             relationship_details_detection(image_nparray, boxes, index, class_comp_id, category)
@@ -264,10 +263,51 @@ def save_class_interface(class_type, comp_name, cl_ymin, cl_xmin, cl_ymax, cl_xm
 
 def relationship_details_detection(image_nparray, boxes, index, class_comp_id, category):
     _image, y_min, x_min, y_max, x_max = crop_image_(image_nparray, boxes, index)
-    _image = cv2.resize(_image, None, fx=1, fy=1)
-    relationship = Relationship(class_answer=class_comp_id, name='', type=category, x_min=x_min, y_min=y_min,
+    _image = cv2.resize(_image, None, fx=4, fy=5)
+    ocr_model = PaddleOCR(lang='en', use_gpu=False)
+    result = ocr_model.ocr(_image)
+    relationship = Relationship(class_answer=class_comp_id, type=category, x_min=x_min, y_min=y_min,
                                 x_max=x_max,
                                 y_max=y_max)
     db.session.add(relationship)
     db.session.commit()
+
+    if result is not None:
+        relationship_text(_image, result, relationship)
+
     print(relationship, 'relationship')
+
+
+def relationship_text(_image, result, relationship):
+    # boxes = [res[0] for res in result]
+    # texts = [res[1][0] for res in result]
+    # scores = [res[1][1] for res in result]
+    for element in result:
+        text = element[1][0]
+        box = element[0]
+        nlp_ner = spacy.load('ner_models/model-best')
+        nlp_output = nlp_ner(text)
+        print(text, 'line 290')
+        # box = np.array(box,dtype=float)
+        box = np.array(box).astype(np.int32)
+
+        xmin = min(box[:, 0])
+        ymin = min(box[:, 1])
+        xmax = max(box[:, 0])
+        ymax = max(box[:, 1])
+        for token in nlp_output.ents:
+            print(token, 'line 301')
+
+            if token.label == 'MULTIPLICITY' or contains_number(text):
+                multiplicity = Multiplicity(value=token.text, relationship_id=relationship.id, x_min=xmin,
+                                            y_min=ymin, x_max=xmax, y_max=ymax)
+                db.session.add(multiplicity)
+                db.session.commit()
+
+        if not contains_number(text):
+            relationship.name = text
+            db.session.commit()
+
+
+def contains_number(string):
+    return any([char.isdigit() for char in string])
