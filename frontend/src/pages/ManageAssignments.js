@@ -16,35 +16,28 @@ const ManageAssignments = () => {
 	const [btnState, setBtnState] = useState(false);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [material, setMaterial] = useState({ scenario: "" });
-	const [materials, setMaterials] = useState([]);
+	const [assignment, setAssignment] = useState({
+		content: "",
+		plagiarism_percentage: 0,
+		module_id: "",
+	});
+	const [assignments, setAssignments] = useState([]);
 
-	const fields = ["", "Module Code", "Name", "Status", "Created At", "Actions"];
-	const permissionStatus = {
-		pending: "warning",
-		approved: "success",
-		rejected: "danger",
-	};
-	const assignments = [
-		{ code: "A001", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
-		{ code: "A002", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
-		{ code: "A003", name: "CTSE Assignment", status: "pending", createdAt: "2022-01-01" },
-	];
+	const fields = ["", "ID", "Module Code", "Name", "Start At", "End At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
 			<td>{index + 1}</td>
+			<td>{item.id}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
-			<td>
-				<Badge type={permissionStatus[item.status]} content={item.status} />
-			</td>
-			<td>{item.createdAt}</td>
+			<td>{new Date(item.start_at).toLocaleString()}</td>
+			<td>{new Date(item.end_at).toLocaleString()}</td>
 			<td>
 				<div style={{ display: "flex", alignItems: "center" }}>
-					<Link to={`/auth/teacher/assignments/1`}>
+					<Link to={`/auth/teacher/assignments/${item.id}`}>
 						<button className="view-btn">View</button>
 					</Link>
 					<button className="action-btn check" style={{ marginLeft: "2rem" }}>
@@ -53,7 +46,7 @@ const ManageAssignments = () => {
 					<button
 						className="action-btn x"
 						onClick={() => {
-							if (window.confirm("Are you sure to delete this material?")) {
+							if (window.confirm("Are you sure to delete this assignment?")) {
 								deleteHandler(item._id, item.username);
 							}
 						}}
@@ -65,24 +58,24 @@ const ManageAssignments = () => {
 		</tr>
 	);
 
-	const saveMaterial = async e => {
+	const saveAssignment = async e => {
 		e.preventDefault();
 		setBtnState(true);
 
-		for (let key of Object.keys(material)) {
-			if (!material[key]) {
+		for (let key of Object.keys(assignment)) {
+			if (!assignment[key]) {
 				setBtnState(false);
 				return setError("Please fill all the fields");
 			}
 		}
 
 		try {
-			const res = await axios.post("materials", material);
+			const res = await axios.post("assignments", assignment);
 			console.log(res);
-			setMaterial({
+			setAssignment({
 				scenario: "",
 			});
-			getAllMaterial();
+			getAllAssignments();
 			setError("");
 			window.alert("Assignment added successfully");
 			setBtnState(false);
@@ -95,10 +88,10 @@ const ManageAssignments = () => {
 
 	const deleteHandler = async (id, username) => {
 		try {
-			const res = await axios.delete(`materials/${id}`);
+			const res = await axios.delete(`assignments/${id}`);
 
 			if (res.statusText === "OK") {
-				getAllMaterial();
+				getAllAssignments();
 				setError("");
 				window.alert("Assignment has been successfully deleted");
 				setIsLoading(true);
@@ -108,17 +101,17 @@ const ManageAssignments = () => {
 		}
 	};
 
-	const getAllMaterial = async () => {
+	const getAllAssignments = async () => {
 		try {
-			const res = await axios.get(`materials`);
-			setMaterials(res.data.materials);
+			const res = await axios.get(`assignments`);
+			setAssignments(res.data.assignments);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
 
-	useEffect(() => getAllMaterial(), []);
+	useEffect(() => getAllAssignments(), []);
 
 	return (
 		<div>
@@ -141,10 +134,10 @@ const ManageAssignments = () => {
 											<textarea
 												type="text"
 												placeholder="PASTE QUESTION SCENARIO HERE..."
-												value={material.code}
+												value={assignment.code}
 												onChange={e =>
-													setMaterial({
-														...material,
+													setAssignment({
+														...assignment,
 														code: e.target.value,
 													})
 												}
@@ -171,10 +164,10 @@ const ManageAssignments = () => {
 											<input
 												type="text"
 												placeholder="Accepted Plagiarism Percentage"
-												value={material.name}
+												value={assignment.name}
 												onChange={e =>
-													setMaterial({
-														...material,
+													setAssignment({
+														...assignment,
 														name: e.target.value,
 													})
 												}
@@ -184,7 +177,7 @@ const ManageAssignments = () => {
 									</div>
 								</div>
 								<div className="row-user">
-									<button type="submit" onClick={saveMaterial}>
+									<button type="submit" onClick={saveAssignment}>
 										{btnState ? "Creating" : "Create"}
 									</button>
 								</div>
@@ -193,7 +186,7 @@ const ManageAssignments = () => {
 					</div>
 					<div className="card col-12">
 						<h2>Created Assignments</h2>
-						{false ? (
+						{isLoading ? (
 							<Spinner />
 						) : (
 							<Table
