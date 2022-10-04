@@ -1,9 +1,11 @@
 import requests
 from flask import Blueprint, jsonify, request
-from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
+from constants.http_status_codes_constant import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED, \
+    HTTP_500_INTERNAL_SERVER_ERROR
 from config.database import db
 from datetime import datetime
 from models.assignment_model import Assignment
+from models.module_model import Module
 
 assignment = Blueprint('assignments', __name__, url_prefix='/api/v1/assignments')
 
@@ -27,7 +29,8 @@ def create_assignment():
     db.session.add(assignment_obj)
     db.session.commit()
 
-    response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate", json={"scenario": content, "assignment_id": assignment_obj.id})
+    response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate",
+                             json={"scenario": content, "assignment_id": assignment_obj.id})
 
     if response.ok:
         return jsonify({'msg': 'Assignment created', 'assignment': {
@@ -44,6 +47,22 @@ def create_assignment():
         db.session.delete(assignment_obj)
         db.commit()
         return jsonify({'err': 'Something went wrong while generating model answers'}), HTTP_500_INTERNAL_SERVER_ERROR
+
+
+@assignment.get('/')
+def get_assignments():
+    assignment_obj = db.session.query(Assignment, Module).join(Module).all()
+    assignments = []
+
+    for assignment, module in assignment_obj:
+        assignments.append(
+            {"id": assignment.id, "module_id": assignment.module_id, "code": module.code, "name": module.name, "start_at": assignment.start_at, "end_at": assignment.end_at,
+             "created_at": assignment.created_at, "updated_at": assignment.updated_at})
+
+    if assignment_obj is None:
+        return jsonify({'err': "Assignments does not exist"}), HTTP_400_BAD_REQUEST
+
+    return jsonify({'msg': 'Assignments found', 'assignments': assignments}), HTTP_200_OK
 
 
 @assignment.get('/<assignment_id>')
