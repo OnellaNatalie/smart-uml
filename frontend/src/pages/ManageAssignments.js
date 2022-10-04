@@ -8,7 +8,6 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Spinner from "../components/loading/Spinner";
 import Table from "../components/table/Table";
 import TopNav from "../components/topnav/TopNav";
-import Badge from "../components/badge/Badge";
 
 import "../assets/css/Usercreate.css";
 
@@ -18,10 +17,13 @@ const ManageAssignments = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [assignment, setAssignment] = useState({
 		content: "",
-		plagiarism_percentage: 0,
+		plagiarism_percentage: "",
 		module_id: "",
+		start_at: "",
+		end_at: "",
 	});
 	const [assignments, setAssignments] = useState([]);
+	const [modules, setModules] = useState([]);
 
 	const fields = ["", "ID", "Module Code", "Name", "Start At", "End At", "Actions"];
 
@@ -62,6 +64,8 @@ const ManageAssignments = () => {
 		e.preventDefault();
 		setBtnState(true);
 
+		console.log(assignment);
+
 		for (let key of Object.keys(assignment)) {
 			if (!assignment[key]) {
 				setBtnState(false);
@@ -70,10 +74,14 @@ const ManageAssignments = () => {
 		}
 
 		try {
-			const res = await axios.post("assignments", assignment);
+			const res = await axios.post("assignments/create", assignment);
 			console.log(res);
 			setAssignment({
-				scenario: "",
+				content: "",
+				plagiarism_percentage: "",
+				module_id: "",
+				start_at: "",
+				end_at: "",
 			});
 			getAllAssignments();
 			setError("");
@@ -82,6 +90,7 @@ const ManageAssignments = () => {
 			setIsLoading(true);
 		} catch (err) {
 			setBtnState(false);
+			setError("Something went wrong");
 			console.log(err.response);
 		}
 	};
@@ -101,6 +110,18 @@ const ManageAssignments = () => {
 		}
 	};
 
+	const getAllModules = async () => {
+		setIsLoading(true);
+		try {
+			const res = await axios.get("modules");
+			console.log(res);
+			setModules(res.data.modules);
+			setIsLoading(false);
+		} catch (err) {
+			console.log(err.response);
+		}
+	};
+
 	const getAllAssignments = async () => {
 		try {
 			const res = await axios.get(`assignments`);
@@ -112,6 +133,7 @@ const ManageAssignments = () => {
 	};
 
 	useEffect(() => getAllAssignments(), []);
+	useEffect(() => getAllModules(), []);
 
 	return (
 		<div>
@@ -124,7 +146,7 @@ const ManageAssignments = () => {
 						<div className="col-12">
 							<form className="card" style={{ position: "relative" }}>
 								{error && (
-									<div className="error-bg" style={{ left: "3%" }}>
+									<div className="error-bg" style={{ left: "2%", top: "2%" }}>
 										<p>{error}</p>
 									</div>
 								)}
@@ -134,11 +156,11 @@ const ManageAssignments = () => {
 											<textarea
 												type="text"
 												placeholder="PASTE QUESTION SCENARIO HERE..."
-												value={assignment.code}
+												value={assignment.content}
 												onChange={e =>
 													setAssignment({
 														...assignment,
-														code: e.target.value,
+														content: e.target.value,
 													})
 												}
 												required
@@ -149,12 +171,27 @@ const ManageAssignments = () => {
 								<div className="row">
 									<div className="col-4">
 										<div className="row-user">
-											<select name="position" id="position" required>
-												<option value="position" defaultValue>
+											<select
+												name="position"
+												id="position"
+												required
+												onChange={e => {
+													console.log(e.target.value);
+													setAssignment({
+														...assignment,
+														module_id: e.target.value,
+													});
+												}}
+											>
+												<option value="position" disabled selected>
 													PLEASE SELECT MODULE
 												</option>
-												<option value="class">Module A</option>
-												<option value="class">Module B</option>
+												{modules.map(item => (
+													<option
+														value={item.id}
+														key={item.id}
+													>{`${item.code} - ${item.name}`}</option>
+												))}
 											</select>
 										</div>
 									</div>
@@ -164,13 +201,50 @@ const ManageAssignments = () => {
 											<input
 												type="text"
 												placeholder="Accepted Plagiarism Percentage"
-												value={assignment.name}
+												value={assignment.plagiarism_percentage}
 												onChange={e =>
 													setAssignment({
 														...assignment,
-														name: e.target.value,
+														plagiarism_percentage: e.target.value,
 													})
 												}
+												required
+											/>
+										</div>
+									</div>
+									<div className="col-4">
+										<div className="row-user">
+											<input
+												type="datetime-local"
+												step={1}
+												placeholder="Starts At"
+												onFocus={"(this.type='datetime-local')"}
+												value={assignment.start_at}
+												onChange={e => {
+													let date = e.target.value.replace("T", " ");
+													setAssignment({
+														...assignment,
+														start_at: date,
+													});
+												}}
+												required
+											/>
+										</div>
+									</div>
+									<div className="col-4">
+										<div className="row-user">
+											<input
+												type="datetime-local"
+												step={1}
+												placeholder="Ends At"
+												value={assignment.end_at}
+												onChange={e => {
+													let date = e.target.value.replace("T", " ");
+													setAssignment({
+														...assignment,
+														end_at: date,
+													});
+												}}
 												required
 											/>
 										</div>
