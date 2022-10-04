@@ -29,7 +29,6 @@ def create_module():
 def get_modules():
     module_obj = Module.query.all()
     modules = []
-    print(module_obj)
 
     for module in module_obj:
         modules.append({"id": module.id, "name": module.name, "code": module.code, "created_at": module.created_at, "updated_at": module.updated_at})
