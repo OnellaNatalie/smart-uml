@@ -9,7 +9,6 @@ import Spinner from "../components/loading/Spinner";
 
 const ViewAssignment = () => {
 	const { id } = useParams();
-	const siteId = localStorage.getItem("site");
 	const [Materials, setMaterials] = useState([]);
 	const [assignment, setAssignment] = useState({});
 	const students = [
@@ -98,6 +97,7 @@ const ViewAssignment = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
+					<h1 className="page-header">{assignment.title}</h1>
 					<div className="row">
 						<div className="col-12">
 							<div className="card">
