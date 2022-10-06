@@ -17,6 +17,7 @@ const ManageAssignments = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [assignment, setAssignment] = useState({
 		content: "",
+		title: "",
 		plagiarism_percentage: "",
 		module_id: "",
 		start_at: "",
@@ -25,7 +26,7 @@ const ManageAssignments = () => {
 	const [assignments, setAssignments] = useState([]);
 	const [modules, setModules] = useState([]);
 
-	const fields = ["", "ID", "Module Code", "Name", "Start At", "End At", "Actions"];
+	const fields = ["", "ID", "Module Code", "Module Name", "Title", "Start At", "End At", "Actions"];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -35,6 +36,7 @@ const ManageAssignments = () => {
 			<td>{item.id}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
+			<td>{item.title}</td>
 			<td>{new Date(item.start_at).toLocaleString()}</td>
 			<td>{new Date(item.end_at).toLocaleString()}</td>
 			<td>
@@ -78,6 +80,7 @@ const ManageAssignments = () => {
 			console.log(res);
 			setAssignment({
 				content: "",
+				title: "",
 				plagiarism_percentage: "",
 				module_id: "",
 				start_at: "",
@@ -151,6 +154,24 @@ const ManageAssignments = () => {
 									</div>
 								)}
 								<div className="row">
+									<div className="col-12">
+										<div className="row-user">
+											<input
+												type="text"
+												placeholder="Title"
+												value={assignment.title}
+												onChange={e =>
+													setAssignment({
+														...assignment,
+														title: e.target.value,
+													})
+												}
+												required
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="row" style={{ marginTop: "1.8rem" }}>
 									<div className="col-12">
 										<GrammarlyEditorPlugin clientId="5c891c34-55b1-4504-b1a2-5215d35757ba">
 											<textarea
