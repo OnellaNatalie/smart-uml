@@ -16,7 +16,7 @@ def generate_diagrams():
         data = request.get_json(silent=True)
 
         if data is None:
-            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+            return jsonify('Please attach assignment details'), HTTP_400_BAD_REQUEST
 
         generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
             data['scenario'])
@@ -35,7 +35,7 @@ def generate_diagrams():
 
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:
-            return jsonify('Please attach a scenario file'), HTTP_400_BAD_REQUEST
+            return jsonify('Please attach assignment details'), HTTP_400_BAD_REQUEST
         return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
 
 
