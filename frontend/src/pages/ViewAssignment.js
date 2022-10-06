@@ -6,8 +6,6 @@ import TopNav from "../components/topnav/TopNav";
 import Table from "../components/table/Table";
 import Badge from "../components/badge/Badge";
 import Spinner from "../components/loading/Spinner";
-import { RiDeleteBinLine } from "react-icons/ri";
-import Popup from "./Popup";
 
 const ViewAssignment = () => {
 	const { id } = useParams();
@@ -86,7 +84,7 @@ const ViewAssignment = () => {
 			<td>{item.submittedAt}</td>
 			<td>
 				<div style={{ display: "flex", alignItems: "center" }}>
-					<Link to={``}>
+					<Link to={""}>
 						<button className="view-btn">View</button>
 					</Link>
 				</div>
@@ -110,7 +108,7 @@ const ViewAssignment = () => {
 										</h3>
 									</div>
 									<div className="col-1">
-										<Link to={`/auth/teacher/assignments/1/diagrams`}>
+										<Link to={`/auth/teacher/assignments/${id}/diagrams`}>
 											<button className="view-btn">View Generated Diagrams</button>
 										</Link>
 									</div>
