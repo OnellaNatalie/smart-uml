@@ -5,6 +5,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 import Sidebar from "../components/sidebar/Sidebar";
+import FullScreenLoader from "../components/loading/FullScreenLoader";
 import Spinner from "../components/loading/Spinner";
 import Table from "../components/table/Table";
 import TopNav from "../components/topnav/TopNav";
@@ -15,6 +16,7 @@ const ManageAssignments = () => {
 	const [btnState, setBtnState] = useState(false);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
+	const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
 	const [assignment, setAssignment] = useState({
 		content: "",
 		title: "",
@@ -64,13 +66,13 @@ const ManageAssignments = () => {
 
 	const saveAssignment = async e => {
 		e.preventDefault();
+		setIsFullScreenLoading(true);
 		setBtnState(true);
-
-		console.log(assignment);
 
 		for (let key of Object.keys(assignment)) {
 			if (!assignment[key]) {
 				setBtnState(false);
+				setIsFullScreenLoading(false);
 				return setError("Please fill all the fields");
 			}
 		}
@@ -90,9 +92,10 @@ const ManageAssignments = () => {
 			setError("");
 			window.alert("Assignment added successfully");
 			setBtnState(false);
-			setIsLoading(true);
+			setIsFullScreenLoading(false);
 		} catch (err) {
 			setBtnState(false);
+			setIsFullScreenLoading(false);
 			setError("Something went wrong");
 			console.log(err.response);
 		}
@@ -144,6 +147,7 @@ const ManageAssignments = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
+					{isFullScreenLoading && <FullScreenLoader title={"Generating Model Diagrams..."} />}
 					<h1 className="page-header">Manage Assignments</h1>
 					<div className="row">
 						<div className="col-12">
@@ -176,7 +180,7 @@ const ManageAssignments = () => {
 										<GrammarlyEditorPlugin clientId="5c891c34-55b1-4504-b1a2-5215d35757ba">
 											<textarea
 												type="text"
-												placeholder="PASTE QUESTION SCENARIO HERE..."
+												placeholder="PASTE FORMATTED QUESTION SCENARIO HERE..."
 												value={assignment.content}
 												onChange={e =>
 													setAssignment({
@@ -197,7 +201,6 @@ const ManageAssignments = () => {
 												id="position"
 												required
 												onChange={e => {
-													console.log(e.target.value);
 													setAssignment({
 														...assignment,
 														module_id: e.target.value,
@@ -239,7 +242,6 @@ const ManageAssignments = () => {
 												type="datetime-local"
 												step={1}
 												placeholder="Starts At"
-												onFocus={"(this.type='datetime-local')"}
 												value={assignment.start_at}
 												onChange={e => {
 													let date = e.target.value.replace("T", " ");
