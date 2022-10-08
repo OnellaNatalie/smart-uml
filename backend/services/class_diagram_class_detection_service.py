@@ -31,8 +31,8 @@ def component_separation(filename, class_comp_id):
                                                                                lbl1_path,
                                                                                image_nparray)
 
-    # Convert the class id in their name
     for index in range(0, len(accurate_indexes)):
+        # Convert the class id in their name
         if len(accurate_indexes) > 1:
             category = category_index[class_id[index]]['name']
 
@@ -40,15 +40,17 @@ def component_separation(filename, class_comp_id):
             category = category_index[class_id]['name']
             print(category)
 
+        # select the component type and provide method to detect further details
         if category == 'class':
-            print(filename)
-            # class_details_detection(image_nparray, boxes, index, class_comp_id, category)
+            print(filename, 'class')
+            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
         elif category == 'interface':
             print(filename, 'interface')
-            # class_details_detection(image_nparray, boxes, index, class_comp_id, category)
+            class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
         else:
+            print(filename, 'relationship')
             relationship_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
 
@@ -80,7 +82,7 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
     methods_attributes = []
 
     _image, cl_ymin, cl_xmin, cl_ymax, cl_xmax = crop_image_(image_nparray, boxes, index)
-    _image = cv2.resize(_image, None, fx=2, fy=2)
+    cv2.imwrite('image_1.jpg', _image)
 
     mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
     lbl2_path = app.CLASS_COMP_SAVED_LABEL_PATH
@@ -90,8 +92,6 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
     for j in range(0, len(accurate_indexes)):
         if len(accurate_indexes) > 1:
             category = category_index[class_id[j]]['name']
-            print(category_index, 'line 91 category')
-            print(class_id, 'line 92 class id')
 
         else:
             category = category_index[class_id]['name']
@@ -99,8 +99,9 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
 
         if category == 'class_attributes':
             print(category, 'line 96 - inside attributes')
-            print(j, 'line 97 - inside attributes')
             class_attributes, y_min, x_min, y_max, x_max = crop_image_(_image, boxes_class, j)
+            class_attributes = cv2.resize(class_attributes, None, fx=2, fy=2)
+            cv2.imwrite('image.jpg', class_attributes)
             text = text_extraction(class_attributes)
             attr = save_attributes_methods(text, 'attribute')
             methods_attributes.append(attr)
@@ -108,6 +109,7 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
         elif category == 'class_methods':
             print(category, 'line 103 - inside methods')
             class_methods, y_min, x_min, y_max, x_max = crop_image_(_image, boxes_class, j)
+            class_methods = cv2.resize(class_methods, None, fx=2, fy=2)
             text = text_extraction(class_methods)
             methods = save_attributes_methods(text, 'method')
             methods_attributes.append(methods)
@@ -121,6 +123,7 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
     alter_attributes_methods(methods_attributes, comp.id)
 
 
+# crop image using boxes & index
 def crop_image_(image, boxes, index):
     height, width, c = image.shape
     # crop box format: xmin, ymin, xmax, ymax
@@ -132,10 +135,11 @@ def crop_image_(image, boxes, index):
     cropped_image = image[int(ymin):int(ymax), int(xmin):int(xmax)]
     # image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
     # image = cv2.resize(image, (800, 500))
-
+    # returns cropped image , ymin,xmin,ymax & xmax
     return cropped_image, ymin, xmin, ymax, xmax
 
 
+# extract text from provided image
 def text_extraction(image):
     config = '-l eng --oem 1 --psm 4'
     text = ts.image_to_string(image, config=config)
@@ -145,6 +149,7 @@ def text_extraction(image):
     return text
 
 
+# save attributes and methods in database
 def save_attributes_methods(text, typ):
     saved_data = []
     nlp = spacy.load('en_core_web_sm')
@@ -193,6 +198,7 @@ def save_attributes_methods(text, typ):
     return saved_data
 
 
+# update attributes and methods with relevant class id
 def alter_attributes_methods(element_list, component_id):
     for j in element_list:
         for element in j:
@@ -202,6 +208,7 @@ def alter_attributes_methods(element_list, component_id):
             db.session.commit()
 
 
+# convert symbol access specifier to string
 def covert_to_access_specifier(access):
     if access == "-":
         return "Private"
@@ -229,21 +236,26 @@ def class_name_detection(image, boxes, category_index, accurate_indexes, class_i
     for i in range(0, len(accurate_indexes)):
         if len(accurate_indexes) > 1:
             category = category_index[class_id[i]]['name']
+            print(category, '225 line')
 
         else:
             category = category_index[class_id]['name']
             print(category, '225 line')
 
-        if category != 'interface_name' or category != 'class_name':
+        if category is not 'interface_name' or category is not 'class_name':
             ymin = boxes[i][0] * height
             xmin = boxes[i][1] * width
             ymax = boxes[i][2] * height
             xmax = boxes[i][3] * width
 
             cv2.rectangle(image, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (255, 255, 255), -1)
+            cv2.imwrite('image_2.jpg', image)
+
     class_name = text_extraction(image)
-    if ''.join(class_name) != '':
-        if "interface" in ''.join(class_name):
+    print(class_name, 'line 249 class name')
+    if ''.join(class_name) is not None:
+        print(class_name, 'line 251 class name')
+        if "terface" in ''.join(class_name):
             name = ''.join(class_name).replace("<<interface>>", "")
         else:
             name = ''.join(class_name)
@@ -263,7 +275,7 @@ def save_class_interface(class_type, comp_name, cl_ymin, cl_xmin, cl_ymax, cl_xm
 
 def relationship_details_detection(image_nparray, boxes, index, class_comp_id, category):
     _image, y_min, x_min, y_max, x_max = crop_image_(image_nparray, boxes, index)
-    _image = cv2.resize(_image, None, fx=4, fy=5)
+    _image = cv2.resize(_image, None, fx=3, fy=5)
     ocr_model = PaddleOCR(lang='en', use_gpu=False)
     result = ocr_model.ocr(_image)
     relationship = Relationship(class_answer=class_comp_id, type=category, x_min=x_min, y_min=y_min,
@@ -297,8 +309,9 @@ def relationship_text(_image, result, relationship):
         ymax = max(box[:, 1])
         for token in nlp_output.ents:
             print(token, 'line 301')
+            print(token.label_, 'line 302')
 
-            if token.label == 'MULTIPLICITY' or contains_number(text):
+            if token.label_ == 'MULTIPLICITY' or contains_number(text):
                 multiplicity = Multiplicity(value=token.text, relationship_id=relationship.id, x_min=xmin,
                                             y_min=ymin, x_max=xmax, y_max=ymax)
                 db.session.add(multiplicity)
@@ -309,5 +322,6 @@ def relationship_text(_image, result, relationship):
             db.session.commit()
 
 
+# check if string contains any numbers
 def contains_number(string):
     return any([char.isdigit() for char in string])
