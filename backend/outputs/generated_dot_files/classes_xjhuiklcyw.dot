@@ -1,0 +1,5 @@
+digraph "classes_xjhuiklcyw" {
+rankdir=BT
+charset="utf-8"
+"xjhuiklcyw.Admin" [color="black", fontcolor="black", label="{Admin|\l|check_the_payments_and_sold_items()\llogin_to_the_system()\lreply_to_Customer_feedbacks()\lview_and_manage_cart_items()\l}", shape="record", style="solid"];
+}
