@@ -83,7 +83,7 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
     methods_attributes = []
 
     _image, cl_ymin, cl_xmin, cl_ymax, cl_xmax = crop_image_(image_nparray, boxes, index)
-    # cv2.imwrite('image_1.jpg', _image)
+    cv2.imwrite('image_1.jpg', _image)
 
     mdl2_path = app.CLASS_COMP_SAVED_MODEL_PATH
     lbl2_path = app.CLASS_COMP_SAVED_LABEL_PATH
@@ -102,7 +102,7 @@ def class_details_detection(image_nparray, boxes, index, class_comp_id, class_ty
             # print(category, 'line 96 - inside attributes')
             class_attributes, y_min, x_min, y_max, x_max = crop_image_(_image, boxes_class, j)
             class_attributes = cv2.resize(class_attributes, None, fx=2, fy=2)
-            # cv2.imwrite('image.jpg', class_attributes)
+            cv2.imwrite('image.jpg', class_attributes)
             text = text_extraction(class_attributes)
             attr = save_attributes_methods(text, 'attribute')
             methods_attributes.append(attr)
@@ -270,5 +270,5 @@ def save_class_interface(class_type, comp_name, cl_ymin, cl_xmin, cl_ymax, cl_xm
                      y_max=cl_ymax)
     db.session.add(comp)
     db.session.commit()
-    # print(comp, 'line 261 comp')
+    print(comp, 'line 261 comp')
     return comp

@@ -21,6 +21,7 @@ const ManageAssignments = () => {
 		content: "",
 		title: "",
 		plagiarism_percentage: "",
+		assignment_type: "",
 		module_id: "",
 		start_at: "",
 		end_at: "",
@@ -28,7 +29,17 @@ const ManageAssignments = () => {
 	const [assignments, setAssignments] = useState([]);
 	const [modules, setModules] = useState([]);
 
-	const fields = ["", "ID", "Module Code", "Module Name", "Title", "Start At", "End At", "Actions"];
+	const fields = [
+		"",
+		"ID",
+		"Module Code",
+		"Module Name",
+		"Assignment Type",
+		"Title",
+		"Start At",
+		"End At",
+		"Actions",
+	];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
@@ -38,6 +49,7 @@ const ManageAssignments = () => {
 			<td>{item.id}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
+			<td>{item.assignment_type}</td>
 			<td>{item.title}</td>
 			<td>{new Date(item.start_at).toLocaleString()}</td>
 			<td>{new Date(item.end_at).toLocaleString()}</td>
@@ -93,6 +105,7 @@ const ManageAssignments = () => {
 			window.alert("Assignment added successfully");
 			setBtnState(false);
 			setIsFullScreenLoading(false);
+			window.location.reload();
 		} catch (err) {
 			setBtnState(false);
 			setIsFullScreenLoading(false);
@@ -147,7 +160,9 @@ const ManageAssignments = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					{isFullScreenLoading && <FullScreenLoader title={"Generating Model Diagrams..."} />}
+					{isFullScreenLoading && (
+						<FullScreenLoader title={"Creating assignment and generating model diagrams..."} />
+					)}
 					<h1 className="page-header">Manage Assignments</h1>
 					<div className="row">
 						<div className="col-12">
@@ -216,6 +231,29 @@ const ManageAssignments = () => {
 														key={item.id}
 													>{`${item.code} - ${item.name}`}</option>
 												))}
+											</select>
+										</div>
+									</div>
+									<div className="col-4">
+										<div className="row-user">
+											<select
+												name="position"
+												id="position"
+												required
+												onChange={e => {
+													setAssignment({
+														...assignment,
+														assignment_type: e.target.value,
+													});
+												}}
+											>
+												<option value="position" disabled selected>
+													PLEASE SELECT ASSIGNMENT TYPE
+												</option>
+
+												<option value="1">Type 1 - Use Case Diagram Only</option>
+												<option value="2">Type 2 - Class Diagram Only</option>
+												<option value="3">Type 3 - Use Case and Class Diagram Only</option>
 											</select>
 										</div>
 									</div>
