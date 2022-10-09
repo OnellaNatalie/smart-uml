@@ -24,12 +24,14 @@ def get_nouns_pronouns(sentence):
             return token
 
 
+# removing punctuations
 def remove_punctuation(sentence):
     text_no_punct = [token for token in sentence if not token.is_punct]
     cleaned_sentence = ' '.join(token.text for token in text_no_punct)
     return cleaned_sentence
 
 
+# get actions and actors
 def split_actions(sentence):
     split_string = "should be able to "
     if split_string in sentence:
@@ -37,16 +39,18 @@ def split_actions(sentence):
         return extracted_string
 
 
-def get_actions(splitted_action):
+# get
+def get_actions(splitted_action_and_actor):
     temp_array = []
-    if splitted_action is not None and '|' in splitted_action[1]:
-        res = splitted_action[1].split(' | ')
-        # print('res',res)
-        temp_array.append(splitted_action[0])
+    if splitted_action_and_actor is not None and '|' in splitted_action_and_actor[1]:
+        res = splitted_action_and_actor[1].split(' | ')
+
+        temp_array.append(splitted_action_and_actor[0])
         temp_array.append(res[0])
+        print(temp_array)
         return temp_array
     else:
-        return splitted_action
+        return splitted_action_and_actor
 
 
 def get_sentences(text):
