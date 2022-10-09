@@ -14,7 +14,7 @@ import tensorflow as tf
 from config.database import db
 from models.actor_and_use_case import ActorANDUseCase
 
-pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+# pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 from services.extend_include_relationship_detection_service import detect_extend_include_relationship
 from services.generalization_relationship_detection_service import detect_generalization_relationship
 
