@@ -53,7 +53,7 @@ def generate_diagram(filename):
         print(Exception)
 
 
-# generate python file for the class
+# generate python file for the class (pyreverse)
 def generate_class(actors, data):
     res = create_class_methods(data)
     class_string_arr = generate_class_string_array(actors, res)
