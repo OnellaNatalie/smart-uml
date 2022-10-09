@@ -26,9 +26,6 @@ def register():
     if len(password) < 6:
         return jsonify({'err': "Password is too short"}), HTTP_400_BAD_REQUEST
 
-    if not username.isalnum() or " " in username:
-        return jsonify({'err': "Username should be alphanumeric, also no spaces"}), HTTP_400_BAD_REQUEST
-
     if not validators.email(email):
         return jsonify({'err': "Email is not valid"}), HTTP_400_BAD_REQUEST
 
@@ -59,9 +56,6 @@ def login():
 
     if not username or not password:
         return jsonify({'err': 'Missing email or password'}), HTTP_400_BAD_REQUEST
-
-    if not username.isalnum() or " " in username:
-        return jsonify({'err': "Username should be alphanumeric, also no spaces"}), HTTP_400_BAD_REQUEST
 
     user = User.query.filter_by(username=username).first()
 
