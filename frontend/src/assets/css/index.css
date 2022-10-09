@@ -191,7 +191,6 @@ textarea {
 	box-sizing: border-box;
 	border: 2px solid var(--main-color-blue);
 	border-radius: 4px;
-	background-color: #f8f8f8;
 	font-size: 16px;
 	font-family: "Inter", sans-serif;
 	resize: none;
@@ -199,6 +198,4 @@ textarea {
 
 textarea:focus {
 	outline: none !important;
-	box-shadow: 0 0 5px var(--main-color-blue);
-	border: 2px solid var(--main-color-blue);
 }
