@@ -17,9 +17,10 @@ def get_noun_chunks(sentence):
     return list(sentence.noun_chunks)
 
 
-def get_nouns_pnouns(sentence):
+# getting nouns and pronouns (pos tagging)
+def get_nouns_pronouns(sentence):
     for token in sentence:
-        if token.pos_ == "PROPN" and token.pos_ != None:
+        if token.pos_ == "PROPN" and token.pos_ is not None:
             return token
 
 
@@ -37,7 +38,6 @@ def split_actions(sentence):
 
 
 def get_actions(splitted_action):
-    # print('splitted_action',splitted_action)
     temp_array = []
     if splitted_action is not None and '|' in splitted_action[1]:
         res = splitted_action[1].split(' | ')

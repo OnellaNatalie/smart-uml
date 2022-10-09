@@ -4,7 +4,7 @@ import re
 
 import cv2
 import numpy as np
-import pytesseract as pytesseract
+import pytesseract as ts
 from PIL import Image
 from models.attribute_model import Attribute
 
@@ -18,7 +18,7 @@ from config.database import db
 from models.component_model import Component
 from models.method_model import Method
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+ts.pytesseract.tesseract_cmd = r'C:\Users\DELL\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 
 
 def component_separation(filename, class_comp_id):
