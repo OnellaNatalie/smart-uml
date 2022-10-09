@@ -11,11 +11,6 @@ def remove_unwanted_values(data):
     return data
 
 
-# # removing duplicates
-# def remove_duplicates(data):
-#     return list(set(data))
-
-
 # punctuation removing
 def remove_punctuation(sentence):
     text_without_punctuation = [token for token in sentence if not token.is_punct]
@@ -60,22 +55,22 @@ def main(scenario, assignment_type):
 
     # remove duplicates of the actors
     nouns_pronouns = list(dict.fromkeys(nouns_pronouns))
-    data = remove_unwanted_values(nouns_pronouns)
+    actors = remove_unwanted_values(nouns_pronouns)
 
     extracted_relationships = get_include_extend_relationships(splitted_actions_and_actor_array)
     actors_and_use_cases_array = identify_use_cases(cleaned_extracted_actions)
 
     if assignment_type == 1:
-        generated_usecase_diagram_path = generate_use_case_diagram(data, extracted_relationships,
+        generated_usecase_diagram_path = generate_use_case_diagram(actors, extracted_relationships,
                                                                    actors_and_use_cases_array)
         return generated_usecase_diagram_path
 
     elif assignment_type == 2:
-        generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
+        generated_class_diagram_path = generate_class(actors, cleaned_extracted_actions)
         return generated_class_diagram_path
 
     elif assignment_type == 3:
-        generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
-        generated_usecase_diagram_path = generate_use_case_diagram(data, extracted_relationships,
+        generated_class_diagram_path = generate_class(actors, cleaned_extracted_actions)
+        generated_usecase_diagram_path = generate_use_case_diagram(actors, extracted_relationships,
                                                                    actors_and_use_cases_array)
         return generated_class_diagram_path, generated_usecase_diagram_path
