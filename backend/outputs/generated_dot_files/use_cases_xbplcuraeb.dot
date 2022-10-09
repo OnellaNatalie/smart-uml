@@ -6,13 +6,13 @@ digraph G {
 	node [shape=plaintext]
 
 	subgraph WarehouseOperator {label="WarehouseOperator"; warehouseoperator};
-	warehouseoperator [image="D:\Nanduni.Bsc\research_code\2022-158\backend/stick.png";peripheries=0;];
+	warehouseoperator [image="D:\SLIIT\Year 4\Research Project\2022-158\backend/stick.png";peripheries=0;];
 
 	subgraph WarehouseIncharge {label="WarehouseIncharge"; warehouseincharge};
-	warehouseincharge [image="D:\Nanduni.Bsc\research_code\2022-158\backend/stick.png";peripheries=0;];
+	warehouseincharge [image="D:\SLIIT\Year 4\Research Project\2022-158\backend/stick.png";peripheries=0;];
 
 	subgraph Admin {label="Admin"; admin};
-	admin [image="D:\Nanduni.Bsc\research_code\2022-158\backend/stick.png";peripheries=0;];
+	admin [image="D:\SLIIT\Year 4\Research Project\2022-158\backend/stick.png";peripheries=0;];
 
 	node [shape=ellipse, style=solid];
 
@@ -46,8 +46,8 @@ digraph G {
 
 	edge [arrowhead="none"];
 
-	user->sign_up_to_the_system;
-	user->sign_in_to_the_system;
+	theuser->sign_up_to_the_system;
+	theuser->sign_in_to_the_system;
 	warehouseoperator->create_orders_by_uploading_a_csv_file;
 	warehouseoperator->make_adjustments_to_the_order;
 	warehouseoperator->allocate_a_vehicle_for_a_job;

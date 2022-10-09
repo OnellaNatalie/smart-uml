@@ -57,36 +57,40 @@ const ViewAssignment = () => {
 						</div>
 					</div>
 
-					<div className="row">
-						<div className="col-12">
-							<div className="card">
-								<h3 style={{ paddingBottom: "2rem" }}>Generated usecase diagram</h3>
-								<br />
-								<div className="flex" style={{ justifyContent: "center" }}>
-									<img
-										src={assetsUrl + diagrams.usecase_diagram}
-										alt="usecase"
-										style={{ width: "80%", height: "80%" }}
-									/>
+					{diagrams.usecase_diagram && (
+						<div className="row">
+							<div className="col-12">
+								<div className="card">
+									<h3 style={{ paddingBottom: "2rem" }}>Generated usecase diagram</h3>
+									<br />
+									<div className="flex" style={{ justifyContent: "center" }}>
+										<img
+											src={assetsUrl + diagrams.usecase_diagram}
+											alt="usecase"
+											style={{ width: "80%", height: "80%" }}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div className="row">
-						<div className="col-12">
-							<div className="card">
-								<h3 style={{ paddingBottom: "2rem" }}>Generated class diagram</h3>
-								<br />
-								<div className="flex" style={{ justifyContent: "center" }}>
-									<img
-										src={assetsUrl + diagrams.class_diagram}
-										alt="usecase"
-										style={{ width: "80%", height: "80%" }}
-									/>
+					)}
+					{diagrams.class_diagram && (
+						<div className="row">
+							<div className="col-12">
+								<div className="card">
+									<h3 style={{ paddingBottom: "2rem" }}>Generated class diagram</h3>
+									<br />
+									<div className="flex" style={{ justifyContent: "center" }}>
+										<img
+											src={assetsUrl + diagrams.class_diagram}
+											alt="usecase"
+											style={{ width: "80%", height: "80%" }}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</div>

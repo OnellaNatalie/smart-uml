@@ -11,155 +11,44 @@ import Badge from "../components/badge/Badge";
 
 import "../assets/css/Usercreate.css";
 
-const ManageOrdersSupplier = () => {
+const SubjectsStudent = () => {
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [orderDetails, setOrderDetails] = useState([]);
-	const fields = [
-		"",
-		"Module Code",
-		"Module Name",
-		"Year",
-		"",
-		"Actions",
-	];
+	const [SudentSubjects, setSudentSubjects] = useState([]);
+	const fields = ["", "Module Code", "Module Name", "Year", "", "Actions"];
 	const subjects = [
 		{ ModuleCode: "IT20300", ModuleName: "CTSE", Year: "4th Year" },
 		{ ModuleCode: "IT30300", ModuleName: "DMS", Year: "4th Year" },
-		{ ModuleCode: "IT40300", ModuleName: "SPM:", Year: "4th Year" }
-	]
+		{ ModuleCode: "IT40300", ModuleName: "SPM:", Year: "4th Year" },
+	];
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{ }</td>
+			<td>{}</td>
 			<td>{item.ModuleCode}</td>
 			<td>{item.ModuleName}</td>
 			<td>{item.Year}</td>
-			<td>{ }</td>
-			<td><Link to={`/auth/student/assignment`}>
-				<button className="view-btn">View</button>
-			</Link></td>
+			<td>{}</td>
 			<td>
-				<div className="row-user" style={{ paddingTop: "0" }}>
-					{item.DeliveryStatus === "pending" ? (
-						<div
-							style={{ cursor: "pointer" }}
-							onClick={() => {
-								if (
-									window.confirm(
-										"Are you sure to change order status as preparing?"
-									)
-								) {
-									changeDeliveryStatusAsPreparing(item._id);
-								}
-							}}
-						>
-							<Badge type="warning" content="Mark as preparing" />
-						</div>
-					) : item.DeliveryStatus === "preparing" ? (
-						<div
-							style={{ cursor: "pointer" }}
-							onClick={() => {
-								if (
-									window.confirm(
-										"Are you sure to change order status as delivering?"
-									)
-								) {
-									changeDeliveryStatusAsDelivering(item._id);
-								}
-							}}
-						>
-							<Badge type="primary" content="Mark as delivering" />
-						</div>
-					) : item.DeliveryStatus === "delivering" ? (
-						<div
-							style={{ cursor: "pointer" }}
-							onClick={() => {
-								if (
-									window.confirm(
-										"Are you sure to change order status as delivered?"
-									)
-								) {
-									changeDeliveryStatusAsDelivered(item._id);
-								}
-							}}
-						>
-							<Badge type="success" content="Mark as delivered" />
-						</div>
-					) : item.DeliveryStatus === "delivered" ? (
-						<div style={{ cursor: "pointer" }}>
-							<Link to={`/auth/supplier/deliveryreports/${item._id}`}>
-								<Badge type="normal" content="Send Delivery Report" />
-							</Link>
-						</div>
-					) : item.DeliveryStatus === "submitted" ? (
-						<div>
-							<Badge type="normal" content="Completed" />
-						</div>
-					) : (
-						""
-					)}
-				</div>
+				<Link to={`/auth/student/assignment`}>
+					<button className="view-btn">View</button>
+				</Link>
 			</td>
 		</tr>
 	);
 
-	const changeDeliveryStatusAsPreparing = async (id) => {
+	const getAllSubjects = async () => {
 		try {
-			const res = await axios.put(`orders/supplier/prepare/${id}`);
-			if (res.statusText === "OK") {
-				setIsLoading(true);
-				getAllOrders();
-				setError("");
-				window.alert("Delivery status changed as preparing");
-				window.location.reload();
-				setIsLoading(false);
-			}
-		} catch (err) {
-			console.log(err.response);
-		}
-	};
-
-	const changeDeliveryStatusAsDelivering = async (id) => {
-		try {
-			const res = await axios.put(`orders/supplier/deliver/${id}`);
-			if (res.statusText === "OK") {
-				getAllOrders();
-				setIsLoading(false);
-				window.alert("Delivery status changed as delivering");
-				window.location.reload();
-			}
-		} catch (err) {
-			console.log(err.response);
-		}
-	};
-
-	const changeDeliveryStatusAsDelivered = async (id) => {
-		try {
-			const res = await axios.put(`orders/supplier/delivered/${id}`);
-			if (res.statusText === "OK") {
-				getAllOrders();
-				window.alert("Delivery status changed as delivered");
-				setIsLoading(false);
-				window.location.reload();
-			}
-		} catch (err) {
-			console.log(err.response);
-		}
-	};
-
-	const getAllOrders = async () => {
-		try {
-			const res = await axios.get("orders/supplier");
-			setOrderDetails(res.data.orders);
+			const res = await axios.get("/subjects");
+			setSudentSubjects(res.data.orders);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
 
-	useEffect(() => getAllOrders(), []);
+	useEffect(() => getAllSubjects(), []);
 
 	return (
 		<div>
@@ -193,4 +82,4 @@ const ManageOrdersSupplier = () => {
 	);
 };
 
-export default ManageOrdersSupplier;
+export default SubjectsStudent;
