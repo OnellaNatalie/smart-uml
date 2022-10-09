@@ -18,29 +18,23 @@ import ProfilePicture from "../assets/images/admin-user-img.jpg";
 
 import status from "../helpers/greeting";
 
-const SupplierDashboard = () => {
+const StudentDashboard = () => {
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [orderDetails, setOrderDetails] = useState([]);
+	const [StudentSubjects, setStudentSubjects] = useState([]);
 	const [value, onChange] = useState(new Date());
 
-	const fields = [
-		"",
-		"Assignment",
-		"Subject",
-		"Subject Code",
-		
-	];
+	const fields = ["", "Assignment", "Subject", "Subject Code"];
 	const subjects = [
 		{ ModuleCode: "IT20300", ModuleName: "CTSE", assign: "Assignment 01" },
 		{ ModuleCode: "IT30300", ModuleName: "DMS", assign: "Assignment 02" },
-		{ ModuleCode: "IT40300", ModuleName: "SPM", assign: "Assignment 03" }
-	]
+		{ ModuleCode: "IT40300", ModuleName: "SPM", assign: "Assignment 03" },
+	];
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{ }</td>
+			<td>{}</td>
 			<td>{item.assign}</td>
 			<td>{item.ModuleName}</td>
 			<td>{item.ModuleCode}</td>
@@ -64,17 +58,17 @@ const SupplierDashboard = () => {
 		</tr>
 	);
 
-	const getAllOrders = async () => {
+	const getAllSubjects = async () => {
 		try {
-			const res = await axios.get("orders/supplier/my");
-			setOrderDetails(res.data.orders);
+			const res = await axios.get("/subjects");
+			setStudentSubjects(subjects);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
 
-	useEffect(() => getAllOrders(), []);
+	useEffect(() => getAllSubjects(), []);
 
 	return (
 		<div>
@@ -91,16 +85,16 @@ const SupplierDashboard = () => {
 										<h3>
 											Today you have{" "}
 											{
-												orderDetails.filter(
-													(orderDetail) =>
-														orderDetail.DeliveryStatus === "pending"
+												StudentSubjects.filter(
+													(StudentSubject) =>
+														StudentSubject.stubjectstatus === "pending"
 												).length
 											}
 											{localStorage.setItem(
 												"notifications",
-												orderDetails.filter(
-													(orderDetail) =>
-														orderDetail.DeliveryStatus === "pending"
+												StudentSubjects.filter(
+													(StudentSubject) =>
+														StudentSubject.stubjectstatus === "pending"
 												).length
 											)}{" "}
 											Assignments to Complete
@@ -140,18 +134,17 @@ const SupplierDashboard = () => {
 							<div className="card">
 								<div className="flex">
 									<h2 className="request-title">Assignments to complete</h2>
-									
 								</div>
 								{/* {isLoading ? (
 									<Spinner />
 								) : orderDetails.length > 0 ? ( */}
-									<Table
-										limit="5"
-										headData={fields}
-										renderHead={(item, index) => renderOrderHead(item, index)}
-										bodyData={subjects}
-										renderBody={(item, index) => renderOrderBody(item, index)}
-									/>
+								<Table
+									limit="5"
+									headData={fields}
+									renderHead={(item, index) => renderOrderHead(item, index)}
+									bodyData={subjects}
+									renderBody={(item, index) => renderOrderBody(item, index)}
+								/>
 								{/* ) : (
 									<>
 										{setError("No Assignments found")}
@@ -184,4 +177,4 @@ const SupplierDashboard = () => {
 	);
 };
 
-export default SupplierDashboard;
+export default StudentDashboard;
