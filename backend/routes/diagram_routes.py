@@ -12,26 +12,53 @@ diagram = Blueprint('diagrams', __name__, url_prefix='/api/v1/diagrams')
 
 @diagram.post('/generate')
 def generate_diagrams():
+
     try:
+        generated_usecase_diagram_path = None
+        generated_class_diagram_path = None
+
         data = request.get_json(silent=True)
 
         if data is None:
             return jsonify('Please attach assignment details'), HTTP_400_BAD_REQUEST
 
-        generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
-            data['scenario'])
-
-        if generated_usecase_diagram_path or generated_usecase_diagram_path:
+        if data['assignment_type'] == 1:
+            generated_usecase_diagram_path = services.question_preprocess_service.main(
+                data['scenario'], data['assignment_type'])
+            diagram_obj = Diagram(assignment_id=data['assignment_id'],
+                                  usecase_diagram_path=generated_usecase_diagram_path,
+                                  class_diagram_path=None)
+        elif data['assignment_type'] == 2:
+            generated_class_diagram_path = services.question_preprocess_service.main(
+                data['scenario'], data['assignment_type'])
+            diagram_obj = Diagram(assignment_id=data['assignment_id'],
+                                  usecase_diagram_path=None,
+                                  class_diagram_path=generated_class_diagram_path)
+        elif data['assignment_type'] == 3:
+            print(data['assignment_type'])
+            generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
+                data['scenario'], data['assignment_type'])
             diagram_obj = Diagram(assignment_id=data['assignment_id'],
                                   usecase_diagram_path=generated_usecase_diagram_path,
                                   class_diagram_path=generated_class_diagram_path)
-            db.session.add(diagram_obj)
-            db.session.commit()
+
         else:
             return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
 
-        return jsonify(generated_class_diagram_path=generated_class_diagram_path,
-                       generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+        db.session.add(diagram_obj)
+        db.session.commit()
+
+        if data['assignment_type'] == 1:
+            return jsonify(
+                generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+        elif data['assignment_type'] == 2:
+            return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+                           ), HTTP_200_OK
+        elif data['assignment_type'] == 3:
+            return jsonify(generated_class_diagram_path=generated_class_diagram_path,
+                           generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+        else:
+            return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
 
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:
@@ -46,4 +73,5 @@ def get_diagrams(assignment_id):
     if diagram_obj is None:
         return jsonify({"err": "No diagram found"}, HTTP_404_NOT_FOUND)
 
-    return jsonify({'msg': 'Diagrams found', 'diagrams': {'class_diagram': diagram_obj.class_diagram_path, 'usecase_diagram': diagram_obj.usecase_diagram_path}}), HTTP_200_OK
+    return jsonify({'msg': 'Diagrams found', 'diagrams': {'class_diagram': diagram_obj.class_diagram_path,
+                                                          'usecase_diagram': diagram_obj.usecase_diagram_path}}), HTTP_200_OK
