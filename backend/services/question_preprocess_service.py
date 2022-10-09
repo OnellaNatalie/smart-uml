@@ -11,15 +11,15 @@ def remove_unwanted_values(data):
     return data
 
 
-# removing duplicates
-def remove_duplicates(data):
-    return list(set(data))
+# # removing duplicates
+# def remove_duplicates(data):
+#     return list(set(data))
 
 
-# punctuation removal
+# punctuation removing
 def remove_punctuation(sentence):
-    text_no_punct = [token for token in sentence if not token.is_punct]
-    cleaned_sentence = ' '.join(token.text for token in text_no_punct)
+    text_without_punctuation = [token for token in sentence if not token.is_punct]
+    cleaned_sentence = ' '.join(token.text for token in text_without_punctuation)
     return cleaned_sentence
 
 
@@ -37,31 +37,32 @@ def main(scenario, assignment_type):
     del sentences[-1]
 
     # creating required lists
-    nc = []
+    nouns_pronouns = []
     cleaned_extracted_actions = []
     cleaned_sentences = []
-    splitted_actions_array = []
+    splitted_actions_and_actor_array = []
 
     # looping through each sentence
     for sentence in sentences:
+        # getting actors using nouns pronouns
         res = get_nouns_pronouns(sentence)
-        nc.append(str(res))
+        nouns_pronouns.append(str(res))
         cleaned_sentence = remove_punctuation(sentence)
         cleaned_sentences.append(cleaned_sentence)
 
-        splitted_actions = split_actions(str(cleaned_sentence))
-        splitted_actions_array.append(splitted_actions)
+        splitted_actions_and_actor = split_actions(str(cleaned_sentence))
+        splitted_actions_and_actor_array.append(splitted_actions_and_actor)
 
-        extracted_actions = get_actions(splitted_actions)
+        extracted_actions = get_actions(splitted_actions_and_actor)
 
         if extracted_actions is not None:
             cleaned_extracted_actions.append(extracted_actions)
 
     # remove duplicates of the actors
-    nc = list(dict.fromkeys(nc))
-    data = remove_unwanted_values(nc)
+    nouns_pronouns = list(dict.fromkeys(nouns_pronouns))
+    data = remove_unwanted_values(nouns_pronouns)
 
-    extracted_relationships = get_include_extend_relationships(splitted_actions_array)
+    extracted_relationships = get_include_extend_relationships(splitted_actions_and_actor_array)
     actors_and_use_cases_array = identify_use_cases(cleaned_extracted_actions)
 
     if assignment_type == 1:
