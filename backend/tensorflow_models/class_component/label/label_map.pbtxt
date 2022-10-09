@@ -12,3 +12,8 @@ item {
     id: 3
     name: 'class_name'
 }
+
+item {
+    id: 4
+    name: 'interface_name'
+}
