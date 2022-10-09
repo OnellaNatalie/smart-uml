@@ -35,6 +35,7 @@ def create_assignment():
     response = requests.post(url="http://127.0.0.1:5000/api/v1/diagrams/generate",
                              json={"scenario": content, "assignment_id": assignment_obj.id, "assignment_type": assignment_obj.assignment_type})
 
+    print(response.content)
     if response.ok:
         return jsonify({'msg': 'Assignment created', 'assignment': {
             'id': assignment_obj.id,

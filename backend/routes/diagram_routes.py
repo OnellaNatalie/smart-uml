@@ -35,26 +35,30 @@ def generate_diagrams():
                                   usecase_diagram_path=None,
                                   class_diagram_path=generated_class_diagram_path)
         elif data['assignment_type'] == 3:
+            print(data['assignment_type'])
             generated_class_diagram_path, generated_usecase_diagram_path = services.question_preprocess_service.main(
                 data['scenario'], data['assignment_type'])
             diagram_obj = Diagram(assignment_id=data['assignment_id'],
                                   usecase_diagram_path=generated_usecase_diagram_path,
                                   class_diagram_path=generated_class_diagram_path)
 
-            db.session.add(diagram_obj)
-            db.session.commit()
         else:
             return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
+
+        db.session.add(diagram_obj)
+        db.session.commit()
 
         if data['assignment_type'] == 1:
             return jsonify(
                 generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
-        if data['assignment_type'] == 2:
+        elif data['assignment_type'] == 2:
             return jsonify(generated_class_diagram_path=generated_class_diagram_path,
                            ), HTTP_200_OK
-        if data['assignment_type'] == 3:
+        elif data['assignment_type'] == 3:
             return jsonify(generated_class_diagram_path=generated_class_diagram_path,
                            generated_usecase_diagram_path=generated_usecase_diagram_path), HTTP_200_OK
+        else:
+            return jsonify('Something went wrong'), HTTP_500_INTERNAL_SERVER_ERROR
 
     except Exception or BadRequestKeyError:
         if BadRequestKeyError:

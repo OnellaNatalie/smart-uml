@@ -25,15 +25,18 @@ def remove_punctuation(sentence):
 
 # load the text content and generating diagrams
 def main(scenario, assignment_type):
-    requirement_text = scenario.replace("\n\n", " ").replace("\n", " ")
+    # replacing spaces and new line characters
+    text_content = scenario.replace("\n\n", " ").replace("\n", " ")
     nlp = spacy.load("en_core_web_lg")
-    doc = nlp(requirement_text)
+    nlp_loaded_text_content = nlp(text_content)
 
-    # sentence splitting
-    sentences = list(doc.sents)
+    # sentences splitting
+    sentences = list(nlp_loaded_text_content.sents)
+    # removing fist and last sentences
     sentences.pop(0)
     del sentences[-1]
 
+    # creating required lists
     nc = []
     cleaned_extracted_actions = []
     cleaned_sentences = []
@@ -41,7 +44,7 @@ def main(scenario, assignment_type):
 
     # looping through each sentence
     for sentence in sentences:
-        res = get_nouns_pnouns(sentence)
+        res = get_nouns_pronouns(sentence)
         nc.append(str(res))
         cleaned_sentence = remove_punctuation(sentence)
         cleaned_sentences.append(cleaned_sentence)
@@ -64,19 +67,14 @@ def main(scenario, assignment_type):
     if assignment_type == 1:
         generated_usecase_diagram_path = generate_use_case_diagram(data, extracted_relationships,
                                                                    actors_and_use_cases_array)
-
         return generated_usecase_diagram_path
 
     elif assignment_type == 2:
         generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
-
         return generated_class_diagram_path
 
     elif assignment_type == 3:
         generated_class_diagram_path = generate_class(data, cleaned_extracted_actions)
         generated_usecase_diagram_path = generate_use_case_diagram(data, extracted_relationships,
                                                                    actors_and_use_cases_array)
-
         return generated_class_diagram_path, generated_usecase_diagram_path
-
-

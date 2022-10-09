@@ -17,9 +17,10 @@ def get_noun_chunks(sentence):
     return list(sentence.noun_chunks)
 
 
-def get_nouns_pnouns(sentence):
+# getting nouns and pronouns (pos tagging)
+def get_nouns_pronouns(sentence):
     for token in sentence:
-        if token.pos_ == "PROPN" and token.pos_ != None:
+        if token.pos_ == "PROPN" and token.pos_ is not None:
             return token
 
 
