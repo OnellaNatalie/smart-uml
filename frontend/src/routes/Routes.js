@@ -63,7 +63,7 @@ const Routes = () => {
 
 			<Route
 				exact
-				path="/auth/student/assignment"
+				path="/auth/student/assignment/:id"
 				component={StudentSubjectAssingment}
 			/>
 		</Switch>
