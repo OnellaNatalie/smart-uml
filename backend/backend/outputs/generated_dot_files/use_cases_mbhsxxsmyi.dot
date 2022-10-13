@@ -1,0 +1,88 @@
+digraph G {
+	rankdir=LR;
+	labelloc="b";
+	peripheries=0;
+
+	node [shape=plaintext]
+
+	subgraph WarehouseOperator {label="WarehouseOperator"; warehouseoperator};
+	warehouseoperator [image="D:\Nanduni.Bsc\research_code\2022-158\backend\backend/stick.png";peripheries=0;];
+
+	subgraph WarehouseIncharge {label="WarehouseIncharge"; warehouseincharge};
+	warehouseincharge [image="D:\Nanduni.Bsc\research_code\2022-158\backend\backend/stick.png";peripheries=0;];
+
+	subgraph Admin {label="Admin"; admin};
+	admin [image="D:\Nanduni.Bsc\research_code\2022-158\backend\backend/stick.png";peripheries=0;];
+
+	node [shape=ellipse, style=solid];
+
+	sign_up_to_the_system [label="Sign Up To The System"];
+	sign_in_to_the_system [label="Sign In To The System"];
+	create_orders_by_uploading_a_csv_file [label="Create Orders By Uploading A Csv File"];
+	make_adjustments_to_the_order [label="Make Adjustments To The Order"];
+	allocate_a_vehicle_for_a_job [label="Allocate A Vehicle For A Job"];
+	change_the_system_suggested_optimized_route_if_required [label="Change The System Suggested Optimized Route If Required"];
+	confirm_a_job [label="Confirm A Job"];
+	change_the_vehicle_allocated_for_a_job [label="Change The Vehicle Allocated For A Job"];
+	export_information_of_a_job_to_pdf_and_xls_format [label="Export Information Of A Job To Pdf And Xls Format"];
+	indicate_that_the_loading_is_completed [label="Indicate That The Loading Is Completed"];
+	confirm_the_delivered_items_to_a_outlet [label="Confirm The Delivered Items To A Outlet"];
+	approve_a_job [label="Approve A Job"];
+	request_a_modification_to_the_planned_mileage_of_a_job [label="Request A Modification To The Planned Mileage Of A Job"];
+	approve_the_planned_mileage_modification_request_submitted_by_the_warehouseincharge [label="Approve The Planned Mileage Modification Request Submitted By The Warehouseincharge"];
+	generate_an_invoice_for_each_vehicle [label="Generate An Invoice For Each Vehicle"];
+	modify_the_minimum_fix_mileage_configuration_for_a_job [label="Modify The Minimum Fix Mileage Configuration For A Job"];
+	modify_the_unloading_charge [label="Modify The Unloading Charge"];
+	update_the_radius_limit_from_a_warehouse_for___drop_off___charges [label="Update The Radius Limit From A Warehouse For   Drop Off   Charges"];
+	set_up_the___drop_off___rate_table_based_on_number_of_outlets_visited [label="Set Up The   Drop Off   Rate Table Based On Number Of Outlets Visited"];
+	modify_the___drop_off___rate_table [label="Modify The   Drop Off   Rate Table"];
+	edit_the_eligibility_criteria_for_driver_incentive [label="Edit The Eligibility Criteria For Driver Incentive"];
+	edit_the_per_km_rate_for_an_existing_vehicle_capacity_type [label="Edit The Per Km Rate For An Existing Vehicle Capacity Type"];
+	generate_vehicle_capacity_utilization_report [label="Generate Vehicle Capacity Utilization Report"];
+	generate_outlet_wise_transport_cost_report_for_a_given_date_range [label="Generate Outlet Wise Transport Cost Report For A Given Date Range"];
+	generate_vehicle_turnaround_time_report_for_a_warehouse [label="Generate Vehicle Turnaround Time Report For A Warehouse"];
+	generate_cost_per_1_kg_report [label="Generate Cost Per 1 Kg Report"];
+	generate_an_idle_time_limit_violation_report [label="Generate An Idle Time Limit Violation Report"];
+
+	edge [arrowhead="none"];
+
+	user->sign_up_to_the_system;
+	user->sign_in_to_the_system;
+	warehouseoperator->create_orders_by_uploading_a_csv_file;
+	warehouseoperator->make_adjustments_to_the_order;
+	warehouseoperator->allocate_a_vehicle_for_a_job;
+	warehouseoperator->change_the_system_suggested_optimized_route_if_required;
+	warehouseoperator->confirm_a_job;
+	warehouseoperator->change_the_vehicle_allocated_for_a_job;
+	warehouseoperator->export_information_of_a_job_to_pdf_and_xls_format;
+	warehouseoperator->indicate_that_the_loading_is_completed;
+	warehouseincharge->confirm_the_delivered_items_to_a_outlet;
+	warehouseincharge->approve_a_job;
+	warehouseincharge->request_a_modification_to_the_planned_mileage_of_a_job;
+	admin->approve_the_planned_mileage_modification_request_submitted_by_the_warehouseincharge;
+	warehouseoperator->generate_an_invoice_for_each_vehicle;
+	admin->modify_the_minimum_fix_mileage_configuration_for_a_job;
+	admin->modify_the_unloading_charge;
+	admin->update_the_radius_limit_from_a_warehouse_for___drop_off___charges;
+	admin->set_up_the___drop_off___rate_table_based_on_number_of_outlets_visited;
+	admin->modify_the___drop_off___rate_table;
+	admin->edit_the_eligibility_criteria_for_driver_incentive;
+	admin->edit_the_per_km_rate_for_an_existing_vehicle_capacity_type;
+	warehouseoperator->generate_vehicle_capacity_utilization_report;
+	warehouseoperator->generate_outlet_wise_transport_cost_report_for_a_given_date_range;
+	warehouseoperator->generate_vehicle_turnaround_time_report_for_a_warehouse;
+	warehouseoperator->generate_cost_per_1_kg_report;
+	warehouseoperator->generate_an_idle_time_limit_violation_report;
+
+	edge [arrowtail="vee", label="<<extend>>", style=dashed];
+
+	create_orders_by_uploading_a_csv_file->make_adjustments_to_the_order;
+	confirm_a_job->change_the_vehicle_allocated_for_a_job_change_the_system_suggested_optimized_route_if_required;
+
+	edge [arrowtail="vee", label="<<include>>", style=dashed];
+
+	confirm_a_job->allocate_a_vehicle_for_a_job;
+	approve_a_job->confirm_the_delivered_items_to_a_outlet;
+	request_a_modification_to_the_planned_mileage_of_a_job->approve_the_planned_mileage_modification_request_submitted_by_the_warehouseincharge;
+
+}
