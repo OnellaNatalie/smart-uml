@@ -11,7 +11,6 @@ from routes.module_routes import module
 from routes.assignment_routes import assignment
 from routes.diagram_routes import diagram
 from routes.submission_routes import submission
-from routes.plagiarism_routes import use_case_diagram_plagiarism
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,7 +47,6 @@ app.register_blueprint(module)
 app.register_blueprint(assignment)
 app.register_blueprint(diagram)
 app.register_blueprint(submission)
-app.register_blueprint(use_case_diagram_plagiarism)
 
 
 @app.before_first_request
