@@ -5,6 +5,7 @@ import pytesseract as ts
 from PIL import Image
 from models.attribute_model import Attribute
 from object_detection.utils import label_map_util
+import matplotlib.pyplot as plt
 import app
 import tensorflow as tf
 import spacy
