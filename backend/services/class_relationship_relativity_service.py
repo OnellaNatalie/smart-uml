@@ -15,8 +15,14 @@ from models.class_relationship_muplicity import Multiplicity
 
 
 def detect_class_relationship(image_nparray, boxes, index, class_comp_id, category):
+    # image = cv2.imread(app.SUBMISSION_PATH + '/' + filename)
     height, width, c = image_nparray.shape
     class_objects = Component.query.filter_by(class_answer=class_comp_id).all()
+
+    # for i in range(0, len(accurate_indexes))
+
+    # if category_index[class_id[i]]['name'] != 'class' and category_index[class_id[i]]['name'] != 'interface':
+    # category_name = category_index[class_id[i]]['name']
 
     ymin = boxes[index][0] * height
     xmin = boxes[index][1] * width
@@ -238,13 +244,20 @@ def relationship_details_detection(image_nparray, boxes, index, class_comp_id, c
     if result is not None:
         relationship_text(_image, result, relationship)
 
+    # print(relationship, 'relationship')
+
 
 def relationship_text(_image, result, relationship):
+    # boxes = [res[0] for res in result]
+    # texts = [res[1][0] for res in result]
+    # scores = [res[1][1] for res in result]
     for element in result:
         text = element[1][0]
         box = element[0]
         nlp_ner = spacy.load('ner_models/model-best')
         nlp_output = nlp_ner(text)
+        # print(text, 'line 290')
+        # box = np.array(box,dtype=float)
         box = np.array(box).astype(np.int32)
 
         xmin = min(box[:, 0])
@@ -252,6 +265,8 @@ def relationship_text(_image, result, relationship):
         xmax = max(box[:, 0])
         ymax = max(box[:, 1])
         for token in nlp_output.ents:
+            # print(token.text, 'line 301')
+            # print(token.label_, 'line 302')
 
             if token.label_ == 'MULTIPLICITY' or contains_number(text):
                 multiplicity = Multiplicity(value=token.text, relationship_id=relationship.id, x_min=xmin,
@@ -272,12 +287,14 @@ def contains_number(string):
 # crop image using boxes & index
 def crop_image_(image, boxes, index):
     height, width, c = image.shape
+    # crop box format: xmin, ymin, xmax, ymax
     ymin = boxes[index][0] * height
     xmin = boxes[index][1] * width
     ymax = boxes[index][2] * height
     xmax = boxes[index][3] * width
 
     cropped_image = image[int(ymin):int(ymax), int(xmin):int(xmax)]
-
+    # image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
+    # image = cv2.resize(image, (800, 500))
     # returns cropped image , ymin,xmin,ymax & xmax
     return cropped_image, ymin, xmin, ymax, xmax
