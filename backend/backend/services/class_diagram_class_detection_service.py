@@ -43,7 +43,6 @@ def component_separation(filename, class_comp_id):
         elif len(accurate_indexes) == 1:
             category = category_index[class_id]['name']
 
-        # select the component type and provide method to detect further details
         if category == 'class':
             class_details_detection(image_nparray, boxes, index, class_comp_id, category)
 
