@@ -14,15 +14,16 @@ submission = Blueprint('submissions', __name__, url_prefix='/api/v1/submissions'
 
 
 @submission.post('/upload')
-@jwt_required()
 def upload_submission():
-    user_id = get_jwt_identity()
+    user_id = 1
 
-    image = request.files['file']
-    json_data = json.loads(request.form['data'])
+    # image = request.files['file']
+    a = request.get_json()
+    json_data = request.get_json()
     submission_type = json_data['type']
     assignment_id = json_data['id']
     comment = json_data['comment']
+    image = json_data['file']
 
     if submission_type is None or image is None or assignment_id is None:
         return jsonify({'err': 'invalid request '}), HTTP_400_BAD_REQUEST
