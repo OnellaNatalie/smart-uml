@@ -16,6 +16,7 @@ const Login = () => {
 		username: "",
 		password: "",
 		email: "",
+		type: "student",
 	});
 
 	const registerUser = async e => {
@@ -25,21 +26,15 @@ const Login = () => {
 		setSuccess(false);
 
 		try {
-			const res = await axios.post("register", user);
+			const res = await axios.post("auth/register", user);
 
-			if (res.statusText === "Created") {
-				setUser({
-					username: "",
-					password: "",
-					email: "",
-				});
-
-				setBtnState(false);
-				return setSuccess("You are registered. Thank you");
-			}
+			setBtnState(false);
+			window.alert("You are registered. Please login to continue");
+			setSuccess("You are registered. Thank you");
+			return window.location.replace("/login");
 		} catch (err) {
 			console.log(err.response);
-			setError(err.response.data.message);
+			setError(err.response.data.err);
 			setBtnState(false);
 		}
 	};
