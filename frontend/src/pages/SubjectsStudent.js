@@ -14,24 +14,30 @@ import "../assets/css/Usercreate.css";
 const SubjectsStudent = () => {
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-	const [SudentSubjects, setSudentSubjects] = useState([]);
-	const fields = ["", "Module Code", "Module Name", "Year", "", "Actions"];
-	const subjects = [
-		{ ModuleCode: "IT20300", ModuleName: "CTSE", Year: "4th Year" },
-		{ ModuleCode: "IT30300", ModuleName: "DMS", Year: "4th Year" },
-		{ ModuleCode: "IT40300", ModuleName: "SPM:", Year: "4th Year" },
+	const [StudentSubjects, setStudentSubjects] = useState([]);
+	const fields = [
+		"",
+		"ID",
+		"Module Code",
+		"Module Name",
+		"Assignment Type",
+		"Title",
+		"Start At",
+		"End At",
+		"Actions",
 	];
+
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{}</td>
-			<td>{item.ModuleCode}</td>
-			<td>{item.ModuleName}</td>
-			<td>{item.Year}</td>
-			<td>{}</td>
+			<td>{item.id}</td>
+			<td>{item.code}</td>
+			<td>{item.name}</td>
+			<td>{item.assignment_type}</td>
+			<td>{item.title}</td>
 			<td>
-				<Link to={`/auth/student/assignment`}>
+				<Link to={`/auth/student/assignment/${item.id}`}>
 					<button className="view-btn">View</button>
 				</Link>
 			</td>
@@ -40,8 +46,8 @@ const SubjectsStudent = () => {
 
 	const getAllSubjects = async () => {
 		try {
-			const res = await axios.get("/subjects");
-			setSudentSubjects(res.data.orders);
+			const res = await axios.get(`assignments`);
+			setStudentSubjects(res.data.assignments);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
@@ -56,9 +62,9 @@ const SubjectsStudent = () => {
 			<div id="main" className="layout__content">
 				<TopNav />
 				<div className="layout__content-main">
-					<h1 className="page-header">All Modules</h1>
+					<h1 className="page-header">All Assignments</h1>
 					<div className="card">
-						<h2>Subjects You Enrolled </h2>
+						<h2>Assignments you have to complete</h2>
 						{/* {isLoading ? (
 							<Spinner />
 						) : orderDetails.length > 0 ? ( */}
@@ -66,7 +72,7 @@ const SubjectsStudent = () => {
 							limit="5"
 							headData={fields}
 							renderHead={(item, index) => renderOrderHead(item, index)}
-							bodyData={subjects}
+							bodyData={StudentSubjects}
 							renderBody={(item, index) => renderOrderBody(item, index)}
 						/>
 						{/* ) : (

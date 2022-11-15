@@ -33,7 +33,7 @@ const sidebar_student = [
 		icon: "bx bx-category-alt",
 	},
 	{
-		display_name: "Modules",
+		display_name: "Assignments",
 		route: "/auth/student/modules",
 		icon: "bx bx-bar-chart-square",
 	},

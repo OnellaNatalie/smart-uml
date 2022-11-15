@@ -24,50 +24,42 @@ const StudentDashboard = () => {
 	const [StudentSubjects, setStudentSubjects] = useState([]);
 	const [value, onChange] = useState(new Date());
 
-	const fields = ["", "Assignment", "Subject", "Subject Code"];
-	const subjects = [
-		{ ModuleCode: "IT20300", ModuleName: "CTSE", assign: "Assignment 01" },
-		{ ModuleCode: "IT30300", ModuleName: "DMS", assign: "Assignment 02" },
-		{ ModuleCode: "IT40300", ModuleName: "SPM", assign: "Assignment 03" },
+	const fields = [
+		"",
+		"ID",
+		"Module Code",
+		"Module Name",
+		"Assignment Type",
+		"Title",
+		"Start At",
+		"End At",
+		"Actions",
 	];
+
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{}</td>
-			<td>{item.assign}</td>
-			<td>{item.ModuleName}</td>
-			<td>{item.ModuleCode}</td>
-			<td>
-				<div className="row-user" style={{ paddingTop: "0" }}>
-					{item.DeliveryStatus === "pending" ? (
-						<Badge type="warning" content={item.DeliveryStatus} />
-					) : item.DeliveryStatus === "preparing" ? (
-						<Badge type="primary" content={item.DeliveryStatus} />
-					) : item.DeliveryStatus === "delivering" ? (
-						<Badge type="success" content={item.DeliveryStatus} />
-					) : item.DeliveryStatus === "delivered" ? (
-						<Badge type="success" content={item.DeliveryStatus} />
-					) : item.DeliveryStatus === "submitted" ? (
-						<Badge type="normal" content={item.DeliveryStatus} />
-					) : (
-						""
-					)}
-				</div>
-			</td>
+			<td>{index + 1}</td>
+			<td>{item.id}</td>
+			<td>{item.code}</td>
+			<td>{item.name}</td>
+			<td>{item.assignment_type}</td>
+			<td>{item.title}</td>
+			<td>{new Date(item.start_at).toLocaleString()}</td>
+			<td>{new Date(item.end_at).toLocaleString()}</td>
 		</tr>
 	);
 
 	const getAllSubjects = async () => {
 		try {
-			const res = await axios.get("/subjects");
-			setStudentSubjects(subjects);
+			const res = await axios.get(`assignments`);
+			setStudentSubjects(res.data.assignments);
 			setIsLoading(false);
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
-
 	useEffect(() => getAllSubjects(), []);
 
 	return (
@@ -142,7 +134,7 @@ const StudentDashboard = () => {
 									limit="5"
 									headData={fields}
 									renderHead={(item, index) => renderOrderHead(item, index)}
-									bodyData={subjects}
+									bodyData={StudentSubjects}
 									renderBody={(item, index) => renderOrderBody(item, index)}
 								/>
 								{/* ) : (
