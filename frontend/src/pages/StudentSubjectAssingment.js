@@ -29,6 +29,8 @@ const StudentSubjectAssingment = () => {
 	const [Id, setId] = useState("");
 	const [ItemName, setItemName] = useState("");
 	const [Description, setDescription] = useState("");
+	const [data, setData] = useState({id:"1",comment:"comment",type:"use case"});
+	const [file, setFile] = useState(null);
 
 	const [Order, setOrder] = useState({
 		item: {},
@@ -51,28 +53,26 @@ const StudentSubjectAssingment = () => {
 		}
 	};
 
+	const fileHandler = (e) =>{
+    	const selectedFile = e.target.files[0];
+		setFile(selectedFile);
+  	}
+
 	useEffect(() => {
 		FetchData();
 	}, []);
 
-	const deleteHandler = async (id) => {
-		console.log(id);
+	const upload = async (e) => {
+		console.log(data);
+		console.log(file);
 		try {
-			const res = await axios.delete(`/orders/delete/${id}`);
+			const formData = new FormData();
+    		formData.append("jsondata", data);
+			formData.append("file", file);
+			console.log(formData);
+			const res = await axios.post("/submissions/upload", formData);
 			if (res.statusText === "OK") {
-				window.location.reload();
-			}
-		} catch (Err) {
-			console.log(Err.response);
-		}
-	};
-
-	const orderHandler = async () => {
-		try {
-			console.log(Order);
-			const res = await axios.post("/orders", Order);
-			if (res.statusText === "OK") {
-				window.location.reload();
+				console.log(res.data);
 			}
 		} catch (Err) {
 			console.log(Err.response);
@@ -131,7 +131,7 @@ const StudentSubjectAssingment = () => {
 							<MdDelete
 								onClick={() => {
 									if (window.confirm("Are you sure to delete this request?")) {
-										deleteHandler(item._id);
+										
 									}
 								}}
 							/>
@@ -251,15 +251,13 @@ const StudentSubjectAssingment = () => {
 												style={{ float: "right" }}
 												accept=".png, .jpg, .jpeg"
 												type="file"
-												onChange={(e) =>
-													setOrder({ ...Order, quantity: e.target.value })
-												}
+												onChange={fileHandler}
 												required
 											/>
 										</div>
 									</div>
 									<div className="row-user">
-										<button type="submit">Submit</button>
+										<button type="submit" onClick={upload}>Submit</button>
 									</div>
 								</div>
 							</div>

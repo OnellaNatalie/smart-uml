@@ -47,7 +47,7 @@ const Routes = () => {
 			<Route exact path="/auth/student/modules" component={SubjectsStudent} />
 			<Route exact path="/auth/student/services" component={ManageServices} />
 
-			<Route exact path="/auth/student/assignment" component={StudentSubjectAssingment} />
+			<Route exact path="/auth/student/assignment/:id" component={StudentSubjectAssingment} />
 		</Switch>
 	);
 };

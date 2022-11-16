@@ -16,15 +16,12 @@ const SubjectsStudent = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [StudentSubjects, setStudentSubjects] = useState([]);
 	const fields = [
-		"",
 		"ID",
 		"Module Code",
 		"Module Name",
 		"Assignment Type",
 		"Title",
-		"Start At",
-		"End At",
-		"Actions",
+		"",
 	];
 
 	const renderOrderHead = (item, index) => <th key={index}>{item}</th>;
@@ -68,13 +65,14 @@ const SubjectsStudent = () => {
 						{/* {isLoading ? (
 							<Spinner />
 						) : orderDetails.length > 0 ? ( */}
+						{StudentSubjects.length !==0?
 						<Table
 							limit="5"
 							headData={fields}
 							renderHead={(item, index) => renderOrderHead(item, index)}
 							bodyData={StudentSubjects}
 							renderBody={(item, index) => renderOrderBody(item, index)}
-						/>
+						/>:''}
 						{/* ) : (
 							<>
 								{setError("No Assignments found")}

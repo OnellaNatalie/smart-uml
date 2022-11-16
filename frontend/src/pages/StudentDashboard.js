@@ -40,14 +40,14 @@ const StudentDashboard = () => {
 
 	const renderOrderBody = (item, index) => (
 		<tr key={index}>
-			<td>{index + 1}</td>
+			<td>{}</td>
 			<td>{item.id}</td>
 			<td>{item.code}</td>
 			<td>{item.name}</td>
 			<td>{item.assignment_type}</td>
 			<td>{item.title}</td>
 			<td>{new Date(item.start_at).toLocaleString()}</td>
-			<td>{new Date(item.end_at).toLocaleString()}</td>
+			<td>{new Date(item.updated_at).toLocaleString()}</td>
 		</tr>
 	);
 
@@ -56,10 +56,14 @@ const StudentDashboard = () => {
 			const res = await axios.get(`assignments`);
 			setStudentSubjects(res.data.assignments);
 			setIsLoading(false);
+			
 		} catch (err) {
 			console.log(err.response);
 		}
 	};
+
+
+	console.log(StudentSubjects);
 	useEffect(() => getAllSubjects(), []);
 
 	return (
@@ -130,13 +134,14 @@ const StudentDashboard = () => {
 								{/* {isLoading ? (
 									<Spinner />
 								) : orderDetails.length > 0 ? ( */}
+								{StudentSubjects.length !== 0?
 								<Table
 									limit="5"
 									headData={fields}
 									renderHead={(item, index) => renderOrderHead(item, index)}
 									bodyData={StudentSubjects}
 									renderBody={(item, index) => renderOrderBody(item, index)}
-								/>
+								/>:''}
 								{/* ) : (
 									<>
 										{setError("No Assignments found")}
