@@ -29,7 +29,8 @@ const StudentSubjectAssingment = () => {
 	const [Id, setId] = useState("");
 	const [ItemName, setItemName] = useState("");
 	const [Description, setDescription] = useState("");
-	const [data, setData] = useState({file:null,id:"1",comment:"comment",type:"use case"});
+	const [data, setData] = useState({id:"1",comment:"comment",type:"use case"});
+	const [file, setFile] = useState(null);
 
 	const [Order, setOrder] = useState({
 		item: {},
@@ -52,15 +53,24 @@ const StudentSubjectAssingment = () => {
 		}
 	};
 
+	const fileHandler = (e) =>{
+    	const selectedFile = e.target.files[0];
+		setFile(selectedFile);
+  	}
+
 	useEffect(() => {
 		FetchData();
 	}, []);
 
 	const upload = async (e) => {
-		
+		console.log(data);
+		console.log(file);
 		try {
-			console.log(data);
-			const res = await axios.post("/submissions/upload", data);
+			const formData = new FormData();
+    		formData.append("jsondata", data);
+			formData.append("file", file);
+			console.log(formData);
+			const res = await axios.post("/submissions/upload", formData);
 			if (res.statusText === "OK") {
 				console.log(res.data);
 			}
@@ -241,9 +251,7 @@ const StudentSubjectAssingment = () => {
 												style={{ float: "right" }}
 												accept=".png, .jpg, .jpeg"
 												type="file"
-												onChange={(e) =>
-													setData({...data, file:e.target.value})
-												}
+												onChange={fileHandler}
 												required
 											/>
 										</div>
