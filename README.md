@@ -68,6 +68,4 @@ Develop a web-based solution to automate the process of UML based assessment man
     - Compare the extracted components.
     - Similar words checking, when comparing the answer with model answer.
     - Calculate the correctness percentage.
-    - Calculate a percentage for the plagiarism
-
-## Other Necessary Information
+    - Calculate a percentage for the plagiarism.
